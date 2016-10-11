@@ -1,0 +1,18 @@
+- name: "title is required"
+  path: 'title'
+  required: true
+
+- name: "local_id is required"
+  path: 'local_id'
+  type: String
+  required : true
+
+- name: "collection is required"
+  path: collection
+  type: String
+
+- name: "owner (institution) is required"
+  path: owner
+  type: String
+  required: true
+
