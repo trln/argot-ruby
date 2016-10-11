@@ -15,6 +15,8 @@ Gem::Specification.new do |s|
     s.require_path = 'lib'
 
     s.add_runtime_dependency "yajl-ruby", [">=1.2.1"]
+    s.add_runtime_dependency "nokogiri", [">=0"]
     s.add_runtime_dependency "traject", [">=0"]
+    s.add_runtime_depdenceny "lisbn", [">=0"]
 
 end
