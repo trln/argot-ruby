@@ -1,7 +1,7 @@
 require 'minitest/autorun'
 require 'argot/validator'
 
-class EventParserTest < Minitest::Test
+class ValidatorTest < Minitest::Test
 
         def setup
             @instance = Argot::Validator.from_files

@@ -75,7 +75,7 @@ module Argot
                 rules_files = Dir.glob(data + "/rule*.yml").collect { |f| File.new(f) }
             end
             @rules = rules_files.collect do |x| 
-                y = File.new(x)
+                File.new(x)
             end
             
             Validator.new(compile(rules_files))
@@ -91,7 +91,7 @@ module Argot
         def self.compile(files)
             rules = []
             files.each do |f|
-                if f and File.exists?(f)
+                if f and File.exist?(f)
                     ruledefs = YAML.load(f)
                     ruledefs.each do |rd|
                         rules << BasicRule.new(rd)

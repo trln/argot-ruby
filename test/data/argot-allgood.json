@@ -1,14 +1,9 @@
 {
-  "id": [
-    "UNC13041770"
-  ],
-  "source": [
-    "UNC"
-  ],
-  "local_id": [
-    "b13041770"
-  ],
-  "title": [
+  "id": "UNC13041770",
+  "owner": "UNC",
+  "collection" : "general",
+  "local_id": "b13041770",
+  "title":  
     {
       "sort": "Teori︠i︡a vero︠i︡atnosteĭ i ee primeneni︠i︡a",
       "abbrv": {
@@ -25,7 +20,7 @@
         }
       }
     }
-  ],
+  ,
   "statement_of_responsibility": [
     {
       "value": null,

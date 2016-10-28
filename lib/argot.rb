@@ -6,8 +6,9 @@
 # {+Argot::TrajectJSONWriter+}[rdoc-ref:Argot::TrajectJSONWriter] (+require 'argot/traject_writer'+) - a Traject Writer implementation that converts the usual Traject output format more friendly 
 # {+Argot::XML::EventHandler+}[rdoc-ref:Argot::XML::EventHandler] (+require 'argot/xml.rb'+) - a wrapper around Nokogiri XML parser that allows processing large XML files as each element is built.
 module Argot
-	VERSION = "0.0.1"
+	VERSION = "0.0.2"
 end
 
 require 'argot/validator'
 require 'argot/reader'
+require 'argot/pipeline'

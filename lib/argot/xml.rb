@@ -15,57 +15,50 @@ require 'argot/ice_extractor'
 #
 # ICEExtractor
 module Argot::XML 
-=begin
-    Implementation of a SAX Parser that yields a +Nokogiri::XML::Element++
-    instance as each end tag is encountered in the source document and invokes
-    a handler for each one.
     
-    Allows memory-efficient iteration over large record-oriented
-    XML files while still allowing use of Nokogiri's API to query
-    and update the structure of returned elements
+    # Implementation of a SAX Parser that yields a +Nokogiri::XML::Element++
+    # instance as each end tag is encountered in the source document and invokes
+    # a handler for each one.
     
-    If the `tag` parameter is supplied, will only yield 
-    elements matching the supplied name
+    # Allows memory-efficient iteration over large record-oriented
+    # XML files while still allowing use of Nokogiri's API to query
+    # and update the structure of returned elements
     
-    Depending on you you supply it, a +handler+ can be anything with 
-    a +.call(element)+ method, which includes blocks, lambdas, and 
-    procs.  If you have a standalone function created with +def+,
-    you should use the +#handle=+ variant and the +method(:[symbol])
-    builtin, e.g.
-      def myhandler(el) 
-        # process el
-       end
-      parser.handler = method(:myhandler)
+    # If the `tag` parameter is supplied, will only yield 
+    # elements matching the supplied name
+    
+    # Depending on you you supply it, a +handler+ can be anything with 
+    # a +.call(element)+ method, which includes blocks, lambdas, and 
+    # procs.  If you have a standalone function created with +def+,
+    # you should use the +#handle=+ variant and the +method(:[symbol])
+    # builtin, e.g.
+    #   def myhandler(el) 
+    #     # process el
+    #    end
+    #   parser.handler = method(:myhandler)
      
-    Alternately, if your handler requires some internal state:
+    # Alternately, if your handler requires some internal state:
      
-      class MyHandler
-        def initialize(file)
-          @file = File.new(file)
-        end
+    #   class MyHandler
+    #     def initialize(file)
+    #       @file = File.new(file)
+    #     end
           
-        def call(el)
-          @file.write(el.to_s)
-        end
-      end
+    #     def call(el)
+    #       @file.write(el.to_s)
+    #     end
+    #   end
      
-      parser.handler = MyHandler.new("/tmp/out.xmlish")
-=end        
+    #   parser.handler = MyHandler.new("/tmp/out.xmlish")
+    # @!attribute context the current nested path of element names
+    # @!attribute current the element currently being built
+    # @!attribute tag the tag containing the records of interest.
+    # @!attribute handler a #call-able that will process each element
+    # @!attribute current_doc (for internal use only) handles
     class EventParser < Nokogiri::XML::SAX::Document
 
-        # nested elements
-        @context 
-
-        # element we are currently building
-        @current
-
-        # tag to build records for
-        @tag
-
-        # block/lambda/function/proc that will be executed
-        # as each @tag's end tag is encountered in the document
-        @handler
-
+        attr_accessor :context, :current, :tag, :handler
+        
         # Creates a new instance
         #
         # Parameters:
@@ -93,32 +86,6 @@ module Argot::XML
             end
         end
 
-        
-        # Supplies a handler as a block
-        #
-        # Usage:
-        #  parser.handle do |el|
-        #    el.xpath ...
-        #  end
-        def handler(&block)
-            if block_given?
-                @handler = block
-            end
-        end
-
-        ##
-        # Supplies a handler as a named function
-        # or any object with a .call method
-        #
-        # Usage:
-        #   def some_handler(el) 
-        #       el.xpath ...
-        #   end
-        #   parser.handler = method(:some_handler)                   
-        def handler=(handler) 
-            @handler = handler
-        end
-
         # get the current context of the document
         # from the current element up to the root, with each
         # element name separated by a `/`
@@ -126,10 +93,9 @@ module Argot::XML
             @context.join("/")
         end
 
-        private 
+        private
 
-        # document to which current element belongs
-        @current_doc
+        attr_accessor :current_doc
         
         def start_element(name, attributes=[])#:nodoc
             @context.push(name)
@@ -148,7 +114,7 @@ module Argot::XML
                     @current = el
                 end
             end
-           end
+        end
 
         def text_node(string)
             Nokogiri::XML::Text.new(string,@current_doc)
