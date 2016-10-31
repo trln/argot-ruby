@@ -2,11 +2,11 @@ lib = File.expand_path('../lib/', __FILE__)
 
 $:.unshift(lib) unless $:.include?(lib)
 
-require 'argot/version'
+require 'argot'
 
 Gem::Specification.new do |s|
     s.name          = 'argot'
-    s.version       = '0.0.1'
+    s.version       = Argot::VERSION
     s.date          = '2016-10-10'
     s.summary       = 'Tools for shared ingest infrastructure'
     s.description   = 'see summary?'
@@ -17,6 +17,6 @@ Gem::Specification.new do |s|
     s.add_runtime_dependency "yajl-ruby", [">=1.2.1"]
     s.add_runtime_dependency "nokogiri", [">=0"]
     s.add_runtime_dependency "traject", [">=0"]
-    s.add_runtime_depdenceny "lisbn", [">=0"]
+    s.add_runtime_dependency "lisbn", [">=0"]
 
 end

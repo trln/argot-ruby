@@ -5,7 +5,6 @@ class PipelineTest < Minitest::Test
 
         def setup
             @results = []
-            @collector = lambda { |x| @results << x }
             @words = %w[one of these things first]
         end
 
@@ -15,6 +14,13 @@ class PipelineTest < Minitest::Test
             p.run(@words)  { |x| @results << x }
             assert %w[ONE OF THESE THINGS FIRST] == @results
         end
-end
-            
 
+        def test_transform_array_dsl 
+            p = Argot::Pipeline.setup {
+                filter { |x| not x.include?("'") }
+            }
+            words = %w[I've got a match]
+            p.run(words) { |x| @results << x }
+            assert %w[got a match] == @results
+        end
+end
