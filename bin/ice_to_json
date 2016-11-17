@@ -1,0 +1,55 @@
+#!/usr/bin/env ruby
+
+
+require 'optparse'
+require 'argot/xml'
+require 'json'
+
+module Jsoninator
+    include Argot::XML
+
+    def self.process(filename)
+        handler = ICEExtractor.new(filename)
+        handler.each do |rec| 
+            return rec unless rec
+            result = ICEDocument.new( id: rec[:id], title: rec[:title], isbns: rec[:isbn])
+            result.chapters = rec[:chapters].collect do |chapter|
+                ICEChapter.new( title: chapter[:title], author: chapter[:author] )
+            end
+            yield rec
+        end
+    end
+end
+
+options = {:pretty => false, :valid => false}
+op = OptionParser.new do |opts|
+    opts.banner = "Usage : ice_to_json [options]"
+
+    opts.on("-p", "--pretty", "Pretty-print output?") do |p|
+        options[:pretty] = true
+    end
+
+    opts.on('-v', '--valid-output', "Output valid JSON?")  do |v|
+        options[:valid] = true
+    end
+end
+
+op.parse!
+
+recout = false
+
+$stdout.write '[' if options[:valid]
+ARGV.each do |file|
+    if File.exist?(file) 
+        Jsoninator.process(file) do |rec|
+            $stdout.write ',' if options[:valid] and recout
+            $stdout.write options[:pretty] ? JSON.pretty_generate(rec) : rec.to_json
+            recout = true
+        end
+    end
+end
+    
+$stdout.write ']' if options[:valid]
+
+        
+

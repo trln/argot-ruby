@@ -76,11 +76,13 @@ module Argot::XML
         #     ... process record
         #   end
         # See the +#handler+ methods
-        def initialize(tag='*', &block)
+        def initialize(tag='*', options={}, &block)
             @context = []
             @tag = tag
             if block_given?
                 @handler = block
+            elsif options[:handler]
+                @handler = options[:handler]
             else
                 @handler = -> (el) {el}
             end
@@ -126,7 +128,7 @@ module Argot::XML
             end
         end
 
-        def end_element(name)#:nodoc
+        def end_element(name)
             if name == @tag
                 @handler.call @current
                 @current_doc = nil
