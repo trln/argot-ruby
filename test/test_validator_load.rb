@@ -12,7 +12,7 @@ class ValidatorTest < Minitest::Test
         end
 
         def test_default_procesor 
-            flunk "Not written yet"
+           skip "Not written yet"
         end
 
 end
