@@ -12,3 +12,4 @@ end
 require 'argot/validator'
 require 'argot/reader'
 require 'argot/pipeline'
+require 'argot/flattener'
