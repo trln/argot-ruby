@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<trlntocs>
+    <USMARC>
+        <Leader/>
+        <VarFlds>
+            <VarCFlds>
+                <Fld001>record-001</Fld001>
+                <Fld005>20161112000000.0</Fld005>
+                <Fld008/>
+            </VarCFlds>
+            <VarDFlds>
+                <NumbCode>
+                    <Fld020 I1="BLANK" I2="BLANK">
+                        <a>1783608382</a>
+                    </Fld020>
+                </NumbCode>
+                <MainEnty>
+                    <Fld100 I1="BLANK" I2="BLANK">
+                        <a>Author, Arthur</a>
+                    </Fld100>
+                </MainEnty>
+                <Titles>
+                    <Fld245 I1="BLANK" I2="BLANK">
+                        <a>Book-001</a>
+                    </Fld245>
+                </Titles>
+                <Notes/>
+                <SSIFlds>
+                    <Fld970 I1="0" I2="1">
+                        <t>Illustrations</t>
+                        <p>vi</p>
+                    </Fld970>
+                    <Fld970 I1="0" I2="1">
+                        <t>Preface</t>
+                        <p>vii</p>
+                    </Fld970>
+                    <Fld970 I1="0" I2="1">
+                        <t>Introduction</t>
+                        <c>Wilhelmina Writer</c>
+                        <f>Writer, Wilhelmina</f>
+                        <p>ix</p>
+                    </Fld970>
+                    <Fld970 I1="1" I2="1">
+                        <l>1</l>
+                        <t>Chapter One</t>
+                        <p>1</p>
+                    </Fld970>
+                    <Fld970 I1="1" I2="1">
+                        <l>2</l>
+                        <t>Chapter Two</t>
+                        <p>19</p>
+                    </Fld970>
+                    <Fld970 I1="1" I2="1">
+                        <l>3</l>
+                        <t>Chapter Three</t>
+                        <p>31</p>
+                    </Fld970>
+                </SSIFlds>
+            </VarDFlds>
+        </VarFlds>
+    </USMARC>
+
+</trlntocs>
