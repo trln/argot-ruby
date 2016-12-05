@@ -1,7 +1,12 @@
 # Argot : a Ruby gem for TRLN shared discovery ingest processes
 
-If you have a full ruby development environment installed, `rdoc lib/` 
-will get you started.
+Rakefile is a work in progress.  It does support tests, so
+
+    $ rake test
+
+Will work, but you can't use `rake install` yet.  Try `gem build argot` in this directory, which will crate the gemfile you can install locally.
+
+As of v0.0.4, this gem is supported under both MRI and JRuby.
 
 ## Usage 
 
@@ -24,11 +29,36 @@ reader.process( File.new("nccu-20161012101320.dat") ) do |rec|
 end
 ```
 
-## Dependencies
+## Documentation
 
-This gem relies on the `nokogiri`, `yajl-ruby`, `traject`, and `lisbn` gems to
-be installed.  This means you'll need system packages such as `libxml2-devel`,
-`lisbxslt-devel`, and `yajl` installed.
+To build the documentation, I suggest YARD.  
+
+    $ gem install yard
+    $ gem install redcarpet
+    $ yard
+
+This will create files in `doc/`
+
+## Dependencies (Gems)
+
+All Platforms:
+
+ * `nokogiri`
+ * [`traject`](https://github.com/traject/traject)
+ * `lisbn`
+
+### MRI
+
+ * [`yajl-ruby`](https://github.com/brianmario/yajl-ruby) -- JSON support
+ 
+To support this, you'll need the `yajl` system package installed. Nokogiri
+requires `libxml2-devel` and `libxslt-devel`.
+
+### JRuby
+
+ * `jbundler` 
+
+Also uses `noggit`, the Java-based JSON parser from Solr, to process JSON; import and use should be handled for you automatically.
 
 ### Utilities
 
@@ -38,11 +68,10 @@ one record at a time.
 See also `Argot::TrajectJSONWriter` for a Traject JSON writer that produces
 'flat' values where the traditional writers produce arrays.
 
-#### Ideas
+### Convert ICE to JSON
 
-There are no binaries/command-line tools yet, but that's seeming like a good
-idea at the moment.
+This gem currently includes one script, `ice_to_json`, which processes XML in
+the ICE format (table of contents data) into concatenated JSON output, suitable
+for ingest into Solr.
 
-#### Yes, I know
-
-Tests are currently broken.  This format is currently in development and so are these tools!
+    $ ice_to_json tc2349080.xml > ice_updates-$(date +%Y-%m-%d).json
