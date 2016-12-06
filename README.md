@@ -75,3 +75,14 @@ the ICE format (table of contents data) into concatenated JSON output, suitable
 for ingest into Solr.
 
     $ ice_to_json tc2349080.xml > ice_updates-$(date +%Y-%m-%d).json
+
+The resulting file is suitable for ingesting directly into Solr, assuming you
+have a suitable schema -- for testing, you can use solr's data-driven configSet and just make sure to add the ISBN field as a string, multivalued, stored, and indexed.  Then the following will serve to ingest, assuming your collection is named "icetocs":
+
+    $ curl -H'Content-Type: application/json' --data-binary @out.json http://localhost:8983/solr/icetocs/update/json/docs
+    $ curl http://localhost:8983/solr/icetocs/update?commit=true
+
+
+
+
+
