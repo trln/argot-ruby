@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
 
 
+# ice_to_json -- convert ICE XML from Syndetics (table of contents data)
+# to concatenated JSON
+
 require 'optparse'
 require 'argot/xml'
 require 'json'

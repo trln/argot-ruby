@@ -1,0 +1,4 @@
+---
+:runtime:
+- org.noggit:noggit:jar:0.7
+- org.yaml:snakeyaml:jar:1.14
