@@ -1,9 +1,6 @@
-require "set"
-
 ##
 # Flattens nested Argot JSON
 class Argot::Flattener
-
 
 	def self.combine(hash1, hash2)
 		hash2.each do |k,v|

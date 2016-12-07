@@ -18,3 +18,4 @@ else
 end
 require 'argot/pipeline'
 require 'argot/flattener'
+require 'argot/suffixer'
