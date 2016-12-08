@@ -8,14 +8,13 @@ class Argot::Suffixer
 
     if @config.key?("id")
   		logger.warn("config has no id attribute")
-		end
+    end
 
     if @config.key?("trim")
     	unless @config[:trim].is_a(Array)
     		logger.warn("Config's trim attribute is not an array")
   		end
 		end
-
   end
 
   def add_suffix(key,vernacular,lang)
@@ -52,7 +51,6 @@ class Argot::Suffixer
 				suffix << "_single"
 			end
 		end
-
 		"#{key}#{suffix}"
 	end
 

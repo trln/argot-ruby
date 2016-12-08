@@ -5,8 +5,8 @@ require 'argot'
 
 class ArgotSuffixerTest < Minitest::Test
 
-		def setup
-			config = {
+	def setup
+    	config = {
         	:id => 'id',
         	:trim => ['value'],
         	:vernacular => 'vernacular',

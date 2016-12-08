@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
     s.date          = '2016-10-10'
     s.summary       = 'Tools for shared ingest infrastructure'
     s.description   = 'see summary?'
-    s.authors       = ['Adam Constabaris']
+    s.authors       = ['Adam Constabaris','Luke Aeschleman']
     s.files         = Dir.glob("{bin,lib}/**/*.rb") + %w(LICENSE README.md ROADMAP.md CHANGELOG.md)
     #if is_java 
     #    s.files += [ 'lib/*.jar' ]
