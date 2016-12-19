@@ -1,0 +1,154 @@
+# This file controls how argot fields will be indexed in solr
+# All fields listed will be indexed.
+# For field types, see https://github.com/trln/solr6_test_conf/blob/master/configure/stock.yaml
+# Any field with a "stored" attribute will be stored as well as indexed
+# Any field with a "single" attribute will not allow multiple values
+# Any argot field not listed in this document will be stored, unindexed with a "_a" appended to the field name
+
+
+#ids
+
+id: id
+
+local_id:
+  type: str
+  attr: 
+    - single
+
+# vernacular (* = lang code)
+# *_v: will apply the type of whatever * matches
+
+# titles
+title_main:
+  type: t
+  attr:
+    - single
+
+title_alt:
+  type: t
+
+title_abbrv:
+  type: str
+
+title_journal:
+  type: t
+
+title_translation:
+  type: t
+
+title_sort:
+  type: str
+  attr:
+    - sort
+
+#authors
+authors_main:
+  type: t
+
+authors_other:
+  type: t
+
+authors_director:
+  type: t
+
+authors_uncontrolled:
+  type: t
+
+authors_sort:
+  type: t
+  attr:
+    - sort
+
+lang:
+  type: str
+  attr:
+    - single
+
+statement_of_responsibility:
+  type: t
+
+edition:
+  type: t
+
+publication_year:
+  type: i
+  attr:
+    - single
+
+series_statement:
+  type: t
+
+series:
+  type: t
+
+series_title:
+  type: str
+
+notes_indexed:
+  type: t
+
+subjects:
+  type: t
+
+isbn:
+  type: str
+
+upc:
+  type: str
+
+issn:
+  type: str
+
+publisher_number:
+  type: str
+
+publisher_name:
+  type: t
+
+publisher_imprint:
+  type: str
+
+url_href:
+  type: str
+
+url_text:
+  type: t
+
+cartographic_data:
+  type: t
+
+sound_recording_display:
+  type: t
+
+sound_recording_indexed:
+  type: t
+
+characteristics_sound:
+  type: t
+
+characteristics_projection:
+  type: t
+
+characteristics_video:
+  type: t
+
+characteristics_digital_file:
+  type: t
+
+organization_arrangement:
+  type: t
+
+volume_date_range:
+  type: t
+
+data_cataloged:
+  type: t
+
+
+
+
+
+
+
+
+
