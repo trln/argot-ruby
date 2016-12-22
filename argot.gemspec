@@ -30,5 +30,6 @@ Gem::Specification.new do |s|
     s.add_runtime_dependency 'nokogiri', [ '~> 1.6', '>= 1.6.8']
     s.add_runtime_dependency 'traject', [ '~> 2.0' ]
     s.add_runtime_dependency 'lisbn', ['~> 0.2' ]
+    spec.add_runtime_dependency 'thor'
 
 end
