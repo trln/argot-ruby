@@ -29,6 +29,10 @@ reader.process( File.new("nccu-20161012101320.dat") ) do |rec|
 end
 ```
 
+## CLI
+
+After installing the gem (`gem build argot.gemspec; gem install argot`), you can run `argot help` to see the available commands.
+
 ## Documentation
 
 To build the documentation, I suggest YARD.  

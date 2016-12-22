@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
     s.summary       = 'Tools for shared ingest infrastructure'
     s.description   = 'see summary?'
     s.authors       = ['Adam Constabaris','Luke Aeschleman']
-    s.files         = Dir.glob("{bin,lib}/**/*.rb") + %w(LICENSE README.md ROADMAP.md CHANGELOG.md)
+    s.files         = Dir.glob("{bin,lib}/**/*.{rb,yml}") + %w(LICENSE README.md ROADMAP.md CHANGELOG.md)
     #if is_java 
     #    s.files += [ 'lib/*.jar' ]
     #end
@@ -30,6 +30,7 @@ Gem::Specification.new do |s|
     s.add_runtime_dependency 'nokogiri', [ '~> 1.6', '>= 1.6.8']
     s.add_runtime_dependency 'traject', [ '~> 2.0' ]
     s.add_runtime_dependency 'lisbn', ['~> 0.2' ]
-    spec.add_runtime_dependency 'thor'
+    s.add_runtime_dependency 'thor', ['~> 0.19.4']
+    s.add_runtime_dependency 'rsolr', ['~> 1.1.2']
 
 end

@@ -23,12 +23,17 @@ title_main:
   type: t
   attr:
     - single
+    - stored
 
 title_alt:
   type: t
+  attr:
+    - stored
 
 title_abbrv:
   type: str
+  attr:
+    - stored
 
 title_journal:
   type: t
