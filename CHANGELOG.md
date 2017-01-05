@@ -3,3 +3,4 @@
 0.0.3 - More enumerators
 0.0.4 - Hybrid MRI/JRuby support
 0.0.5 - Added Suffixer & Flattener
+0.0.6 - Started CLI tools
