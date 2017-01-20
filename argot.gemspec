@@ -14,23 +14,24 @@ Gem::Specification.new do |s|
     s.description   = 'see summary?'
     s.authors       = ['Adam Constabaris','Luke Aeschleman']
     s.files         = Dir.glob("{bin,lib}/**/*.{rb,yml}") + %w(LICENSE README.md ROADMAP.md CHANGELOG.md)
-    #if is_java 
-    #    s.files += [ 'lib/*.jar' ]
-    #end
-
     s.require_path  = 'lib'
     s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
 
     s.add_runtime_dependency 'rubyzip', [ '~> 1.2' ]
-    if is_java 
-        s.add_runtime_dependency 'jbundler', ['~> 0.9', '>=0.9.3']
+
+    # pick our JSON library to install depending on the platform
+    if is_java
+        s.platform = 'java'
+        s.add_runtime_dependency 'jar-dependencies', [ '~> 0.3', '>=0.3.9']
         s.requirements << "jar org.noggit:noggit, 0.7"
+    else
+        s.add_runtime_dependency 'yajl-ruby', ['~> 1.2', ">=1.2.1"]
     end
-    s.add_runtime_dependency 'yajl-ruby', ['~> 1.2', ">=1.2.1"]
+
     s.add_runtime_dependency 'nokogiri', [ '~> 1.6', '>= 1.6.8']
     s.add_runtime_dependency 'traject', [ '~> 2.0' ]
     s.add_runtime_dependency 'lisbn', ['~> 0.2' ]
     s.add_runtime_dependency 'thor', ['~> 0.19.4']
-    s.add_runtime_dependency 'rsolr', ['~> 1.1.2']
+    s.add_runtime_dependency 'rsolr', [ '~> 1.1', '>=1.1.2']
 
 end

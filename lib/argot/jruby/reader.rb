@@ -1,6 +1,6 @@
 require 'stringio'
 require 'set'
-require 'jbundler'
+
 require 'java'
 
 # make imports a little easier
@@ -8,8 +8,29 @@ def org
     Java::Org
 end
 
-java_import org.noggit.JSONParser
-java_import org.noggit.ObjectBuilder
+begin 
+    require 'argot_jars'
+rescue 
+    $stderr.write "argot_jars not found"
+    # ??
+end
+
+#begin
+ #   require 'jar-dependencies'
+ #   require_jar('org.noggit', 'noggit', '0.7')
+#rescue LoadError => e
+    # this *will* happen during initial installation
+    # of the gem, but shouldn't during runtime.
+#    $stderr.write "unable to load jbundler; if we are not installing this is  a problem\n"
+ #   require 'org/noggit/noggit/0.7'
+ #end
+
+begin
+    java_import org.noggit.JSONParser
+    java_import org.noggit.ObjectBuilder
+rescue
+    $stderr.write "noggit classes not found.  This is not a problem during installation\n"
+end
 
 ##
 # A basic reader for Argot JSON.
