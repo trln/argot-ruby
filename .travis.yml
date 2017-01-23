@@ -1,6 +1,7 @@
 language: ruby
-rvn:
+rvm:
        - 2.3
        - 2.4
        - jruby
+script: rake test
 
