@@ -2,7 +2,7 @@ lib = File.expand_path('../lib/', __FILE__)
 
 $:.unshift(lib) unless $:.include?(lib)
 
-require 'argot'
+require 'argot/meta'
 
 is_java = RUBY_PLATFORM =~ /java/
 
@@ -28,10 +28,17 @@ Gem::Specification.new do |s|
         s.add_runtime_dependency 'yajl-ruby', ['~> 1.2', ">=1.2.1"]
     end
 
-    s.add_runtime_dependency 'nokogiri', [ '~> 1.6', '>= 1.6.8']
+    # nokogiri  1.7 requires Ruby 2.1.0
+    nokogiri_versions = [ '~> 1.6', ' >= 1.6.8' ]
+    nokogiri_versions << '< 1.7' if Gem::Version.new(RUBY_VERSION) < Gem::Version.new("2.1.0")
+    s.add_runtime_dependency 'nokogiri', nokogiri_versions
+
     s.add_runtime_dependency 'traject', [ '~> 2.0' ]
     s.add_runtime_dependency 'lisbn', ['~> 0.2' ]
     s.add_runtime_dependency 'thor', ['~> 0.19.4']
     s.add_runtime_dependency 'rsolr', [ '~> 1.1', '>=1.1.2']
+
+    # system rubies may be installed wihtout minitest
+    s.add_development_dependency 'minitest', '~> 5.0'
 
 end
