@@ -1,6 +1,14 @@
 # Argot : a Ruby gem for TRLN shared discovery ingest processes
 
-Rakefile is a work in progress.  It does support tests, so
+This gem provides libraries and command-line utilities for working with Argot, the ingest format for
+the TRLN shared index.
+
+# Installation
+
+    $ bundle install
+
+(as long as you have the `bundler` gem available) will install all the dependencies. then
+
 
     $ rake test
 
@@ -8,15 +16,16 @@ or even just
 
     $ rake
 
-Will work, but you can't use `rake install` yet.  Installation should be as easy as
+Will run the tests, but you can't use `rake install` yet.  Installation should be as easy as
 
     $ gem build argot
-    $ gem install argot-0.0.8.gemspec # or whatever version it is currently
+    $ gem install argot-0.0.8.gem # or whatever version it is currently
 
-As of v0.0.4, this gem is supported under both MRI and JRuby.
+As of v0.0.4, this gem is supported under both MRI and JRuby.  For small files
+especially, MRI is likely to be faster, and we have not
+done any optimizations to take advantage of multithreading under JRuby yet.
 
 ## Usage 
-
 ```ruby
 
 require 'json' # only required for the example
@@ -35,7 +44,6 @@ reader.process( File.new("nccu-20161012101320.dat") ) do |rec|
     output.write( rec.to_json )
 end
 ```
-
 ## CLI
 
 After installing the gem (`gem build argot.gemspec; gem install argot`), you can run `argot help` to see the available commands.
@@ -54,7 +62,7 @@ This will create files in `doc/`
 
 All Platforms:
 
- * `nokogiri`
+ * `nokogiri` (slated for removal as a direct dependency)
  * [`traject`](https://github.com/traject/traject)
  * `lisbn` (depends on nokogiri, may look for a replacement)
 
@@ -94,8 +102,3 @@ have a suitable schema -- for testing, you can use solr's data-driven configSet 
 
     $ curl -H'Content-Type: application/json' --data-binary @out.json http://localhost:8983/solr/icetocs/update/json/docs
     $ curl http://localhost:8983/solr/icetocs/update?commit=true
-
-
-
-
-
