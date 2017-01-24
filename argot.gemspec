@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
         s.add_runtime_dependency 'jar-dependencies', [ '~> 0.3', '>=0.3.9']
         s.requirements << "jar org.noggit:noggit, 0.7"
     else
+        s.platform = 'ruby'
         s.add_runtime_dependency 'yajl-ruby', ['~> 1.2', ">=1.2.1"]
     end
 

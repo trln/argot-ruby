@@ -7,6 +7,7 @@
 #
 require 'nokogiri'
 require 'argot/ice_extractor'
+require 'logger'
 
 ##
 # This module contains various tools for processing \XML
@@ -86,6 +87,9 @@ module Argot::XML
             else
                 @handler = -> (el) {el}
             end
+            @logger = Logger.new(options[:quiet] ? '/dev/null' : STDERR)
+            @current = nil
+            @current_doc = nil
         end
 
         # get the current context of the document
@@ -130,7 +134,13 @@ module Argot::XML
 
         def end_element(name)
             if name == @tag
-                @handler.call @current
+                begin
+                    @handler.call @current
+                rescue StandardError => e
+                    @logger.warn("Encountered record we can't process: #{@current}")
+                    @logger.warn(e)
+                    @current = nil
+                end
                 @current_doc = nil
                 @current = nil
             elsif @current

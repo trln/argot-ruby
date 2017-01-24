@@ -2,4 +2,6 @@
 *.sublime-*
 doc/
 .yardoc
+Gemfile.lock
+lib/org/
 
