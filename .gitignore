@@ -1,5 +1,6 @@
 *.gem
 *.sublime-*
+.idea/
 doc/
 .yardoc
 lib/*_jars.rb

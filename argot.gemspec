@@ -32,10 +32,8 @@ Gem::Specification.new do |s|
     # nokogiri  1.7 requires Ruby 2.1.0
     nokogiri_versions = [ '~> 1.6', ' >= 1.6.8' ]
     nokogiri_versions << '< 1.7' if Gem::Version.new(RUBY_VERSION) < Gem::Version.new("2.1.0")
-    s.add_runtime_dependency 'nokogiri', nokogiri_versions
 
     s.add_runtime_dependency 'traject', [ '~> 2.0' ]
-    s.add_runtime_dependency 'lisbn', ['~> 0.2' ]
     s.add_runtime_dependency 'thor', ['~> 0.19.4']
     s.add_runtime_dependency 'rsolr', [ '~> 1.1', '>=1.1.2']
 
