@@ -10,8 +10,8 @@ or even just
 
 Will work, but you can't use `rake install` yet.  Installation should be as easy as
 
-    $ gem build argot
-    $ gem install argot-0.0.8.gemspec # or whatever version it is currently
+    $ gem build argot # or argot.gemspec
+    $ gem install argot-0.0.8.gem # or whatever version it is currently, argot-0.0.8-java.gem if using jruby
 
 As of v0.0.4, this gem is supported under both MRI and JRuby.
 
