@@ -1,10 +1,6 @@
 require 'rake/testtask'
-begin
-    if RUBY_PLATFORM =~ /java/
-        require 'jars/installer'
-    end
-rescue LoadError
-   puts "Hmm, not running on JRuby" 
+if RUBY_PLATFORM =~ /java/
+    require 'jars/installer'
 end
 
 Rake::TestTask.new do |t|

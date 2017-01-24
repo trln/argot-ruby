@@ -2,4 +2,7 @@
 *.sublime-*
 doc/
 .yardoc
+lib/*_jars.rb
+Gemfile.lock
+lib/org/
 

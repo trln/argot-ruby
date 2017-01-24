@@ -13,9 +13,11 @@ module Argot::XML
 
     class ICEExtractor
 
-      def initialize(filename)
+      # Create a new extractor with a source
+      # @param source [String,#read] a filename or IO to read data from 
+      def initialize(source)
         @parser = EventParser.new("USMARC", handler: self)
-        @filename = filename
+        @source = source
         @fiber = Fiber.new do
           loop do
             rec = Fiber.yield
@@ -53,8 +55,8 @@ module Argot::XML
         # it needs a call to #resume to get going
         @looper.resume true
         p = Nokogiri::XML::SAX::Parser.new(@parser)
-        p.parse(File.open(@filename))
-
+        input = @source.respond_to?(:read) ? @source : File.open(@source)
+        p.parse(input)
       end
 
         ##
@@ -62,25 +64,26 @@ module Argot::XML
         # *+rec+ a Nokogiri::XML::Element USMARC element
         # 
         # The returned hash has the following structure:
-        # * +:id+ the ID assigned to the record by Sydnetics 
+        # * +:id+ the ID assigned to the record by Syndetics 
         # * +:update_date_time+ the time the record was last updated, according to the 005
         # * +:isbn+ an array of ISBNs
         # * +:title+ the title from the 245
         # * +chapters+ : an array of hashes describing the chapters (TOC)
         # ** +:authors+ - an array of authors for the chapter (if present)0
         # ** +:title+ - the chapter title (if present)
+        # @return the extracted record, nil if no useful information can be extracted
         def call(el)
-          record_id = el.xpath("VarFlds/VarCFlds/Fld001/text()")[0].text
-          update_date_time = marc005todate(el.xpath("VarFlds/VarCFlds/Fld005/text()")[0].text)
 
           dfld = el.xpath("VarFlds/VarDFlds[1]")[0]
           ssifld = dfld.xpath("SSIFlds[1]")[0]
+
           isbns = dfld.xpath("NumbCode/Fld020/a/text()")
                 .map    { |i| good_isbn?(i.text) }
                 .select { |good,v| good }
                 .map    { |t,v| v }
 
-          title = dfld.xpath("Titles/Fld245/*[self::a or self::b][1]/text()")[0].text
+          return nil if ssifld.nil?
+
           chapters = ssifld.xpath("Fld970[@I1 != '0']").map { |field|
               d = {}
               authors = field.xpath("e|f/text()")
@@ -91,6 +94,20 @@ module Argot::XML
               end
               d
            }.select { |d| not d.empty? }
+
+           begin
+            record_id = el.xpath("VarFlds/VarCFlds/Fld001/text()")[0].text
+            update_date_time = marc005todate(el.xpath("VarFlds/VarCFlds/Fld005/text()")[0].text)
+            title = dfld.xpath("Titles/Fld245/*[self::a or self::b][1]/text()")[0].text
+           rescue StandardError
+            # these *probably* happen when the above fields are not present. 
+            #  In which case, we'll just have to Make Stuff Up(tm); for record_id, we'll 
+            #  use the first ISBN we find,
+            #  for update time, just use 'now'
+            record_id ||= "unknown-#{isbns[0]}"
+            update_date_time ||= DateTime.now
+            title ||= ''
+           end
 
           rec = {
                 :id => record_id,
