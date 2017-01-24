@@ -5,6 +5,8 @@ the TRLN shared index.
 
 # Installation
 
+Start with
+
     $ bundle install
 
 (as long as you have the `bundler` gem available) will install all the dependencies. then
@@ -18,8 +20,9 @@ or even just
 
 Will run the tests, but you can't use `rake install` yet.  Installation should be as easy as
 
-    $ gem build argot
+    $ gem build argot.gemspec
     $ gem install argot-0.0.8.gem # or whatever version it is currently
+    $ gem install argot-0.0.8.gem # or whatever version it is currently, argot-0.0.8-java.gem if using jruby
 
 As of v0.0.4, this gem is supported under both MRI and JRuby.  For small files
 especially, MRI is likely to be faster, and we have not
