@@ -68,7 +68,7 @@ class Argot::Reader
 	##
 	# Process an IO/File/HTTP stream
 	# @param input [IO,String] containing 'streaming' JSON
-	# @yield [rec] (hash) a valid Argot record {@see :validator}
+	# @yield [Hash] a valid Argot record 
 	# 
 	def process(input, options={})
         encoding = java.nio.charset.Charset.forName(options['encoding'] || 'utf-8')

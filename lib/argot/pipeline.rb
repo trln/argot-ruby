@@ -14,25 +14,20 @@ module Argot
 
     # Base for a stage (step) in a data processing pipeline
     #
-    # == Attributes:
-    #  source::
-    #    the previous stage in the pipeline
-    #  name::
-    #    a (friendly?) name to use when displaying information about
-    #    the stage
+    # @attribute source [Stage] the stage preceding this one
+    # @attribute name [String] the human friendly name for this stage.
     #
-    # Typically you will not need to use or subclass this class, but 
-    # it holds the base functionality.
+    # Typically you will not need to use or directly subclass this 
+    # class when constructing a pipeline.
     #
-    # Each instance of this class wraps a *Fiber*, and some of that
+    # Each instance of this class wraps a +Fiber+, and some of that
     # implementation detail leaks, e.g. the #resume method. 
     #
     # Conceptually, each stage is responsible for asking its input to
     # yield the next value to be processed.  Once the stage has done
     # its processing, it will yield its value (and control) to the
     # next stage.  This allows each record to be sent through the pipeline 
-    # individually, at the pace allowed by the slowest processing
-    # stagea
+    # individually, reducing memory requirements.
     #
     # A stage's Fiber 'ends' once it receives (not *catches*!) 
     # StopIteration at its input.
@@ -94,7 +89,6 @@ module Argot
         # with the result unless the result should be filtered 
         def handle_value(value)
             if value == StopIteration
-                puts "#{@name} -- got a stop signal"
                 output(StopIteration)
             else
                 output(@transformer.call(value)) if @filter.call(value)
@@ -103,8 +97,7 @@ module Argot
 
         # performs the transformation of the input value
         # @param value the value provided to this stage
-        # @return the transformed result; in the base class, this is
-        #
+        # @return the transformed result.
         def transform(value)
             value
         end
@@ -121,19 +114,16 @@ module Argot
             "Stage(#{self.name})"
         end
         
-        
-        
         # Gets the stages from this one back to the first one in 
         # the chain (in reverse order of execution!)
         def path 
             @path ||= compute_path
         end
         
-        
-        
         # Method called by the parent pipeline when execution of the pipeline
         # is completed; allows stateful stages to de-allocate expensive resources,
-        # close sockets or database connections, etc.
+        # close sockets or database connections, etc.   The default
+        # implementation is a no-op.
         def finish
         
         end
@@ -142,6 +132,9 @@ module Argot
         # of the pipeline; allows stateful stages to allocate expensive 
         # resources at the point of need, check necessary conditions, etc.
         def start
+            @fiber_delegate = Fiber.new do
+                process
+            end
         end
 
         private
@@ -269,7 +262,6 @@ module Argot
         end
 
         def handle_value(value)
-            puts "#{name} --> #{value}"
             value.each { |v| output(v) }
         end
     end
@@ -300,7 +292,7 @@ module Argot
         # define a filter stage given a block (and any options)
         # @see Filter
         def filter(options={}, &block)
-            check_options(options)
+            check_options('filter', options)
             @stages << Filter.new(options,&block)
         end
 
@@ -308,7 +300,7 @@ module Argot
         # (and any options)
         # @see Transformer
         def transform(options={},&block)
-            check_options(options)
+            check_options('transformer', options)
             @stages << Transformer.new(options,&block)
         end
         
@@ -460,7 +452,7 @@ module Argot
 
         def initialize(options={})
             @last_stage = self
-            @logger = option[:logger] || Logger.new($stderr)
+            @logger = options[:logger] || Logger.new($stderr)
             @error = options[:error_handler]
             @rec = nil
         end
@@ -488,8 +480,8 @@ module Argot
                         Fiber.yield val
                     }
                     Fiber.yield StopIteration
-                rescue StopIteration
-                    puts "huh, got a stopiteration in the delegate"
+                rescue StopIteration => e
+                    @logger.warn("Uncaught StopIteration during pipeline execution", e) 
                 end
             end
         end
@@ -566,15 +558,18 @@ module Argot
             end_run
         end
         
-        # Build a pipeline using the DSL. 
-        # @param builder_class the class that provides the 
-        #   named stages, should probably be a subclass of Builder
-        #   (the default) unless you have special needs.
-        # @yield [Array<Stage>] the pipeline definition 
-        def self.setup(builder_class=Builder,&block) 
-            builder = builder_class.new
+        # Build a pipeline using the DSL.
+        # @param options [Hash] configuration for the Builder used to 
+        # create the pipeline.
+        # @option options [Builder] :builder a Builder instance to use.  Defaults
+        #   to Builder.new
+        # @option options [Logger] :logger the error logger to be used in
+        # the resulting Pipeline.
+        # @yield [Pipeline] the pipeline definition 
+        def self.setup(builder_class=Builder,options={},&block)
+            builder = options[:builder] || Builder.new
             builder.instance_eval(&block)
-            result = Pipeline.new([])
+            result = Pipeline.new(options)
             builder.stages.each { |stage| result | stage }
             result
         end

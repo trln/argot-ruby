@@ -1,9 +1,12 @@
+require 'argot/validator'
 require 'yajl'
 require 'stringio'
 require 'set'
 
 ##
 # A basic reader for Argot JSON.
+#
+
 class Argot::Reader
 
 	#  receiver for error messages, consisting of the invalid deserialized record and the result containing
@@ -39,8 +42,7 @@ class Argot::Reader
 	##
 	# Process an IO/File/HTTP stream
 	# @param input [IO,String] containing 'streaming' JSON
-	# @yield [rec] (hash) a valid Argot record {@see :validator}
-	# 
+	# @yield [Hash] a valid Argot record 
 	def process(input)     		
 		if not input.respond_to?(:read)
 			input = StringIO.new(input)
@@ -58,6 +60,4 @@ class Argot::Reader
 	def record_valid?(rec, line_no)    		
 		@validator.is_valid?(rec) { |r| r.location = "line #{line_no}"; @error_receiver.call(r, rec) }
 	end
-
-	
 end
