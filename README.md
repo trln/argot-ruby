@@ -72,8 +72,7 @@ All Platforms:
 
  * [`yajl-ruby`](https://github.com/brianmario/yajl-ruby) -- JSON support
  
-To support this, you'll need the `yajl` system package installed. Nokogiri
-requires `libxml2-devel` and `libxslt-devel`.
+To support this, you'll need the `yajl` system package installed.
 
 ### JRuby
 
