@@ -322,8 +322,8 @@ module Argot
         
         # defines a 'scatter' stage, which converts the output of a
         # gatherer back into single records.
-        def scatter
-            @stages << Scatterer.new
+        def scatter(options={})
+            @stages << Scatterer.new(options)
         end
         
         # defines a stage that will terminate processing once its condition
