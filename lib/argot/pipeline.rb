@@ -1,28 +1,33 @@
 require 'fiber'
+require 'logger'
 
+if not Object.respond_to?(:itself)
+    # add 'itself' method for Ruby pre-2.1.0
+    class Object
+        def itself
+            self
+        end
+    end
+end
+        
 module Argot
 
     # Base for a stage (step) in a data processing pipeline
     #
-    # == Attributes:
-    #  source::
-    #    the previous stage in the pipeline
-    #  name::
-    #    a (friendly?) name to use when displaying information about
-    #    the stage
+    # @attribute source [Stage] the stage preceding this one
+    # @attribute name [String] the human friendly name for this stage.
     #
-    # Typically you will not need to use or subclass this class, but 
-    # it holds the base functionality.
+    # Typically you will not need to use or directly subclass this 
+    # class when constructing a pipeline.
     #
-    # Each instance of this class wraps a *Fiber*, and some of that
+    # Each instance of this class wraps a +Fiber+, and some of that
     # implementation detail leaks, e.g. the #resume method. 
     #
     # Conceptually, each stage is responsible for asking its input to
     # yield the next value to be processed.  Once the stage has done
     # its processing, it will yield its value (and control) to the
     # next stage.  This allows each record to be sent through the pipeline 
-    # individually, at the pace allowed by the slowest processing
-    # stagea
+    # individually, reducing memory requirements.
     #
     # A stage's Fiber 'ends' once it receives (not *catches*!) 
     # StopIteration at its input.
@@ -30,11 +35,8 @@ module Argot
         attr_accessor :source, :name
 
         # intiializes this instance
-        # @param the options for this instance.  Generally
-        # subclass-dependent with the exception of the :name
-        # attribute.
-        # @param &block the block that implements the processing
-        #        logic for this stage
+        # @param [Hash] options options for this stage
+        # @option options [String] name a name for this stage.
         def initialize(options = {},&block)
             @transformer ||= method(:transform)
             @filter ||= method(:filter)
@@ -42,7 +44,9 @@ module Argot
                 process
             end
             options.each do |k,v|
-                send "#{k}=", v
+                if respond_to?("#{k}=".intern)
+                    send "#{k}=", v
+                end
             end
         end
 
@@ -57,7 +61,7 @@ module Argot
         # it to process the next record.
         def resume
             if @fiber_delegate.alive?
-                @fiber_delegate.resume
+                return @fiber_delegate.resume
             else
                 raise StopIteration
             end
@@ -67,6 +71,7 @@ module Argot
             while ( value = input )
                 handle_value(value)
             end
+            StopIteration
         end
 
         # pull the next value from the previous stage
@@ -84,7 +89,7 @@ module Argot
         # with the result unless the result should be filtered 
         def handle_value(value)
             if value == StopIteration
-                raise StopIteration
+                output(StopIteration)
             else
                 output(@transformer.call(value)) if @filter.call(value)
             end
@@ -92,8 +97,7 @@ module Argot
 
         # performs the transformation of the input value
         # @param value the value provided to this stage
-        # @return the transformed result; in the base class, this is
-        #
+        # @return the transformed result.
         def transform(value)
             value
         end
@@ -111,13 +115,37 @@ module Argot
         end
         
         # Gets the stages from this one back to the first one in 
-        # the chain.  May be of use in debugging.
+        # the chain (in reverse order of execution!)
         def path 
-            result = [self] 
-            result << self.source.path unless self.source.nil?
-            result.flatten
+            @path ||= compute_path
+        end
+        
+        # Method called by the parent pipeline when execution of the pipeline
+        # is completed; allows stateful stages to de-allocate expensive resources,
+        # close sockets or database connections, etc.   The default
+        # implementation is a no-op.
+        def finish
+        
+        end
+        
+        # Method called by a parent pipeline immediately before execution
+        # of the pipeline; allows stateful stages to allocate expensive 
+        # resources at the point of need, check necessary conditions, etc.
+        def start
+            @fiber_delegate = Fiber.new do
+                process
+            end
         end
 
+        private
+        
+        def compute_path
+            result = [self]
+            while( prev = result.last.source )
+                result << prev
+            end
+            result
+        end
     end
 
     # Base class for a stage that filters results without otherwise
@@ -142,14 +170,116 @@ module Argot
             super
         end
     end
+    
+    # "Transformer" that executes its supplied block on the input value,
+    # while also passing the original value on to subsequent stages.  Primarily
+    # useful for debugging
+    class Peeker < Transformer
+        IDENTITY = Proc.new(&:itself)
+        
+        def initialize(options={}, &block)
+            options[:name] ||= 'peeker'
+            @copy = options[:unsafe] || false
+            super
+            @handler = @transformer
+            @transformer = IDENTITY
+        end
+        
+        def handle_value(value)
+            @handler.call(@copy ? Marshal.load(Marshal.dump(value)) : value) unless value == StopIteration
+            super(value)
+        end
+    end
+    
+    # Allows premature termination of a pipeline the first time a condition 
+    # is not met (similar to Enumeration#take_while).
+    class TakeWhile < Peeker
+    
+        def initialize(options={},&block)
+            options[:name] ||= 'takewhile'
+            super
+        end
+        
+        def handle_value(value)
+            result = @handler.call(value)
+            if result 
+                super
+            else
+                super(StopIteration)
+            end
+        end
+    end
+        
+    
+    # Stage that groups individual items on its input to 
+    # Enumerations of at most a certain size on its output.
+    # One use for this is as a stage immediately before a 
+    # processing stage that works works most efficiently 
+    # on 'chunks' of data.
+    # @yield [Enumerator]  
+    #
+    # The internal collection buffer is yielded to the following stages
+    # as a lazy Enumerator; if you really want an array, you'll 
+    # need to call #to_a on the result.
+    class Gatherer < Stage
+        attr_accessor :size
+        
+        # Create a new instance
+        # @param size [Int] the maximum number of records to
+        #    store in an array before invoking the next stage.
+        def initialize(size, options={})
+            @size = size
+            @buffer = []
+            options[:name] ||= "gatherer(#{size})"
+            @transformer = lambda { |x| x }
+            super(options)
+        end
 
-    # Builder that implements the DSL for pipeline construction.
+        def handle_value(value)
+            if value == StopIteration
+                output(@buffer.each)
+                output([StopIteration].each)
+            else
+                @buffer << value
+                if @buffer.length == @size
+                    output(@buffer.each)
+                    @buffer = []
+                end
+            end
+        end
+    end
+
+    
+    # Stage that converts arrays on its input to individual members
+    # on its output.  One use is to turn the results of a bulk data
+    # processing 'gather' step back into individual records.
+    # @see Gatherer 
+    class Scatterer < Stage
+
+        def initialize(options={})
+            options[:name] ||= 'scatterer'
+            super
+        end
+
+        def handle_value(value)
+            value.each { |v| output(v) }
+        end
+    end
+
+
+    # Implements the compact DSL for pipeline construction.
     # The primary use for this class is to provide standardized constructors
-    # for pipeline stages, which is used as the basis for a DSL.
+    # for pipeline stages, which is used as the basis for a DSL for
+    # pipeline construction.
     #
     # The fundamental job of this class is to evaluate a block and
     # populate the `stages` attribute, which will be wired together
     # into a pipeline by Pipeline#setup
+    
+    # All stage definitions accept an options hash, and the +name+
+    # option allows explicity setting the name of the stage (helpful
+    # for debugging/tracking down where errors occur).  Many stage
+    # definitions accept a block as well
     class Builder
 
         # the stages, in the original order 
@@ -159,20 +289,67 @@ module Argot
             @stages = []
         end
 
-        # Constructs a filter given a block (and any options)
+        # define a filter stage given a block (and any options)
+        # @see Filter
         def filter(options={}, &block)
-            check_options(options)
+            check_options('filter', options)
             @stages << Filter.new(options,&block)
         end
 
-        # Constructs a Transformer instance given a block
+        # define a transformer stage given a block
         # (and any options)
+        # @see Transformer
         def transform(options={},&block)
-            check_options(options)
+            check_options('transformer', options)
             @stages << Transformer.new(options,&block)
         end
-
-        # filter that rejects nil values
+        
+        # define a gatherer stage, which collects input records into 
+        # groupings of maximum size +size+ before passing them onto 
+        # the next stage
+        # @see Gatherer
+        def gather(size,options={})
+            @stages << Gatherer.new(size,options)
+        end
+        
+        # converts an enumerator (output of a Gatherer) to an array.
+        def to_array
+            transform(name: 'to_array') do |x|
+                result = x.to_a.take_while { |y| y!= StopIteration }
+                result.empty? ? StopIteration : result 
+            end
+        end
+        
+        # defines a 'scatter' stage, which converts the output of a
+        # gatherer back into single records.
+        def scatter(options={})
+            @stages << Scatterer.new(options)
+        end
+        
+        # defines a stage that will terminate processing once its condition
+        # is not met.  Note if the condition evaluates to +false+, processing
+        # is terminated immediately (subsequent stages in the pipeline will not be
+        # executed)
+        def take_while(options={},&block)
+            @stages << TakeWhile.new(options,&block)
+        end
+        
+        # defines a stage that provides access to the output of a previous stage.
+        # The supplied block will be executed for each record.
+        
+        # In normal use, the block should take care to *not* modify the 
+        # input value, because doing so may alter the value in unexpected ways. 
+        
+        # @param options [Hash] options control the handling of the value
+        # @option options [Boolean] unsafe set to true if the supplied
+        # value might be altered within +&block+ (provides a defensive
+        # deep copy instead of the original value -- computationally expensive,
+        # so avoid mutation of values!)
+        def peek(options={}, &block)
+            @stages << Peeker.new(options,&block)
+        end
+            
+        # defines a filter that rejects nil values
         def nonnil
             filter({:name=>"Filter blanks"}) { |x| not x.nil? }
         end
@@ -191,13 +368,34 @@ module Argot
         end
     end
 
-    # A processing chain composed of multiple stages.
-    # Objects fed into the pipeline (via an Enumerable object)
-    # are sent through its stages as specified in the documentation of
-    # Stage and its subclasses when the pipeline's #run() method is called.
+    # A processing chain composed of multiple independent stages.
+    # Objects fed into the pipeline (via #run(Enumerable) )
+    # are sent through its stages and +yield+ed to the block
+    #
+    # Pipelines can simplify construrction of complex chains
+    # of processing logic over large record sets by allowing each 
+    # component to be treated separately.
+    # While it is possible
+    # to achieve similar effects by chaining Enumerators, doing so has 
+    # two drawbacks: first, it requires loading all of the intermediate
+    # collections created by each processing step into memory, and second,
+    # it complicates the logic for error handling -- an error during 
+    # any step of the chain breaks the entire chain.
+    
+    # A pipeline works by sending each element in the original enumeration
+    # through a series of stages one at a time, until it emerges on
+    # the end of the pipeline for whatever final processing is needed. 
+    # Thus, the memory requirement can be kept to a minimum.  This also
+    # allows the pipeline to recover from any StandardError thrown during
+    # the processing of that one record.
+    # 
+    # Normal stages in a pipeline can either transform their inputs, or
+    # filter them.  Specialty stages exist to gather steps into groups,
+    # split groups back into individual records, peek at intermediate
+    # results.
     #
     # Pipelines can be constructed in one of two ways, one inspired
-    # by the command line and one using a Domain Specific Language (DSL).
+    # by the command line and one using a Domain Specific Language (DSL).448
     #
     # UNIX pipe-inspired:
     #
@@ -221,7 +419,7 @@ module Argot
     #   p.run(words) { |x| puts x } 
     #   # same output as above, but upper-cased
     #
-    # In this first DSL example, `nonnil` and `upcase` are mnemonics for a 
+    # In this first DSL example, `nonnil` and `upcase` are short names for a 
     # "non-nil" Filter and upper-casing Transformer.  More generic mnemonics
     # are also available to allow you to supply your own filter/transformer
     # blocks, so the following is (nearly) equivalent:
@@ -237,9 +435,7 @@ module Argot
     #   # as above ...
     #
     # "Named" filters and transformers are defined in the Builder class.
-    #
-    # See the Builder class above for more info about how to add named
-    # filters and transformers.
+    # @see Builder for a complete set of available stage definitions.
     #
     # @todo more serious examples, perhaps involving stateful stages
     # @todo come up with an elegant way of adding new named stages
@@ -254,12 +450,13 @@ module Argot
 
         attr_reader :enumerable
 
-        def initialize(enumerable=[].each)
-            self.enumerable = enumerable
+        def initialize(options={})
             @last_stage = self
+            @logger = options[:logger] || Logger.new($stderr)
+            @error = options[:error_handler]
+            @rec = nil
         end
 
-        
         def |(next_stage)
             if @last_stage != self 
                 @last_stage | next_stage
@@ -277,8 +474,14 @@ module Argot
                 @enumerable = something.each.lazy
             end
             @delegate_fiber = Fiber.new do
-                while v = @enumerable.next
-                    Fiber.yield v
+                begin 
+                    @enumerable.each { |val|
+                    @rec = val 
+                        Fiber.yield val
+                    }
+                    Fiber.yield StopIteration
+                rescue StopIteration => e
+                    @logger.warn("Uncaught StopIteration during pipeline execution", e) 
                 end
             end
         end
@@ -294,43 +497,79 @@ module Argot
         def source
          nil
         end
+        
+        def stages
+            path.reverse
+        end
 
         def path
-            []
+            @last_stage.path
         end
-
+        
         # displays the pipeline 
         def debug
-            stages = @last_stage.path.reverse!
             " (input) ->" << stages.collect { |x| x.name }.join(" -> ") << " -> (output)"
         end
-
+        
+        def start
+        end
+        
+        def finish
+        end
+        
+        def start_run
+            stages.each do |stage|
+                stage.start if stage.respond_to?(:start)
+            end
+        end
+        
+        def end_run
+            stages.each do |stage|
+                begin
+                    stage.finish if stage.respond_to?(:finish)  
+                rescue StandardError => e
+                    $stderr.write("Error calling finish on stage '#{stage.name} : #{e}\n")
+                end
+            end
+        end
+        
         # Executes the pipeline, processing each end result with
         # a supplied block
-        # @param local_enumberable (optional) an enumerable or array whose 
-        #   members will be fed into the pipeline.
+        # @param source [#each] source of records for the pipeline.
         # @yield [Object, nil] the result of the final stage of the pipeline.
-        def run(local_enumerable=nil)
-            self.enumerable = local_enumerable unless local_enumerable.nil?    
+        def run(source)
+            self.enumerable = source
+            start_run   
             loop do
                 begin
-                    yield @last_stage.resume
+                    x = @last_stage.resume
+                    break if x == StopIteration 
+                    yield x
+                rescue StandardError => e
+                    if @error 
+                        @error.call(@rec,e)
+                    else
+                        @logger.warn("Error processing #{@rec}", e)
+                    end 
                 rescue StopIteration
                     break
                 end
             end
+            end_run
         end
-
-        # Build a pipeline using the DSL. 
-        # @param builder_class the class that provides the 
-        #   named stages, should probably be a subclass of Builder
-        #   (the default) unless you have special needs.
-        # @param &block that which will be evaluated by a fresh instance
-        #        of `builder_class` to create the stages of the pipeline.
-        def self.setup(builder_class=Builder,&block) 
-            builder = builder_class.new
+        
+        # Build a pipeline using the DSL.
+        # @param options [Hash] configuration for the Builder used to 
+        # create the pipeline.
+        # @option options [Builder] :builder a Builder instance to use.  Defaults
+        #   to Builder.new
+        # @option options [Logger] :logger the error logger to be used in
+        # the resulting Pipeline.
+        # @yield [Pipeline] the pipeline definition 
+        def self.setup(builder_class=Builder,options={},&block)
+            builder = options[:builder] || Builder.new
             builder.instance_eval(&block)
-            result = Pipeline.new([])
+            result = Pipeline.new(options)
             builder.stages.each { |stage| result | stage }
             result
         end
