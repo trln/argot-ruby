@@ -90,7 +90,7 @@ class Argot::Suffixer
 		suffixed = Hash.new
 
 		unless @config[:lang].nil?
-			lang = input["#{@config[:lang]}"].nil? ? "" : input["#{@config[:lang]}"];
+			lang = input["#{@config[:lang]}"].nil? ? "" : input["#{@config[:lang]}"]
 		end
 		
 		input.each do |k,v|
