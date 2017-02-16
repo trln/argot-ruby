@@ -15,4 +15,5 @@ trim:
 # key-name suffixes to ignore. Example: title_main_marc would be ignored
 ignore:
   - 'marc'
+  - 'lang_code'
 
