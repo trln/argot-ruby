@@ -46,14 +46,14 @@ language:
   attr:
   - stored
 isbn_primary_number:
-  type: i
+  type: str
   attr: ''
 isbn_primary_qualifying_info:
   type: str
   attr:
   - stored
 isbn_other_number:
-  type: i
+  type: str
   attr: ''
 isbn_other_qualifying_info:
   type: str
