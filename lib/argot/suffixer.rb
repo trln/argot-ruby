@@ -118,7 +118,12 @@ class Argot::Suffixer
 				solrKey = add_suffix(nKey,vernacular,lang)
 			end
 
-			suffixed[solrKey] = v
+			if solrKey.index("single") && v.is_a?(Array) && v.size > 1
+				warn("Found multiple entries for #{input[@config[:id]]}: #{solrKey} ")
+				suffixed[solrKey] = v[0]
+			else
+				suffixed[solrKey] = v
+			end
 		end
 
 		suffixed
