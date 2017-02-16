@@ -34,7 +34,11 @@ class Argot::Suffixer
 			attributes = @solr_fields[key]["attr"].nil? ? [] : @solr_fields[key]["attr"]
 			# add vernacular & language
 			if vernacular
-				suffix << "_#{lang}_v"
+				if lang.is_a?(Array)
+					suffix << "_#{lang[0]}_v"
+				else
+					suffix << "_#{lang}_v"
+				end
 			end
 
 			# add special sort value
