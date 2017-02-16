@@ -32,8 +32,8 @@ publication_year:
   - stored
   - sort
   - single
-copyright_date:
-  type: dt
+copyright_year:
+  type: i
   attr:
   - stored
 cataloged_date:
