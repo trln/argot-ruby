@@ -9,7 +9,7 @@ oclc_number:
   attr:
   - stored
   - single
-oclc_number_old_a:
+oclc_number_old:
   type: str
   attr:
   - stored
@@ -18,11 +18,11 @@ local_id:
   attr:
   - stored
   - single
-local_id_other_a:
+local_id_other:
   type: str
   attr:
   - stored
-syndetics_id_a:
+syndetics_id:
   type: str
   attr:
   - stored
@@ -32,7 +32,7 @@ publication_year:
   - stored
   - sort
   - single
-copyright_date_a:
+copyright_date:
   type: dt
   attr:
   - stored
@@ -41,61 +41,61 @@ cataloged_date:
   attr:
   - stored
   - single
-language_a:
+language:
   type: f
   attr:
   - stored
-isbn_primary_number_a:
+isbn_primary_number:
   type: i
   attr: ''
-isbn_primary_qualifying_info_a:
+isbn_primary_qualifying_info:
   type: str
   attr:
   - stored
-isbn_other_number_a:
+isbn_other_number:
   type: i
   attr: ''
-isbn_other_qualifying_info_a:
+isbn_other_qualifying_info:
   type: str
   attr:
   - stored
-issn_primary_a:
+issn_primary:
   type: str
   attr:
   - stored
-issn_linking_a:
+issn_linking:
   type: str
   attr:
   - stored
-issn_series_a:
+issn_series:
   type: str
   attr:
   - stored
-publisher_number_a:
-  type: i
+publisher_number:
+  type: str
   attr:
   - stored
-publisher_etc_name_a:
+publisher_etc_name:
   type: t
   attr:
   - stored
-imprint_a:
+imprint:
   type: t
   attr:
   - stored
-authors_main_a:
+authors_main:
   type: t
   attr:
   - stored
-authors_other_a:
+authors_other:
   type: t
   attr:
   - stored
-authors_directors_a:
+authors_directors:
   type: t
   attr:
   - stored
-authors_uncontrolled_a:
+authors_uncontrolled:
   type: t
   attr:
   - stored
@@ -109,243 +109,243 @@ title_sort:
   attr:
   - sort
   - single
-title_uniform_a:
+title_uniform:
   type: t
   attr:
   - stored
-title_collective_a:
+title_collective:
   type: t
   attr:
   - stored
-title_journal_a:
+title_journal:
   type: t
   attr:
   - stored
-title_abbreviation_a:
+title_abbreviation:
   type: t
   attr:
   - stored
-title_translation_a:
+title_translation:
   type: t
   attr:
   - stored
-title_analytical_a:
+title_analytical:
   type: t
   attr:
   - stored
-title_alternate_a:
+title_alternate:
   type: t
   attr:
   - stored
-title_earlier_a:
+title_earlier:
   type: t
   attr:
   - stored
-title_later_a:
+title_later:
   type: t
   attr:
   - stored
-notes_indexed_a:
+notes_indexed:
   type: t
   attr:
   - stored
-notes_serials_summary_a:
+notes_serials_summary:
   type: t
   attr:
   - stored
-url_href_a:
+url_href:
   type: str
   attr:
   - stored
-url_text_a:
+url_text:
   type: t
   attr:
   - stored
-linking_main_series_a:
+linking_main_series:
   type: t
   attr:
   - stored
-linking_main_series_isn_a:
+linking_main_series_isn:
   type: str
   attr:
   - stored
-linking_subseries_a:
+linking_subseries:
   type: t
   attr:
   - stored
-linking_subseries_isn_a:
+linking_subseries_isn:
   type: str
   attr:
   - stored
-linking_translation_of_a:
+linking_translation_of:
   type: t
   attr:
   - stored
-linking_translation_of_isn_a:
+linking_translation_of_isn:
   type: str
   attr:
   - stored
-linking_translated_as_a:
+linking_translated_as:
   type: t
   attr:
   - stored
-linking_translated_as_isn_a:
+linking_translated_as_isn:
   type: str
   attr:
   - stored
-linking_has_supplement_a:
+linking_has_supplement:
   type: t
   attr:
   - stored
-linking_has_supplement_isn_a:
+linking_has_supplement_isn:
   type: str
   attr:
   - stored
-linking_supplement_to_a:
+linking_supplement_to:
   type: t
   attr:
   - stored
-linking_supplement_to_isn_a:
+linking_supplement_to_isn:
   type: str
   attr:
   - stored
-linking_host_item_a:
+linking_host_item:
   type: t
   attr:
   - stored
-linking_host_item_isn_a:
+linking_host_item_isn:
   type: str
   attr:
   - stored
-linking_constituent_unit_a:
+linking_constituent_unit:
   type: t
   attr:
   - stored
-linking_constituent_unit_isn_a:
+linking_constituent_unit_isn:
   type: str
   attr:
   - stored
-linking_added_entry_a:
+linking_added_entry:
   type: t
   attr:
   - stored
-linking_added_entry_isn_a:
+linking_added_entry_isn:
   type: str
   attr:
   - stored
-format_a:
+format:
   type: f
   attr:
   - stored
-subjects_a:
+subjects:
   type: pp
   attr:
   - stored
-statement_of_responsibility_a:
+statement_of_responsibility:
   type: t
   attr:
   - stored
-edition_a:
+edition:
   type: t
   attr:
   - stored
-cartographic_data_a:
+cartographic_data:
   type: t
   attr:
   - stored
-description_general_a:
+description_general:
   type: t
   attr:
   - stored
-description_sound_a:
+description_sound:
   type: t
   attr:
   - stored
-description_projection_a:
+description_projection:
   type: t
   attr:
   - stored
-description_video_a:
+description_video:
   type: t
   attr:
   - stored
-description_digital_file_a:
+description_digital_file:
   type: t
   attr:
   - stored
-organization_a:
+organization:
   type: t
   attr:
   - stored
-volumes_a:
+volumes:
   type: t
   attr:
   - stored
-series_main_a:
+series_main:
   type: t
   attr:
   - stored
-series_personal_a:
+series_personal:
   type: t
   attr:
   - stored
-series_corporate_a:
+series_corporate:
   type: t
   attr:
   - stored
-series_meeting_a:
+series_meeting:
   type: t
   attr:
   - stored
-series_uniform_a:
+series_uniform:
   type: t
   attr:
   - stored
-source_of_acquisition_a:
+source_of_acquisition:
   type: t
   attr:
   - stored
-related_collections_a:
+related_collections:
   type: t
   attr:
   - stored
-biographical_sketch_a:
+biographical_sketch:
   type: t
   attr:
   - stored
-most_recent_a:
+most_recent:
   type: t
   attr:
   - stored
-holdings_note_a:
+holdings_note:
   type: t
   attr:
   - stored
-items_barcode_a:
+items_barcode:
   type: str
   attr:
   - stored
-items_copy_number_a:
+items_copy_number:
   type: str
   attr:
   - stored
-items_due_date_a:
+items_due_date:
   type: dt
   attr:
   - stored
-items_location_a:
+items_location:
   type: f
   attr:
   - stored
-items_note_a:
+items_note:
   type: t
   attr:
   - stored
-items_call_number_tag_a:
+items_call_number_tag:
   type: f
   attr:
   - stored
-items_classification_number_a:
+items_classification_number:
   type: lccn
   attr:
   - stored
@@ -354,7 +354,7 @@ owner:
   attr:
   - stored
   - single
-institution_a:
+institution:
   type: f
   attr:
   - stored
