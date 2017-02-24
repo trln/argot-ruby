@@ -39,25 +39,25 @@ class Argot::Suffixer
 				else
 					suffix << "_#{lang}_v"
 				end
-			end
-
-			# add special sort value
-			if attributes.include?("sort")
-				intTypes = %w(i float long double)
-				sort_suffix = intTypes.include?(type) ? "_isort" : "_ssort"
-				suffix << sort_suffix
 			else
-				suffix << "_#{type}"
-			end
+				# add special sort value
+				if attributes.include?("sort")
+					intTypes = %w(i float long double)
+					sort_suffix = intTypes.include?(type) ? "_isort" : "_ssort"
+					suffix << sort_suffix
+				else
+					suffix << "_#{type}"
+				end
 
-			# add stored
-			if attributes.include?("stored")
-				suffix << "_stored"
-			end
+				# add stored
+				if attributes.include?("stored")
+					suffix << "_stored"
+				end
 
-			# add single
-			if attributes.include?("single")
-				suffix << "_single"
+				# add single
+				if attributes.include?("single")
+					suffix << "_single"
+				end
 			end
 
 		else
