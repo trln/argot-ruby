@@ -258,6 +258,10 @@ description_projection:
   type: t
   attr:
   - stored
+description_video:
+  type: t
+  attr:
+  - stored
 description_digital_file:
   type: t
   attr:
