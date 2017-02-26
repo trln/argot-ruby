@@ -323,7 +323,7 @@ items_note:
   attr:
   - stored
 items_call_number:
-  type: lccn
+  type: f
   attr:
   - stored
   - sort
