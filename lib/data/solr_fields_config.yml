@@ -323,15 +323,18 @@ items_note:
   attr:
   - stored
 items_call_number:
-  type: f
+  type: lccn
   attr:
   - stored
-  - sort
 items_status:
   type: str
   attr:
   - stored
 institution:
+  type: f
+  attr:
+  - stored
+items_lcc_top:
   type: f
   attr:
   - stored
