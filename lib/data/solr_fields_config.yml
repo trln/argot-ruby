@@ -1,4 +1,3 @@
----
 id:
   type: str
   attr:
@@ -22,16 +21,90 @@ local_id_other:
   type: str
   attr:
   - stored
-syndetics_id:
+rollup_id:
   type: str
   attr:
-  - stored
+  - single
 publication_year:
   type: i
   attr:
   - stored
   - sort
   - single
+isbn_number:
+  type: isbn
+  attr:
+  - stored
+isbn_qualifying_info:
+  type: t
+  attr:
+  - stored
+issn_primary:
+  type: isbn
+  attr:
+  - stored
+issn_linking:
+  type: isbn
+  attr:
+  - stored
+issn_series:
+  type: isbn
+  attr:
+  - stored
+title_main:
+  type: t
+  attr:
+  - stored
+  - single
+title_sort:
+  type: str
+  attr:
+  - sort
+  - single
+title_uniform:
+  type: t
+  attr:
+  - stored
+title_collective:
+  type: t
+  attr:
+  - stored
+title_journal:
+  type: t
+  attr:
+  - stored
+title_translation:
+  type: t
+  attr:
+  - stored
+title_abbreviation:
+  type: t
+  attr:
+  - stored
+title_analytical:
+  type: t
+  attr:
+  - stored
+title_alternate:
+  type: t
+  attr:
+  - stored
+title_earlier:
+  type: t
+  attr:
+  - stored
+title_later:
+  type: t
+  attr:
+  - stored
+notes_indexed:
+  type: t
+  attr:
+  - stored
+notes_serials_summary:
+  type: t
+  attr:
+  - stored
 copyright_year:
   type: i
   attr:
@@ -43,32 +116,6 @@ cataloged_date:
   - single
 language:
   type: f
-  attr:
-  - stored
-isbn_primary_number:
-  type: str
-  attr: ''
-isbn_primary_qualifying_info:
-  type: str
-  attr:
-  - stored
-isbn_other_number:
-  type: str
-  attr: ''
-isbn_other_qualifying_info:
-  type: str
-  attr:
-  - stored
-issn_primary:
-  type: str
-  attr:
-  - stored
-issn_linking:
-  type: str
-  attr:
-  - stored
-issn_series:
-  type: str
   attr:
   - stored
 publisher_number:
@@ -96,60 +143,6 @@ authors_directors:
   attr:
   - stored
 authors_uncontrolled:
-  type: t
-  attr:
-  - stored
-title_main:
-  type: t
-  attr:
-  - single
-  - stored
-title_sort:
-  type: str
-  attr:
-  - sort
-  - single
-title_uniform:
-  type: t
-  attr:
-  - stored
-title_collective:
-  type: t
-  attr:
-  - stored
-title_journal:
-  type: t
-  attr:
-  - stored
-title_abbreviation:
-  type: t
-  attr:
-  - stored
-title_translation:
-  type: t
-  attr:
-  - stored
-title_analytical:
-  type: t
-  attr:
-  - stored
-title_alternate:
-  type: t
-  attr:
-  - stored
-title_earlier:
-  type: t
-  attr:
-  - stored
-title_later:
-  type: t
-  attr:
-  - stored
-notes_indexed:
-  type: t
-  attr:
-  - stored
-notes_serials_summary:
   type: t
   attr:
   - stored
@@ -238,7 +231,7 @@ format:
   attr:
   - stored
 subjects:
-  type: pp
+  type: tf
   attr:
   - stored
 statement_of_responsibility:
@@ -305,10 +298,6 @@ source_of_acquisition:
   type: t
   attr:
   - stored
-related_collections:
-  type: t
-  attr:
-  - stored
 biographical_sketch:
   type: t
   attr:
@@ -325,14 +314,6 @@ items_barcode:
   type: str
   attr:
   - stored
-items_copy_number:
-  type: str
-  attr:
-  - stored
-items_due_date:
-  type: dt
-  attr:
-  - stored
 items_location:
   type: f
   attr:
@@ -341,20 +322,19 @@ items_note:
   type: t
   attr:
   - stored
-items_call_number_tag:
-  type: f
-  attr:
-  - stored
-items_classification_number:
+items_call_number:
   type: lccn
   attr:
   - stored
-owner:
+items_status:
+  type: str
+  attr:
+  - stored
+institution:
   type: f
   attr:
   - stored
-  - single
-institution:
+items_lcc_top:
   type: f
   attr:
   - stored
