@@ -144,12 +144,8 @@ module Argot
                 
                 results << result
             end
-
-            if block_given?
-                yield results
-            end
             
-            not results.has_errors?
+            results
         end
     end
 
@@ -161,6 +157,7 @@ module Argot
     #   e.g. +title.main+ refers to the +main+ attribute of the top-level +title+ attribute.
     # * +required+ : (optional, defaults to +false+) whether the field must be present in the document.
     # * +type+ : (optional) - the expected Ruby type of object at +path+, e.g. +String+ or +Fixnum+.
+    # * +single+ : (optional, defaults to +false+) - there should only be 1 value
     #   this attribute is only used to check validity if the field is present.  If left
     #   unspecfied, no type checking will be done.
     #
@@ -187,7 +184,8 @@ module Argot
         # * +rule_obj: a data structure that contains at least a +name+ and +path+ attribute, as detailed above.
         def initialize(rule_obj)
             @data = OpenStruct.new(rule_obj)
-            @data.required = ( "true" == @data.required )
+            # @data.required = ( true == @data.required )
+            # @data.single = ( true == @data.required )
             compile
         end
 
@@ -199,13 +197,23 @@ module Argot
             result = RuleResult.new(@data.name,[],[])
             
             value = @expr.call(rec)
-            if value.nil? 
+
+            if value.nil? and @data.required
                 result.errors << "#{@data.path} not found"
-            elsif not @data.type.nil?
+            end
+
+            if not @data.type.nil?
                 if @data.type.to_s != value.class.to_s
                     result.errors << "#{@data.path} should be type #{@data.type} (found: #{value.class})"
                 end
             end
+            
+            if value.is_a?(Array) and @data.single
+                if !value[1].nil?
+                    result.errors << "#{@data.path} should only have a single value, multiple values found"
+                end
+            end
+
             result
         end
 

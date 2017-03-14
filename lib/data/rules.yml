@@ -1,18 +1,16 @@
 - name: "title is required"
-  path: 'title'
+  path: 'title.main'
   required: true
+  single: true
 
-- name: "local_id is required"
-  path: 'local_id'
+- name: "id is required"
+  path: 'id'
   type: String
   required : true
-
-- name: "collection is required"
-  path: collection
-  type: String
+  single: true
 
 - name: "owner (institution) is required"
-  path: owner
-  type: String
+  path: institution
+  type: Array
   required: true
 
