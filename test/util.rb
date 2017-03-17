@@ -1,12 +1,25 @@
 module Util
     TEST_FILES = File.expand_path("../data", __FILE__)
 
-    def self.get_file(name)
-        f = File.new(File.join(Util::TEST_FILES, name))
-        if not File.exist?(f)
+    def self.find_file(name) 
+        path = File.join(Util::TEST_FILES, name)
+        if not File.exist?(path)
             raise "Unable to find required test file #{name}"
         end
-        f
+        yield path if block_given?
+        path
+    end
+
+    def self.get_file(name)
+        file = File.open(find_file(name), 'r')
+        if block_given?
+            begin
+                yield file
+            ensure
+                file.close
+            end
+        end
+        file
     end
 end
 
