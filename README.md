@@ -29,6 +29,8 @@ especially, MRI is likely to be faster.  No optimizations are yet in place to
 take advantage of multithreading under JRuby.
 
 ## Usage 
+
+### As Library
 ```ruby
 
 require 'json' # only required for the example
@@ -51,7 +53,28 @@ end
 ## CLI
 
 After installing the gem, you can run `argot help` to see the available commands.
+Many commands accept input and output either from/to named files, or from STDIN and STdOUT, where
+omitting the `input` argument (or using the `-` shortcut) will read from STDIN, while omitting the 
+output argument will output to STDOUT.
 
+e..g 
+
+    $ argot flatten < argot-notflat.json > argot-flat.json
+    
+and
+
+    $ argot flatten argot-notflat.json argot-flat.json
+    
+are equivalent, but you can also do something like:
+
+    $ my_argot_maker_that_ouputs_to_stdout | argot flatten | jq 
+
+to avoid creating intermediate files.
+
+If you want to read from STDIN but output to a named file, use `-` as the first argument, e.g.
+
+    $ my_argot_maker_that_writes_to_stdout | argot flatten - flattened.json
+    
 ## Documentation
 
 To build the documentation, I suggest YARD.  
