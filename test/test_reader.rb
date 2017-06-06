@@ -18,10 +18,20 @@ class ArgotReaderTest < Minitest::Test
             recs << x
         }
         assert "'good' test file should have one record", recs.length == 1
-        assert "'good' test file should have no errors", @instance.errors.empty?
         rec = recs[0]
         assert "'test record has proper 'publisher' imprint", rec['publisher'][0]['imprint'] == 'Moskva.'
     end
+
+    if RUBY_PLATFORM =! 'java'
+
+      def test_process_inputstream
+        good = Util.get_file('argot-allgood.json').to_inputstream
+        recs = []
+        @instance.process(good) { |x| recs << x }
+        assert recs.length == 1
+      end
+    end
+
 
 end
             
