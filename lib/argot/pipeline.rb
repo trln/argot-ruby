@@ -266,6 +266,21 @@ module Argot
         end
     end
 
+    class Arrayifier < Transformer
+      def initialize(options={})
+        options[:name] ||= 'to_array'
+        super
+      end
+
+      def handle_value(value)
+        result = value.to_a.take_while { |y| y != StopIteration }
+        result.empty? ? StopIteration : result
+      end
+    end
+
+
+
+
 
     # Implements the compact DSL for pipeline construction.
     # The primary use for this class is to provide standardized constructors

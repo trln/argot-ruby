@@ -5,7 +5,7 @@
 # the key-name of the unique ID argot attribute, it will not be passed through the suffixer
 id: 'id'
 # the key-name suffix used to denote language codes. Example key: title_main_vernacular_lang_code
-lang: 'lang_code'
+lang: 'lang'
 # the key-name suffix used to denote vernacular fields. Example key: title_main_vernacular
 vernacular: 'vernacular'
 # key-name suffixes to remove. Example: title_main_value => title_main

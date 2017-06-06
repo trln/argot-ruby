@@ -10,14 +10,14 @@ module Argot
   class CommandLine < Thor
 
 
-    no_commands do 
+    no_commands do
       # Utility wrapper for producing a `:read` able object
       # based on a range of possible argument types.
       # @param input [`:read`, String]  if `nil`, or the string `-`, result is $stdin; if `:read`, result is the original argument,
       #  if a String other than `-`, result is an opened File handle.
       # @yield `:read`
       # @return `:read`
-      def get_input(input=nil) 
+      def get_input(input=nil)
         input = $stdin if input.nil? or input == '-'
         input = File.open(input, 'r') unless input.respond_to?(:read)
         if block_given?
@@ -61,7 +61,6 @@ module Argot
                     :default => false,
                     :aliases => "-v",
                     :desc => "display rules and error information"
-
     def validate(input=nil)
       rules_file = options.rules.empty? ? [] : [options.rules]
       validator = Argot::Validator::from_files(rules_file)
@@ -82,7 +81,7 @@ module Argot
               end # each error
               puts "\n"
             end # if verbose
-          end
+          end # has_errors
         end # each_line
        end #get_input
       puts "Found #{count} document(s) with errors"
@@ -109,7 +108,7 @@ module Argot
         get_output(output) do |f|
           f.write options.pretty ? JSON.pretty_generate(results) : JSON.generate(results)
         end
-      end
+      end # results not empty
     end
 
     ###############
@@ -145,10 +144,10 @@ module Argot
       end
 
       if !results.empty?
-        get_output(output) do |f|        
-            if options[:pretty] 
+        get_output(output) do |f|
+            if options[:pretty]
                 f.puts JSON.pretty_generate(results)
-            else 
+            else
                 f.puts JSON.generate(results)
             end
         end
@@ -184,11 +183,11 @@ module Argot
 
     def ingest(input=nil)
       data_load_path = File.expand_path("../data", File.dirname(__FILE__))
-      
+
       config = YAML.load_file(data_load_path + options.config)
       fields = YAML.load_file(data_load_path + options.fields)
       results = []
-      
+
       rules_file = options.rules.empty? ? [] : [options.rules]
       validator = Argot::Validator::from_files(rules_file)
 
@@ -206,26 +205,26 @@ module Argot
             $stderr.puts "Document #{doc["id"]} skipped"
             if options.verbose
               valid.errors.each do |error|
-              $stderr.puts "#{error[:rule]}:"
-              error[:errors].each do |e|
-                $stderr.puts "\t  - #{e}"
+                $stderr.puts "#{error[:rule]}:"
+                error[:errors].each do |e|
+                  $stderr.puts "\t  - #{e}"
+                end
               end
-            end
-            $stderr.puts "\n"
-          end
-        else
-          added_count += 1
-          flattened = Argot::Flattener.process(doc)
-          results << suffixer.process(flattened)
-        end
-      end
+              $stderr.puts "\n"
+            end # verbose
+          else # we has_errors
+            added_count += 1
+            flattened = Argot::Flattener.process(doc)
+            results << suffixer.process(flattened)
+          end # has_errors
+        end # each_line
+      end # get_input
 
       if !results.empty?
         solr = RSolr.connect :url => options.solrUrl
         solr.add results
       end
       puts "Added #{added_count} document(s), skipped #{error_count} document(s)"
-    end
-
-  end
-end
+    end # ingetst
+  end # CommandLine
+end # Argot module
