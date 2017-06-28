@@ -68,8 +68,8 @@ module Argot
       get_input(input) do |f|
         f.each_line do |line|
           doc = JSON.parse(line);
-          valid = validator.is_valid?(doc)
-          if valid.has_errors?
+          valid = validator.valid?(doc)
+          if valid.errors?
             count += 1
             puts "Document #{doc["id"]} will be skipped:"
             if options.verbose
@@ -198,8 +198,8 @@ module Argot
       get_input(input) do |f|
         f.each_line do |line|
           doc = JSON.parse(line);
-          valid = validator.is_valid?(doc)
-          if valid.has_errors?
+          valid = validator.valid?(doc)
+          if valid.errors?
             error_count += 1
             # Show errors
             $stderr.puts "Document #{doc["id"]} skipped"
