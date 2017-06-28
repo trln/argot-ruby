@@ -9,6 +9,12 @@
   required : true
   single: true
 
+- name: "local_id is required"
+  path: 'local_id.value'
+  type: String
+  required : true
+  single: true
+
 - name: "owner (institution) is required"
   path: institution
   type: Array
