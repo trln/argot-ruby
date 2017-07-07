@@ -51,8 +51,7 @@ module Argot
     end
 
     def _get_reader(input, options)
-      encoding = Charset.forName(options[:encoding]
-      $stderr.write input.java_class
+      encoding = Charset.forName(options[:encoding])
       if input.java.is_a?(java.io.Reader)
         reader = input
       elsif input.java.kind_of?(java.io.InputStream)
