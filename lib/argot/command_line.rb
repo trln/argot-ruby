@@ -3,6 +3,7 @@ require 'thor'
 require 'json'
 require 'yaml'
 require 'rsolr'
+require 'yajl'
 
 module Argot
   # The class that executes for the Argot command line utility.
@@ -154,6 +155,33 @@ module Argot
       end
     end
 
+     desc "solrvalidate <input> <output>" , "Attempts to validate flattened Solr documents against schema"
+     method_option   :schema_location,
+                      :default => '/solr_schema.xml',
+                      :aliases => '-s',
+                      :desc => "Solr schema to load"
+    def solrvalidate(input=$stdin, output=$stdout)
+      data_load_path = File.expand_path("../data", File.dirname(__FILE__))
+      schema_loc = File.join(data_load_path, 'solr_schema.xml')
+      schema = Argot::SolrSchema.new(File.open(schema_loc))
+      all_valid = true
+      get_output(output) do |out|
+        get_input(input) do |f|
+          parser = Yajl::Parser.new
+          parser.on_parse_complete = lambda do |rec|
+            result = schema.analyze(rec)
+            unless result.empty?
+              all_valid = false
+              result['id'] = rec['id']
+              out.write(result.to_json)
+            end
+          end # lambda
+          parser.parse(f)
+        end # input
+      end #output
+      exit(1) unless all_valid
+    end
+
     ###############
     # Index into solr
     ###############
@@ -225,6 +253,6 @@ module Argot
         solr.add results
       end
       puts "Added #{added_count} document(s), skipped #{error_count} document(s)"
-    end # ingetst
+    end # ingest
   end # CommandLine
 end # Argot module
