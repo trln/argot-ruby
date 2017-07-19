@@ -310,31 +310,7 @@ holdings_note:
   type: t
   attr:
   - stored
-items_barcode:
+items:
   type: str
-  attr:
-  - stored
-items_location:
-  type: f
-  attr:
-  - stored
-items_note:
-  type: t
-  attr:
-  - stored
-items_call_number:
-  type: lccn
-  attr:
-  - stored
-items_status:
-  type: str
-  attr:
-  - stored
-institution:
-  type: f
-  attr:
-  - stored
-items_lcc_top:
-  type: f
   attr:
   - stored
