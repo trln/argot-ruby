@@ -47,7 +47,7 @@ module Argot
         attributes = field_conf.fetch('attr', [])
         # add vernacular & language
         if vernacular
-          warn("lang is empty for #{key}") if lang.nil? || lang.empty?
+          #warn("lang is empty for #{key}") if lang.nil? || lang.empty?
           suffix << "_#{lang.is_a?(Array) ? lang[0] : lang}_v"
         else
           # add special sort value
