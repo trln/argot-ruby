@@ -46,6 +46,9 @@ module Argot
         end
       end
 
+      def json_formatter(options={pretty: false})
+        options[:pretty] ? JSON.method(:pretty_generate) : JSON.method(:generate)
+      end
     end
 
     ###############
@@ -107,7 +110,8 @@ module Argot
       end
       if !results.empty?
         get_output(output) do |f|
-          f.write options.pretty ? JSON.pretty_generate(results) : JSON.generate(results)
+          fmt = json_formatter(options)
+          results.each { |rec| f.write fmt.call(rec) }
         end
       end # results not empty
     end
@@ -141,19 +145,16 @@ module Argot
             doc = JSON.parse(line);
             flattened = Argot::Flattener.process(doc)
             results << suffixer.process(flattened)
-        end
-      end
+        end # each_line
+      end # get_input
 
       if !results.empty?
         get_output(output) do |f|
-            if options[:pretty]
-                f.puts JSON.pretty_generate(results)
-            else
-                f.puts JSON.generate(results)
-            end
-        end
-      end
-    end
+            fmt = json_formatter(options)
+            results.each { |rec| f.puts fmt.call(rec) }
+        end # get_output
+      end # results_empty
+    end # method
 
      desc "solrvalidate <input> <output>" , "Attempts to validate flattened Solr documents against schema"
      method_option   :schema_location,
@@ -168,14 +169,18 @@ module Argot
       get_output(output) do |out|
         get_input(input) do |f|
           parser = Yajl::Parser.new
-          parser.on_parse_complete = lambda do |rec|
-            result = schema.analyze(rec)
-            unless result.empty?
-              all_valid = false
-              result['id'] = rec['id']
-              out.write(result.to_json)
-            end
+          parser.on_parse_complete = lambda do |data|
+            data = [data] unless data.is_a?(Array)
+            data.each do |rec|
+              result = schema.analyze(rec)
+              unless result.empty?
+                all_valid = false
+                result['id'] = rec['id']
+                out.write(result.to_json)
+              end
+            end # data enumerate
           end # lambda
+
           parser.parse(f)
         end # input
       end #output
@@ -208,7 +213,6 @@ module Argot
                     :default => false,
                     :aliases => "-v",
                     :desc => "display rules and error information"
-
     def ingest(input=nil)
       data_load_path = File.expand_path("../data", File.dirname(__FILE__))
 
