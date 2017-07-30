@@ -40,15 +40,15 @@ isbn_qualifying_info:
   attr:
   - stored
 issn_primary:
-  type: isbn
+  type: num
   attr:
   - stored
 issn_linking:
-  type: isbn
+  type: num
   attr:
   - stored
 issn_series:
-  type: isbn
+  type: num
   attr:
   - stored
 title_main:
