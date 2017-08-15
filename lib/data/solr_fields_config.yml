@@ -114,6 +114,10 @@ cataloged_date:
   attr:
   - stored
   - single
+lcc_callnum_classification:
+  type: tf
+  attr:
+    - stored
 language:
   type: f
   attr:
