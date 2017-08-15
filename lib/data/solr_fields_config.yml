@@ -131,7 +131,7 @@ imprint:
   attr:
   - stored
 authors_main:
-  type: t
+  type: tf
   attr:
   - stored
 authors_other:
@@ -231,6 +231,22 @@ format:
   attr:
   - stored
 subjects:
+  type: tf
+  attr:
+  - stored
+subject_genre:
+  type: tf
+  attr:
+  - stored
+subject_medical:
+  type: tf
+  attr:
+  - stored
+subject_region:
+  type: tf
+  attr:
+  - stored
+subject_time_period:
   type: tf
   attr:
   - stored
