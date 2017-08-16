@@ -6,6 +6,8 @@ require 'argot/meta'
 module Argot
   autoload :Reader, 'argot/reader'
   autoload :Pipeline, 'argot/pipeline'
+  autoload :Transformer, 'argot/pipeline'
+  autoload :Filter, 'argot/pipeline'
   autoload :Flattener, 'argot/flattener'
   autoload :Suffixer, 'argot/suffixer'
   autoload :Validator, 'argot/validator'

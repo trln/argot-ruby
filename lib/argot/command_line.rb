@@ -3,7 +3,6 @@ require 'thor'
 require 'json'
 require 'yaml'
 require 'rsolr'
-require 'yajl'
 
 module Argot
   # The class that executes for the Argot command line utility.
@@ -54,28 +53,28 @@ module Argot
     ###############
     # Validate
     ###############
-    desc "validate [INPUT]", "Validate Argot file converted from MARC (stdin or filename)."
+    desc 'validate [INPUT]', 'Validate Argot file converted from MARC (stdin or filename).'
     method_option   :rules,
-                    :type => :string,
-                    :default => "",
-                    :aliases => "-r",
-                    :desc => "path to a rules file. Default is lib/data/rules.yml"
+                    type: :string,
+                    default: '',
+                    aliases:  '-r',
+                    desc:  'path to a rules file. Default is lib/data/rules.yml'
     method_option   :verbose,
-                    :type => :boolean,
-                    :default => false,
-                    :aliases => "-v",
-                    :desc => "display rules and error information"
-    def validate(input=nil)
+                    type:  :boolean,
+                    default:  false,
+                    aliases:  "-v",
+                    desc:  'display rules and error information'
+    def validate(input = nil)
       rules_file = options.rules.empty? ? [] : [options.rules]
-      validator = Argot::Validator::from_files(rules_file)
+      validator = Argot::Validator.from_files(rules_file)
       count = 0
       get_input(input) do |f|
         f.each_line do |line|
-          doc = JSON.parse(line);
+          doc = JSON.parse(line)
           valid = validator.valid?(doc)
           if valid.errors?
             count += 1
-            puts "Document #{doc["id"]} will be skipped:"
+            puts "Document #{doc['id']} will be skipped:"
             if options.verbose
               valid.errors.each do |error|
                 puts "#{error[:rule]}:"
@@ -94,12 +93,12 @@ module Argot
     ###############
     # Flatten
     ###############
-    desc "flatten <input> <output>", "Flatten an argot file"
+    desc 'flatten <input> <output>', 'Flatten an argot file'
     method_option   :pretty,
-                    :type => :boolean,
-                    :default => false,
-                    :aliases => "-p",
-                    :desc => "pretty print resulting json"
+                    type:  :boolean,
+                    default:  false,
+                    aliases:  '-p',
+                    desc:  'pretty print resulting json'
     def flatten(input=$stdin, output=$stdout)
       results = []
       get_input(input) do |f|
@@ -119,23 +118,23 @@ module Argot
     ###############
     # Suffix
     ###############
-    desc "suffix <input, default stdin> <output, default stdout>", "Flatten and Suffix an argot file ("
+    desc 'suffix <input, default stdin> <output, default stdout>', 'Flatten and Suffix an argot file ('
     method_option   :pretty,
-                    :type => :boolean,
-                    :default => false,
-                    :aliases => "-p",
-                    :desc => "pretty print resulting json"
+                    type:  :boolean,
+                    default:  false,
+                    aliases:  '-p',
+                    desc:  'pretty print resulting json'
     method_option   :fields,
-                    :default => "/solr_fields_config.yml",
-                    :aliases => "-f",
-                    :desc => "Solr fields configuration file"
+                    default:  '/solr_fields_config.yml',
+                    aliases:  '-f',
+                    desc:  'Solr fields configuration file'
     method_option   :config,
-                    :default => "/solr_suffixer_config.yml",
-                    :aliases => "-c",
-                    :desc => "Solr suffixer config file"
+                    default:  '/solr_suffixer_config.yml',
+                    aliases:  '-c',
+                    desc:  'Solr suffixer config file'
 
     def suffix(input=$stdin, output=$stdout)
-      data_load_path = File.expand_path("../data", File.dirname(__FILE__))
+      data_load_path = File.expand_path('../data', File.dirname(__FILE__))
       config = YAML.load_file(data_load_path + options.config)
       fields = YAML.load_file(data_load_path + options.fields)
       results = []
@@ -156,20 +155,20 @@ module Argot
       end # results_empty
     end # method
 
-     desc "solrvalidate <input> <output>" , "Attempts to validate flattened Solr documents against schema"
+     desc 'solrvalidate <input> <output>' , 'Attempts to validate flattened Solr documents against schema'
      method_option   :schema_location,
-                      :default => '/solr_schema.xml',
-                      :aliases => '-s',
-                      :desc => "Solr schema to load"
+                      default:  '/solr_schema.xml',
+                      aliases:  '-s',
+                      desc:  'Solr schema to load'
     def solrvalidate(input=$stdin, output=$stdout)
-      data_load_path = File.expand_path("../data", File.dirname(__FILE__))
+      data_load_path = File.expand_path('../data', File.dirname(__FILE__))
       schema_loc = File.join(data_load_path, 'solr_schema.xml')
       schema = Argot::SolrSchema.new(File.open(schema_loc))
       all_valid = true
       get_output(output) do |out|
         get_input(input) do |f|
-          parser = Yajl::Parser.new
-          parser.on_parse_complete = lambda do |data|
+          reader = Argot::Reader.new
+          reader.process(f) do |data|
             data = [data] unless data.is_a?(Array)
             data.each do |rec|
               result = schema.analyze(rec)
@@ -180,41 +179,39 @@ module Argot
               end
             end # data enumerate
           end # lambda
-
-          parser.parse(f)
         end # input
-      end #output
+      end # output
       exit(1) unless all_valid
     end
 
     ###############
     # Index into solr
     ###############
-    desc "ingest <input, default STDIN>", "Flatten, suffix, and ingest an argot file"
+    desc 'ingest <input, default STDIN>', 'Flatten, suffix, and ingest an argot file'
     method_option   :solrUrl,
-                    :default => "http://localhost:8983/solr/trln",
-                    :aliases => "-s",
-                    :desc => "Solr endpoint"
+                    default:  "http://localhost:8983/solr/trln",
+                    aliases:  '-s',
+                    desc:  'Solr endpoint'
     method_option   :fields,
-                    :default => "/solr_fields_config.yml",
-                    :aliases => "-f",
-                    :desc => "Solr fields configuration file"
+                    default:  '/solr_fields_config.yml',
+                    aliases:  '-f',
+                    desc:  'Solr fields configuration file'
     method_option   :config,
-                    :default => "/solr_suffixer_config.yml",
-                    :aliases => "-c",
-                    :desc => "Solr suffixer config file"
+                    default:  '/solr_suffixer_config.yml',
+                    aliases:  '-c',
+                    desc:  'Solr suffixer config file'
     method_option   :rules,
-                    :type => :string,
-                    :default => "",
-                    :aliases => "-r",
-                    :desc => "path to a rules file. Default is lib/data/rules.yml"
+                    type:  :string,
+                    default:  '',
+                    aliases:  '-r',
+                    desc:  'path to a rules file. Default is lib/data/rules.yml'
     method_option   :verbose,
-                    :type => :boolean,
-                    :default => false,
-                    :aliases => "-v",
-                    :desc => "display rules and error information"
-    def ingest(input=nil)
-      data_load_path = File.expand_path("../data", File.dirname(__FILE__))
+                    type:  :boolean,
+                    default:  false,
+                    aliases:  '-v',
+                    desc:  'display rules and error information'
+    def ingest(input = nil)
+      data_load_path = File.expand_path('../data', File.dirname(__FILE__))
 
       config = YAML.load_file(data_load_path + options.config)
       fields = YAML.load_file(data_load_path + options.fields)
@@ -234,7 +231,7 @@ module Argot
           if valid.errors?
             error_count += 1
             # Show errors
-            $stderr.puts "Document #{doc["id"]} skipped"
+            $stderr.puts "Document #{doc['id']} skipped"
             if options.verbose
               valid.errors.each do |error|
                 $stderr.puts "#{error[:rule]}:"
@@ -252,7 +249,7 @@ module Argot
         end # each_line
       end # get_input
 
-      if !results.empty?
+      unless results.empty?
         solr = RSolr.connect :url => options.solrUrl
         solr.add results
       end
