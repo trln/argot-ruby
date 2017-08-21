@@ -322,6 +322,10 @@ biographical_sketch:
   type: t
   attr:
   - stored
+holdings:
+  type: t
+  attr:
+    -stored
 most_recent:
   type: t
   attr:
@@ -338,3 +342,7 @@ institution:
   type: f
   attr:
   - stored
+items_location:
+  type: tf
+  attr:
+    - stored
