@@ -238,6 +238,10 @@ subjects:
   type: tf
   attr:
   - stored
+subject_topic_lcsh:
+  type: tf
+  attr:
+  - stored
 subject_genre:
   type: tf
   attr:
@@ -246,11 +250,11 @@ subject_medical:
   type: tf
   attr:
   - stored
-subject_region:
+subject_geographic:
   type: tf
   attr:
   - stored
-subject_time_period:
+subject_chronological:
   type: tf
   attr:
   - stored
