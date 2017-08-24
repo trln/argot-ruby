@@ -109,7 +109,7 @@ copyright_year:
   type: i
   attr:
   - stored
-cataloged_date:
+date_cataloged:
   type: dt
   attr:
   - stored
