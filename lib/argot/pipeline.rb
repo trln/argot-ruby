@@ -536,7 +536,11 @@ module Argot
           @logger.debug('received termination signal')
           break
         rescue StandardError => e
-          @error.call(@rec, e) if @error else @logger.warn("Error processing #{@rec} : #{e}\n#{e.backtrace}")
+          if @error
+            @error.call(@rec, e)
+          else
+            @logger.warn("Error processing #{@rec} : #{e}\n#{e.backtrace}")
+          end
         end
       end
       end_run
