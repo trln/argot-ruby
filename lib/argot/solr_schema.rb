@@ -1,4 +1,5 @@
 require 'nokogiri'
+require 'open-uri'
 
 module Argot
   # Represents a Schema in Solr, and provides for some
@@ -6,8 +7,27 @@ module Argot
   class SolrSchema
     EMPTY = {}.freeze
 
-    def initialize(schema)
-      @doc = Nokogiri::XML(schema)
+    DEFAULT_SCHEMA = File.join(File.expand_path('../../data', __FILE__), 'solr_schema.xml').freeze
+
+    # Create a new validator
+    # @param schema [String] the path to an XML document or the contents
+    #        of such a document.  If it starts with `https?://`, schema will
+    #        be fetched via HTTP; if the value ends with `.xml`, 
+    #        it will be treated as a local filename.  Otherwise, it will be treated
+    #        as the XML content itself.
+    def initialize(schema = DEFAULT_SCHEMA, options = {})
+      use_http = schema.start_with?("http://") || schema.start_with?('https://')
+      if use_http
+        open(schema) do |f|
+          @doc = Nokogiri::XML(f)
+        end
+      elsif schema.end_with?('.xml')
+        File.open(schema) do |f|
+          @doc = Nokogiri::XML(f)
+        end
+      else
+        @doc = Nokogiri::XML(schema)
+      end
       compile
       # cache of matchers by field name for a speedup
       @matchers = Hash.new { |h, field| h[field] = find_matcher(field) }
@@ -22,6 +42,7 @@ module Argot
     # analyzes an input document against the field definitions in the
     # schema, producing a hash that maps fields to validity issues.
     # if the hash is empty, there are no issues (rec is valid)
+    # @param rec [Hash<String, Object>] the deserialized JSON record
     def analyze(rec)
       results = rec.collect do |k, v|
         m = @matchers[k]
