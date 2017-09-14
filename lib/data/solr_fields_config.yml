@@ -134,6 +134,10 @@ imprint:
   type: t
   attr:
   - stored
+author_facet:
+  type: tf
+  attr:
+    - stored
 authors_main:
   type: tf
   attr:
@@ -350,3 +354,7 @@ items_location:
   type: tf
   attr:
     - stored
+available:
+  type: f
+  attr:
+  - stored
