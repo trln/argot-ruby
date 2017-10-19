@@ -24,6 +24,7 @@ local_id_other:
 rollup_id:
   type: str
   attr:
+  - stored
   - single
 publication_year:
   type: i
