@@ -359,3 +359,7 @@ available:
   type: f
   attr:
   - stored
+virtual_collection:
+  type: tf
+  attr:
+  - stored
