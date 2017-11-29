@@ -24,6 +24,7 @@ local_id_other:
 rollup_id:
   type: str
   attr:
+  - stored
   - single
 publication_year:
   type: i
@@ -109,7 +110,7 @@ copyright_year:
   type: i
   attr:
   - stored
-cataloged_date:
+date_cataloged:
   type: dt
   attr:
   - stored
@@ -134,6 +135,10 @@ imprint:
   type: t
   attr:
   - stored
+author_facet:
+  type: tf
+  attr:
+    - stored
 authors_main:
   type: tf
   attr:
@@ -354,5 +359,15 @@ access_type:
   type: tf
   attr:
     - stored
-
-
+location_hierarchy:
+  type: f
+  attr:
+  - stored
+available:
+  type: f
+  attr:
+  - stored
+virtual_collection:
+  type: tf
+  attr:
+  - stored
