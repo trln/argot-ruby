@@ -355,6 +355,10 @@ items_location:
   type: tf
   attr:
     - stored
+access_type:
+  type: tf
+  attr:
+    - stored
 location_hierarchy:
   type: f
   attr:
