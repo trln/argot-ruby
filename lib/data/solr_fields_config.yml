@@ -367,3 +367,15 @@ virtual_collection:
   type: tf
   attr:
   - stored
+access_type:
+  type: tf
+  attr:
+    - stored
+note_toc:
+  type: str
+  attr:
+    - stored
+note_summary:
+  type: str
+  attr:
+    - stored
