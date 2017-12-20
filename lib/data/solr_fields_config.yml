@@ -155,14 +155,10 @@ authors_uncontrolled:
   type: t
   attr:
   - stored
-url_href:
+url:
   type: str
   attr:
-  - stored
-url_text:
-  type: t
-  attr:
-  - stored
+    -stored
 linking_main_series:
   type: t
   attr:
