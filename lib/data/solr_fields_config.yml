@@ -127,18 +127,20 @@ publisher_number:
   type: str
   attr:
   - stored
-publisher_etc_name:
+publisher:
   type: t
+imprint_main:
+  type: str
   attr:
   - stored
-imprint:
-  type: t
+imprint_multiple:
+  type: str
   attr:
   - stored
 author_facet:
   type: tf
   attr:
-    - stored
+  - stored
 authors_main:
   type: tf
   attr:
