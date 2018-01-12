@@ -5,8 +5,6 @@ module Argot
   # Flattens an argot hash
   class Flattener
 
-    JSON_BLOB_FIELDS = %w[items].freeze
-
     def self.combine(hash1, hash2)
       hash2.each do |k, v|
         if hash1.key?(k)
@@ -40,19 +38,10 @@ module Argot
       flattened
     end
 
-    def self.create_json_blob(value)
-      if value.is_a?(Array)
-        value.map!(&:to_s)
-      else
-        value.to_s
-      end
-    end
-
     def self.process(input)
       flattened = {}
 
       input.each do |k, v|
-        v = create_json_blob(v) if JSON_BLOB_FIELDS.include?(k)
         flattened = combine(flattened, flatten(v, k)) unless v.nil?
       end
 
