@@ -6,7 +6,7 @@ module Argot
   # top-level attributes of the current record to scalars, which is
   # the form expected by Argot.
   class TrajectJSONWriter < Traject::JsonWriter
-    @array_fields = %w[holdings url items].to_set
+    @array_fields = %w[holdings url items imprint_main imprint_multiple].to_set
 
     def serialize(context)
       flatten_record!(context.output_hash)
