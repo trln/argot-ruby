@@ -118,7 +118,7 @@ date_cataloged:
 lcc_callnum_classification:
   type: tf
   attr:
-    - stored
+  - stored
 language:
   type: f
   attr:
@@ -352,11 +352,11 @@ institution:
 items_location:
   type: tf
   attr:
-    - stored
+  - stored
 access_type:
   type: tf
   attr:
-    - stored
+  - stored
 location_hierarchy:
   type: f
   attr:
@@ -372,12 +372,16 @@ virtual_collection:
 access_type:
   type: tf
   attr:
-    - stored
+  - stored
 note_toc:
   type: str
   attr:
-    - stored
+  - stored
 note_summary:
   type: str
   attr:
-    - stored
+  - stored
+barcodes:
+  type: str
+  attr:
+  - stored
