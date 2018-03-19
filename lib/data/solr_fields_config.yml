@@ -384,4 +384,8 @@ note_summary:
 barcodes:
   type: str
   attr:
+    - stored
+resource_type:
+  type: tf
+  attr:
   - stored
