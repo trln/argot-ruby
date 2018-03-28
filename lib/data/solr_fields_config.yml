@@ -1,108 +1,40 @@
-id:
+access_type:
+  type: tf
+  attr:
+  - stored
+author_facet:
+  type: tf
+  attr:
+  - stored
+authors_directors:
+  type: t
+  attr:
+  - stored
+authors_main:
+  type: tf
+  attr:
+  - stored
+authors_other:
+  type: t
+  attr:
+  - stored
+authors_uncontrolled:
+  type: t
+  attr:
+  - stored
+available:
+  type: f
+  attr:
+  - stored
+barcodes:
   type: str
   attr:
   - stored
-  - single
-oclc_number:
-  type: str
-  attr:
-  - stored
-  - single
-oclc_number_old:
-  type: str
-  attr:
-  - stored
-local_id:
-  type: str
-  attr:
-  - stored
-  - single
-local_id_other:
-  type: str
-  attr:
-  - stored
-rollup_id:
-  type: str
-  attr:
-  - stored
-  - single
-publication_year:
-  type: i
-  attr:
-  - stored
-  - sort
-  - single
-isbn_number:
-  type: isbn
-  attr:
-  - stored
-isbn_qualifying_info:
+biographical_sketch:
   type: t
   attr:
   - stored
-issn_primary:
-  type: num
-  attr:
-  - stored
-issn_linking:
-  type: num
-  attr:
-  - stored
-issn_series:
-  type: num
-  attr:
-  - stored
-title_main:
-  type: t
-  attr:
-  - stored
-  - single
-title_sort:
-  type: str
-  attr:
-  - sort
-  - single
-title_uniform:
-  type: t
-  attr:
-  - stored
-title_collective:
-  type: t
-  attr:
-  - stored
-title_journal:
-  type: t
-  attr:
-  - stored
-title_translation:
-  type: t
-  attr:
-  - stored
-title_abbreviation:
-  type: t
-  attr:
-  - stored
-title_analytical:
-  type: t
-  attr:
-  - stored
-title_alternate:
-  type: t
-  attr:
-  - stored
-title_earlier:
-  type: t
-  attr:
-  - stored
-title_later:
-  type: t
-  attr:
-  - stored
-notes_indexed:
-  type: t
-  attr:
-  - stored
-notes_serials_summary:
+cartographic_data:
   type: t
   attr:
   - stored
@@ -115,20 +47,47 @@ date_cataloged:
   attr:
   - stored
   - single
-lcc_callnum_classification:
-  type: tf
+description_digital_file:
+  type: t
   attr:
   - stored
-language:
+description_general:
+  type: t
+  attr:
+  - stored
+description_projection:
+  type: t
+  attr:
+  - stored
+description_sound:
+  type: t
+  attr:
+  - stored
+description_video:
+  type: t
+  attr:
+  - stored
+edition:
+  type: t
+  attr:
+  - stored
+format:
   type: f
   attr:
   - stored
-publisher_number:
+holdings:
+  type: t
+  attr:
+  - stored
+holdings_note:
+  type: t
+  attr:
+  - stored
+id:
   type: str
   attr:
   - stored
-publisher:
-  type: t
+  - single
 imprint_main:
   type: str
   attr:
@@ -137,30 +96,78 @@ imprint_multiple:
   type: str
   attr:
   - stored
-author_facet:
-  type: tf
+institution:
+  type: f
   attr:
   - stored
-authors_main:
-  type: tf
+isbn_number:
+  type: isbn
   attr:
   - stored
-authors_other:
+isbn_qualifying_info:
   type: t
   attr:
   - stored
-authors_directors:
-  type: t
+issn_linking:
+  type: num
   attr:
   - stored
-authors_uncontrolled:
-  type: t
+issn_primary:
+  type: num
   attr:
   - stored
-url:
+issn_series:
+  type: num
+  attr:
+  - stored
+items:
   type: str
   attr:
-    -stored
+  - stored
+items_location:
+  type: tf
+  attr:
+  - stored
+language:
+  type: f
+  attr:
+  - stored
+lcc_callnum_classification:
+  type: tf
+  attr:
+  - stored
+linking_added_entry:
+  type: t
+  attr:
+  - stored
+linking_added_entry_isn:
+  type: str
+  attr:
+  - stored
+linking_constituent_unit:
+  type: t
+  attr:
+  - stored
+linking_constituent_unit_isn:
+  type: str
+  attr:
+  - stored
+linking_has_supplement:
+  type: t
+  attr:
+  - stored
+linking_has_supplement_isn:
+  type: str
+  attr:
+  - stored
+linking_host_item:
+  type: t
+  attr:
+  - stored
+linking_host_item_isn:
+  type: str
+  attr:
+  - stored
 linking_main_series:
   type: t
   attr:
@@ -177,11 +184,11 @@ linking_subseries_isn:
   type: str
   attr:
   - stored
-linking_translation_of:
+linking_supplement_to:
   type: t
   attr:
   - stored
-linking_translation_of_isn:
+linking_supplement_to_isn:
   type: str
   attr:
   - stored
@@ -193,111 +200,122 @@ linking_translated_as_isn:
   type: str
   attr:
   - stored
-linking_has_supplement:
+linking_translation_of:
   type: t
   attr:
   - stored
-linking_has_supplement_isn:
+linking_translation_of_isn:
   type: str
   attr:
   - stored
-linking_supplement_to:
-  type: t
-  attr:
-  - stored
-linking_supplement_to_isn:
+local_id:
   type: str
   attr:
   - stored
-linking_host_item:
-  type: t
-  attr:
-  - stored
-linking_host_item_isn:
+  - single
+local_id_other:
   type: str
   attr:
   - stored
-linking_constituent_unit:
-  type: t
-  attr:
-  - stored
-linking_constituent_unit_isn:
-  type: str
-  attr:
-  - stored
-linking_added_entry:
-  type: t
-  attr:
-  - stored
-linking_added_entry_isn:
-  type: str
-  attr:
-  - stored
-format:
+location_hierarchy:
   type: f
   attr:
   - stored
-subjects:
-  type: tf
-  attr:
-  - stored
-subject_topic_lcsh:
-  type: tf
-  attr:
-  - stored
-subject_genre:
-  type: tf
-  attr:
-  - stored
-subject_medical:
-  type: tf
-  attr:
-  - stored
-subject_geographic:
-  type: tf
-  attr:
-  - stored
-subject_chronological:
-  type: tf
-  attr:
-  - stored
-statement_of_responsibility:
+most_recent:
   type: t
   attr:
   - stored
-edition:
+note_admin_history:
   type: t
   attr:
   - stored
-cartographic_data:
+note_binding_indexed:
+  type: t
+note_biographical:
   type: t
   attr:
   - stored
-description_general:
+note_dissertation:
   type: t
   attr:
   - stored
-description_sound:
+note_issuance:
   type: t
   attr:
   - stored
-description_projection:
+note_performer_credits_indexed:
+  type: t
+note_production_credits:
   type: t
   attr:
   - stored
-description_video:
+note_report_type:
   type: t
   attr:
   - stored
-description_digital_file:
+note_report_coverage:
   type: t
+  attr:
+  - stored
+note_scale:
+  type: t
+  attr:
+  - stored
+note_with:
+  type: t
+  attr:
+  - stored
+note_summary:
+  type: str
+  attr:
+  - stored
+note_toc:
+  type: str
+  attr:
+  - stored
+notes_indexed:
+  type: t
+  attr:
+  - stored
+notes_serials_summary:
+  type: t
+  attr:
+  - stored
+oclc_number:
+  type: str
+  attr:
+  - stored
+  - single
+oclc_number_old:
+  type: str
   attr:
   - stored
 organization:
   type: t
   attr:
   - stored
-volumes:
+publication_year:
+  type: i
+  attr:
+  - stored
+  - sort
+  - single
+publisher:
+  type: t
+publisher_number:
+  type: str
+  attr:
+  - stored
+resource_type:
+  type: tf
+  attr:
+  - stored
+rollup_id:
+  type: str
+  attr:
+  - stored
+  - single
+series_corporate:
   type: t
   attr:
   - stored
@@ -305,15 +323,11 @@ series_main:
   type: t
   attr:
   - stored
-series_personal:
-  type: t
-  attr:
-  - stored
-series_corporate:
-  type: t
-  attr:
-  - stored
 series_meeting:
+  type: t
+  attr:
+  - stored
+series_personal:
   type: t
   attr:
   - stored
@@ -325,67 +339,89 @@ source_of_acquisition:
   type: t
   attr:
   - stored
-biographical_sketch:
+statement_of_responsibility:
   type: t
   attr:
   - stored
-holdings:
-  type: t
+subject_chronological:
+  type: tf
   attr:
-    -stored
-most_recent:
+  - stored
+subject_genre:
+  type: tf
+  attr:
+  - stored
+subject_geographic:
+  type: tf
+  attr:
+  - stored
+subject_medical:
+  type: tf
+  attr:
+  - stored
+subject_topic_lcsh:
+  type: tf
+  attr:
+  - stored
+subjects:
+  type: tf
+  attr:
+  - stored
+title_abbreviation:
   type: t
   attr:
   - stored
-holdings_note:
+title_alternate:
   type: t
   attr:
   - stored
-items:
+title_analytical:
+  type: t
+  attr:
+  - stored
+title_collective:
+  type: t
+  attr:
+  - stored
+title_earlier:
+  type: t
+  attr:
+  - stored
+title_journal:
+  type: t
+  attr:
+  - stored
+title_later:
+  type: t
+  attr:
+  - stored
+title_main:
+  type: t
+  attr:
+  - stored
+  - single
+title_sort:
   type: str
   attr:
-  - stored
-institution:
-  type: f
+  - sort
+  - single
+title_translation:
+  type: t
   attr:
   - stored
-items_location:
-  type: tf
+title_uniform:
+  type: t
   attr:
   - stored
-access_type:
-  type: tf
-  attr:
-  - stored
-location_hierarchy:
-  type: f
-  attr:
-  - stored
-available:
-  type: f
+url:
+  type: str
   attr:
   - stored
 virtual_collection:
   type: tf
   attr:
   - stored
-access_type:
-  type: tf
-  attr:
-  - stored
-note_toc:
-  type: str
-  attr:
-  - stored
-note_summary:
-  type: str
-  attr:
-  - stored
-barcodes:
-  type: str
-  attr:
-    - stored
-resource_type:
-  type: tf
+volumes:
+  type: t
   attr:
   - stored

@@ -1,0 +1,12 @@
+# Unless otherwise specified in this configuration file
+# Argot::FlattenDefault will be used to flatten argot fields.
+# In the example the note_performer_credits field will be
+# flattened by Argot::FlattenNote
+#
+# note_performer_credits:
+#   flattener: note
+
+note_binding:
+    flattener: note
+note_performer_credits:
+    flattener: note

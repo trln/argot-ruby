@@ -17,38 +17,25 @@ module Argot
       hash1
     end
 
-    def self.flatten(value, parent, ignore = nil)
-      flattened = {}
-
-      if value.is_a?(Hash)
-        value.each do |k,v|
-          expanding_key = "#{parent}_#{k}"
-          flattened = combine(flattened, flatten(v, expanding_key))
-        end
-      elsif value.is_a?(Array) and value[0].is_a?(Hash)
-        value.each do |v|
-          flattened = combine(flattened, flatten(v, parent))
-        end
-      else
-        unless value.nil?
-          flattened[parent] = [] if flattened[parent].nil?
-          flattened[parent] << value
-        end
-      end
-      flattened
-    end
-
-    def self.process(input)
+    def self.process(input, config = {})
       flattened = {}
 
       input.each do |k, v|
-        flattened = combine(flattened, flatten(v, k)) unless v.nil?
+        flattened = combine(flattened, flatten_klass(k, config).flatten(v, k)) unless v.nil?
       end
 
       flattened.each do |k, v|
         flattened[k] = v[0] if v.length == 1
       end
     end
-  end
 
+    def self.flatten_klass(key, config = {})
+      case config.fetch(key, {}).fetch('flattener', '')
+      when 'note'
+        Argot::FlattenNote
+      else
+        Argot::FlattenDefault
+      end
+    end
+  end
 end

@@ -99,12 +99,18 @@ module Argot
                     default:  false,
                     aliases:  '-p',
                     desc:  'pretty print resulting json'
+    method_option   :flattener,
+                    default:  '/flattener_config.yml',
+                    aliases:  '-t',
+                    desc:  'Solr flattener config file'
     def flatten(input=$stdin, output=$stdout)
+      data_load_path = File.expand_path('../data', File.dirname(__FILE__))
+      flattener_config = YAML.load_file(data_load_path + options.fetch('flattener', '/flattener_config.yml'))
       results = []
       get_input(input) do |f|
         f.each_line do |line|
             doc = JSON.parse(line);
-            results << Argot::Flattener.process(doc)
+            results << Argot::Flattener.process(doc, flattener_config)
         end
       end
       if !results.empty?
@@ -132,17 +138,22 @@ module Argot
                     default:  '/solr_suffixer_config.yml',
                     aliases:  '-c',
                     desc:  'Solr suffixer config file'
+    method_option   :flattener,
+                    default:  '/flattener_config.yml',
+                    aliases:  '-t',
+                    desc:  'Solr flattener config file'
 
     def suffix(input=$stdin, output=$stdout)
       data_load_path = File.expand_path('../data', File.dirname(__FILE__))
       config = YAML.load_file(data_load_path + options.config)
       fields = YAML.load_file(data_load_path + options.fields)
+      flattener_config = YAML.load_file(data_load_path + options.flattener)
       results = []
       suffixer = Argot::Suffixer.new(config, fields)
       get_input(input) do |f|
         f.each_line do |line|
             doc = JSON.parse(line);
-            flattened = Argot::Flattener.process(doc)
+            flattened = Argot::Flattener.process(doc, flattener_config)
             results << suffixer.process(flattened)
         end # each_line
       end # get_input
@@ -200,6 +211,10 @@ module Argot
                     default:  '/solr_suffixer_config.yml',
                     aliases:  '-c',
                     desc:  'Solr suffixer config file'
+    method_option   :flattener,
+                    default:  '/flattener_config.yml',
+                    aliases:  '-t',
+                    desc:  'Solr flattener config file'
     method_option   :rules,
                     type:  :string,
                     default:  '',
@@ -215,6 +230,7 @@ module Argot
 
       config = YAML.load_file(data_load_path + options.config)
       fields = YAML.load_file(data_load_path + options.fields)
+      flattener_config = YAML.load_file(data_load_path + options.flattener)
       results = []
 
       rules_file = options.rules.empty? ? [] : [options.rules]
@@ -243,7 +259,7 @@ module Argot
             end # verbose
           else # we has_errors
             added_count += 1
-            flattened = Argot::Flattener.process(doc)
+            flattened = Argot::Flattener.process(doc, flattener_config)
             results << suffixer.process(flattened)
           end # has_errors
         end # each_line
