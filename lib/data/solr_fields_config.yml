@@ -239,16 +239,22 @@ note_dissertation:
   type: t
   attr:
   - stored
+note_general_indexed:
+  type: t
 note_issuance:
   type: t
   attr:
   - stored
+note_local_indexed:
+  type: t
 note_performer_credits_indexed:
   type: t
 note_production_credits:
   type: t
   attr:
   - stored
+note_related_work_indexed:
+  type: t
 note_report_type:
   type: t
   attr:
@@ -257,20 +263,22 @@ note_report_coverage:
   type: t
   attr:
   - stored
+note_reproduction_indexed:
+  type: t
 note_scale:
+  type: t
+  attr:
+  - stored
+note_summary:
+  type: t
+  attr:
+  - stored
+note_toc:
   type: t
   attr:
   - stored
 note_with:
   type: t
-  attr:
-  - stored
-note_summary:
-  type: str
-  attr:
-  - stored
-note_toc:
-  type: str
   attr:
   - stored
 notes_indexed:
