@@ -8,5 +8,13 @@
 
 note_binding:
     flattener: note
+note_general:
+    flattener: note
+note_local:
+    flattener: note
 note_performer_credits:
+    flattener: note
+note_related_work:
+    flattener: note
+note_reproduction:
     flattener: note
