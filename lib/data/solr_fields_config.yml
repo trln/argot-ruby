@@ -375,6 +375,8 @@ subjects:
   type: tf
   attr:
   - stored
+title_abbrev_indexed:
+  type: t
 title_abbreviation:
   type: t
   attr:
@@ -395,10 +397,16 @@ title_earlier:
   type: t
   attr:
   - stored
+title_former_indexed:
+  type: t
+title_former_issn:
+  type: num
 title_journal:
   type: t
   attr:
   - stored
+title_key_indexed:
+  type: t
 title_later:
   type: t
   attr:
@@ -421,6 +429,8 @@ title_uniform:
   type: t
   attr:
   - stored
+title_variant_indexed:
+  type: t
 url:
   type: str
   attr:

@@ -18,3 +18,5 @@ note_related_work:
     flattener: note
 note_reproduction:
     flattener: note
+title_variant:
+    flattener: title_variant
