@@ -11,6 +11,7 @@ module Argot
   autoload :Flattener, 'argot/flattener'
   autoload :FlattenDefault, 'argot/flatten/flatten_default'
   autoload :FlattenNote, 'argot/flatten/flatten_note'
+  autoload :FlattenTitleVariant, 'argot/flatten/flatten_title_variant'
   autoload :Suffixer, 'argot/suffixer'
   autoload :Validator, 'argot/validator'
   autoload :SolrSchema, 'argot/solr_schema'

@@ -33,6 +33,8 @@ module Argot
       case config.fetch(key, {}).fetch('flattener', '')
       when 'note'
         Argot::FlattenNote
+      when 'title_variant'
+        Argot::FlattenTitleVariant
       else
         Argot::FlattenDefault
       end
