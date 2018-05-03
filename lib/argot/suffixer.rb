@@ -8,7 +8,7 @@ module Argot
   #Converts flattened Arrgot to Solr document
   class Suffixer
     INT_TYPES = %w[i float long double].freeze
-    LANG_CODE = 'lang'.freeze
+    LANG_CODE = 'lang_code'.freeze
     VERNACULAR = 'vernacular'.freeze
 
     attr_reader :config, :lang_code, :vernacular

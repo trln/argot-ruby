@@ -302,6 +302,10 @@ organization:
   type: t
   attr:
   - stored
+physical_media:
+  type: tf
+  attr:
+  - stored
 publication_year:
   type: i
   attr:
