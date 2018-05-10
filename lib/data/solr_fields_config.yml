@@ -221,6 +221,8 @@ location_hierarchy:
   type: f
   attr:
   - stored
+misc_id_indexed:
+  type: str
 most_recent:
   type: t
   attr:

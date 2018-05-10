@@ -1,9 +1,17 @@
+require 'yaml'
+
 ##
 # Flattens nested Argot JSON
 module Argot
 
   # Flattens an argot hash
   class Flattener
+
+    def self.default_config
+      data_load_path = File.expand_path('../data', File.dirname(__FILE__))
+      flattener_config = YAML.load_file(data_load_path + '/flattener_config.yml')
+      flattener_config
+    end
 
     def self.combine(hash1, hash2)
       hash2.each do |k, v|
@@ -18,6 +26,7 @@ module Argot
     end
 
     def self.process(input, config = {})
+      config = default_config if config.empty?
       flattened = {}
 
       input.each do |k, v|
@@ -31,6 +40,8 @@ module Argot
 
     def self.flatten_klass(key, config = {})
       case config.fetch(key, {}).fetch('flattener', '')
+      when 'misc_id'
+        Argot::FlattenMiscId
       when 'note'
         Argot::FlattenNote
       when 'title_variant'

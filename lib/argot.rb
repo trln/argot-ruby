@@ -10,6 +10,7 @@ module Argot
   autoload :Filter, 'argot/pipeline'
   autoload :Flattener, 'argot/flattener'
   autoload :FlattenDefault, 'argot/flatten/flatten_default'
+  autoload :FlattenMiscId, 'argot/flatten/flatten_misc_id'
   autoload :FlattenNote, 'argot/flatten/flatten_note'
   autoload :FlattenTitleVariant, 'argot/flatten/flatten_title_variant'
   autoload :Suffixer, 'argot/suffixer'

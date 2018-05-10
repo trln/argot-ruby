@@ -15,6 +15,61 @@ class ArgotFlattenerTest < Minitest::Test
     assert_equal rec['authors_other_vernacular_lang'][0],  "ru"
   end
 
+  def test_misc_id_flattener
+    misc_id = Util.get_file("argot-misc-id-flattener.json")
+    doc = JSON.parse(misc_id.read)
+    recs = []
+    recs << Argot::Flattener.process(doc, {'misc_id' => {'flattener' => 'misc_id'}})
+    rec = recs[0]
+    assert_equal rec['misc_id'],
+                 ["LCCN: 86752311",
+                  "NUCMC: 13947215",
+                  "LCCN: 70001437 //r84",
+                  "LCCN (canceled or invalid): 77373485",
+                  "National Bibliography Number: GB96-439",
+                  "British national bibliography: GB7205212 (v. 2)",
+                  "National Bibliography Number: 20023012390 (pbk.)",
+                  "National Bibliography Number: BBM68-3648",
+                  "National Bibliography Number: LACAP68-3222",
+                  "International Standard Music Number: M011406601",
+                  "International Standard Music Number: M011406605 (bananas)",
+                  "Canadian Geographical Names Database: M500246596 (sewn)",
+                  "International Standard Music Number: M001124089",
+                  "International Standard Music Number (canceled or invalid): M001124083",
+                  "Unspecified Standard Number: alfredelizabethbrandcolcivilwarleefamily DUKEPLEAD",
+                  "Technical Report Number: EDO-CE-00-222",
+                  "Technical Report Number (canceled or invalid): EDO-CE-00-333",
+                  "Video Publisher Number: MAG100 (Criterion Collection)",
+                  "CODEN designation: PASPFZ",
+                  "GPO Item Number: 1023-A (online)",
+                  "GPO Item Number: 1023-B (microfiche)",
+                  "Report Number: Serial no. 107-25 (United States. Congress. House. Committee on Financial Services)"]
+    assert_equal rec['misc_id_indexed'],
+                 ["86752311",
+                  "13947215",
+                  "70001437 //r84",
+                  "77373485",
+                  "GB96-439",
+                  "GB7205212",
+                  "20023012390",
+                  "BBM68-3648",
+                  "LACAP68-3222",
+                  "M011406601",
+                  "M011406605",
+                  "M500246596",
+                  "M001124089",
+                  "M001124083",
+                  "alfredelizabethbrandcolcivilwarleefamily DUKEPLEAD",
+                  "EDO-CE-00-222",
+                  "EDO-CE-00-333",
+                  "MAG100",
+                  "MAG100",
+                  "PASPFZ",
+                  "1023-A",
+                  "1023-B",
+                  "Serial no. 107-25 (United States. Congress. House. Committee on Financial Services)"]
+  end
+
   def test_note_flattener
     note = Util.get_file("argot-note-flattener.json")
     doc = JSON.parse(note.read)
