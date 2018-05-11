@@ -6,6 +6,8 @@
 # note_performer_credits:
 #   flattener: note
 
+misc_id:
+    flattener: misc_id
 note_binding:
     flattener: note
 note_general:
