@@ -96,6 +96,18 @@ imprint_multiple:
   type: str
   attr:
   - stored
+included_author:
+  type: t
+included_title:
+  type: t
+included_work_indexed:
+  type: t
+included_isbn:
+  type: isbn
+included_issn:
+  type: num
+included_other_ids:
+  type: str
 institution:
   type: f
   attr:

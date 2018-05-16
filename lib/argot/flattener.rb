@@ -46,6 +46,8 @@ module Argot
         Argot::FlattenNote
       when 'title_variant'
         Argot::FlattenTitleVariant
+      when 'work_entry'
+        Argot::FlattenWorkEntry
       else
         Argot::FlattenDefault
       end
