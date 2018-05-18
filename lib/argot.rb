@@ -13,6 +13,7 @@ module Argot
   autoload :FlattenMiscId, 'argot/flatten/flatten_misc_id'
   autoload :FlattenNote, 'argot/flatten/flatten_note'
   autoload :FlattenTitleVariant, 'argot/flatten/flatten_title_variant'
+  autoload :FlattenWorkEntry, 'argot/flatten/flatten_work_entry'
   autoload :Suffixer, 'argot/suffixer'
   autoload :Validator, 'argot/validator'
   autoload :SolrSchema, 'argot/solr_schema'

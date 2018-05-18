@@ -4,23 +4,163 @@ require 'json'
 require 'argot'
 
 class ArgotFlattenerTest < Minitest::Test
-  def test_process_file
-    good = Util.get_file("argot-allgood.json")
-    doc = JSON.parse(good.read)
-    recs = []
-    recs << Argot::Flattener.process(doc)
 
+  def flatten_test_record(argot_file, config = {})
+    file = Util.get_file(argot_file)
+    doc = JSON.parse(file.read)
+    recs = []
+    recs << Argot::Flattener.process(doc, config)
+    recs
+  end
+
+  def test_process_file
+    recs = flatten_test_record('argot-allgood.json')
     assert "'good' test file should have one record", recs.length == 1
     rec = recs[0]
     assert_equal rec['authors_other_vernacular_lang'][0],  "ru"
   end
 
+  def test_work_entry_flattener
+    config = {'included_work' => {'flattener' => 'work_entry'}}
+    rec = flatten_test_record('argot-included-work-flattener.json', config).first
+    assert_equal rec['included_author'],
+                 ["Saint-Saëns, Camille, 1835-1921.",
+                  "Schwenkel, Christina.",
+                  "Ferrini, Vincent, 1913-2007.",
+                  "Plotinus.",
+                  "Name, Author, (Test name), 1944-.",
+                  "Kungliga Biblioteket (Sweden).",
+                  "United States. Congress (94th, 2nd session : 1976).",
+                  "North Carolina. Building Code Council.",
+                  "Germany (East).",
+                  "Café Tacuba (Musical group)",
+                  "Great Central Fair for the U.S. Sanitary Commission (1864 : Philadelphia, Pa.). "\
+                  "Committee on Public Charities and Benevolent Institutions.",
+                  "Deutsch Foundation Conference (1930 : University of Chicago).",
+                  "Masson, VeNeta.",
+                  "Masson, VeNeta."]
+    assert_equal rec['included_title'],
+                 ["Quartets, violins (2), viola, cello, no. 2, op. 153, G major",
+                  "Architecture and dwelling in the 'war of destruction' in Vietnam.",
+                  "Tidal wave : poems of the great strikes. 1945 (New York : Great-Concord Publishers)",
+                  "Peri tou kalou. French (Achard and Narbonne)",
+                  "Test title.",
+                  "Manuscript. KB787a. Church Slavic. 1966.",
+                  "Memorial services held in the House of Representatives and Senate of the United States, together "\
+                  "with remarks presented in eulogy of Jerry L. Litton, late a Representative from Missouri. 197.",
+                  "North Carolina state building code. 1, General construction. 11X, Making buildings and facilities "\
+                  "accessible to and usable by the physically handicapped.",
+                  "Treaties, etc. Germany (West), 1990 May 18. 1990.",
+                  "12/12",
+                  "Philadelphia [blank] 1864. 619 Walnut Street. To [blank] ...",
+                  "Care of the aged. 2000, 1972. Reprint.",
+                  "Cahiers de civilisation médiévale. Bibliographie.",
+                  "Jane Pickering's lute book. arr.",
+                  "Drewries Accord's;",
+                  "Magnificent Ambersons (Motion picture). Spanish.",
+                  "Magnificent Ambersons (Motion picture). English.",
+                  "The magnificent Ambersons (Motion picture). English.",
+                  "Deutsche Geschichte. Band 6.",
+                  "English pilot. The fourth book : describing the West India navigation, "\
+                  "from Hudson's-Bay to the river Amazones ...",
+                  "The English pilot. The fourth book : describing the West India navigation, "\
+                  "from Hudson's-Bay to the river Amazones ...",
+                  "Industrial sales management game 5.",
+                  "Rehab at the Florida Avenue Grill.",
+                  "Rehab at the Florida Avenue Grill.",
+                  "Sports illustrated.",
+                  "Bulletin (North Carolina Agricultural Experiment Station)",
+                  "1991 NC Agricultural Experiment Station Bulletin",
+                  "Bellevue literary review :"]
+    assert_equal rec['included_isbn'],
+                 ["0967368804", "0967368804"]
+    assert_equal rec['included_issn'],
+                 ["1234-1234", "0240-8678", "1537-5048"]
+    assert_equal rec['included_other_ids'],
+                 ["99090707",
+                  "43689896",
+                  "99090707",
+                  "43689896",
+                  "1766364",
+                  "1421220",
+                  "2001211888",
+                  "48166959"]
+    assert_equal rec['included_work_indexed'],
+                 ["Saint-Saëns, Camille, 1835-1921. Quartets, violins (2), viola, cello, no. 2, op. 153, G major",
+                  "Schwenkel, Christina. Architecture and dwelling in the 'war of destruction' in Vietnam.",
+                  "Ferrini, Vincent, 1913-2007. Tidal wave : poems of the great strikes. 1945 "\
+                  "(New York : Great-Concord Publishers)",
+                  "Plotinus. Peri tou kalou. French (Achard and Narbonne)",
+                  "Name, Author, (Test name), 1944-. Test title.",
+                  "Kungliga Biblioteket (Sweden). Manuscript. KB787a. Church Slavic. 1966.",
+                  "United States. Congress (94th, 2nd session : 1976). Memorial services held in the "\
+                  "House of Representatives and Senate of the United States, together with remarks "\
+                  "presented in eulogy of Jerry L. Litton, late a Representative from Missouri. 197.",
+                  "North Carolina. Building Code Council. North Carolina state building code. 1, General "\
+                  "construction. 11X, Making buildings and facilities accessible to and usable by the "\
+                  "physically handicapped.",
+                  "Germany (East). Treaties, etc. Germany (West), 1990 May 18. 1990.",
+                  "Café Tacuba (Musical group) 12/12",
+                  "Great Central Fair for the U.S. Sanitary Commission (1864 : Philadelphia, Pa.). "\
+                  "Committee on Public Charities and Benevolent Institutions. Philadelphia [blank] 1864. "\
+                  "619 Walnut Street. To [blank] ...",
+                  "Deutsch Foundation Conference (1930 : University of Chicago). Care of the aged. 2000, 1972. Reprint.",
+                  "Cahiers de civilisation médiévale. Bibliographie.",
+                  "Jane Pickering's lute book. arr.",
+                  "Magnificent Ambersons (Motion picture). Spanish.",
+                  "Magnificent Ambersons (Motion picture). English.",
+                  "Deutsche Geschichte. Band 6.",
+                  "English pilot. The fourth book : describing the West India navigation, "\
+                  "from Hudson's-Bay to the river Amazones ...",
+                  "Industrial sales management game 5.",
+                  "Masson, VeNeta. Rehab at the Florida Avenue Grill.",
+                  "Masson, VeNeta. Rehab at the Florida Avenue Grill.",
+                  "Sports illustrated.",
+                  "Bulletin (North Carolina Agricultural Experiment Station)",
+                  "Bellevue literary review :"]
+    assert_equal rec['included_work'],
+                 ["{\"author\":\"Saint-Saëns, Camille, 1835-1921.\","\
+                  "\"title\":[\"Quartets,\",\"violins (2), viola, cello,\",\"no. 2, op. 153,\",\"G major\"]}",
+                  "{\"author\":\"Schwenkel, Christina.\","\
+                  "\"title\":[\"Architecture and dwelling in the 'war of destruction' in Vietnam.\"]}",
+                  "{\"label\":\"Facsimile of\",\"author\":\"Ferrini, Vincent, 1913-2007.\","\
+                  "\"title\":[\"Tidal wave : poems of the great strikes.\",\"1945\",\"(New York : Great-Concord Publishers)\"]}",
+                  "{\"label\":\"Tome 1, volume 1: Contains\",\"author\":\"Plotinus.\","\
+                  "\"title\":[\"Peri tou kalou.\",\"French\",\"(Achard and Narbonne)\"]}",
+                  "{\"author\":\"Name, Author, (Test name), 1944-.\",\"title\":[\"Test title.\"]}",
+                  "{\"author\":\"Kungliga Biblioteket (Sweden).\","\
+                  "\"title\":[\"Manuscript.\",\"KB787a.\",\"Church Slavic.\",\"1966.\"]}",
+                  "{\"author\":\"United States. Congress (94th, 2nd session : 1976).\","\
+                  "\"title\":[\"Memorial services held in the House of Representatives and Senate of the United States, "\
+                  "together with remarks presented in eulogy of Jerry L. Litton, late a Representative from Missouri.\",\"197.\"]}",
+                  "{\"author\":\"North Carolina. Building Code Council.\","\
+                  "\"title\":[\"North Carolina state building code.\",\"1,\",\"General construction.\",\"11X,\","\
+                  "\"Making buildings and facilities accessible to and usable by the physically handicapped.\"]}",
+                  "{\"author\":\"Germany (East).\",\"title\":[\"Treaties, etc.\",\"Germany (West),\",\"1990 May 18.\",\"1990.\"]}",
+                  "{\"author\":\"Café Tacuba (Musical group)\",\"title\":[\"12/12\"]}",
+                  "{\"author\":\"Great Central Fair for the U.S. Sanitary Commission (1864 : Philadelphia, Pa.). "\
+                  "Committee on Public Charities and Benevolent Institutions.\","\
+                  "\"title\":[\"Philadelphia [blank] 1864. 619 Walnut Street. To [blank] ...\"]}",
+                  "{\"author\":\"Deutsch Foundation Conference (1930 : University of Chicago).\","\
+                  "\"title\":[\"Care of the aged.\",\"2000,\",\"1972.\",\"Reprint.\"],\"issn\":\"1234-1234\"}",
+                  "{\"title\":[\"Cahiers de civilisation médiévale.\",\"Bibliographie.\"],\"issn\":\"0240-8678\"}",
+                  "{\"title\":[\"Jane Pickering's lute book.\",\"arr.\"],\"title_variation\":\"Drewries Accord's;\"}",
+                  "{\"label\":\"Contains\",\"title\":[\"Magnificent Ambersons (Motion picture).\",\"Spanish.\"]}",
+                  "{\"label\":\"Contains\",\"title\":[\"Magnificent Ambersons (Motion picture).\",\"English.\"]}",
+                  "{\"label\":\"Guide: Based on\",\"title\":[\"Deutsche Geschichte.\",\"Band 6.\"]}",
+                  "{\"title\":[\"English pilot.\",\"The fourth book : describing the West India navigation, "\
+                  "from Hudson's-Bay to the river Amazones ...\"]}",
+                  "{\"title\":[\"Industrial sales management game\",\"5.\"]}",
+                  "{\"author\":\"Masson, VeNeta.\",\"title\":[\"Rehab at the Florida Avenue Grill.\"],"\
+                  "\"isbn\":[\"0967368804\"]}",
+                  "{\"label\":\"Contains\",\"title\":[\"Sports illustrated.\"]}",
+                  "{\"title\":[\"Bulletin (North Carolina Agricultural Experiment Station)\"],"\
+                  "\"title_variation\":\"1991 NC Agricultural Experiment Station Bulletin\"}"]
+  end
+
   def test_misc_id_flattener
-    misc_id = Util.get_file("argot-misc-id-flattener.json")
-    doc = JSON.parse(misc_id.read)
-    recs = []
-    recs << Argot::Flattener.process(doc, {'misc_id' => {'flattener' => 'misc_id'}})
-    rec = recs[0]
+    config = {'misc_id' => {'flattener' => 'misc_id'}}
+    rec = flatten_test_record('argot-misc-id-flattener.json', config).first
     assert_equal rec['misc_id'],
                  ["LCCN: 86752311",
                   "NUCMC: 13947215",
@@ -71,12 +211,9 @@ class ArgotFlattenerTest < Minitest::Test
   end
 
   def test_note_flattener
-    note = Util.get_file("argot-note-flattener.json")
-    doc = JSON.parse(note.read)
-    recs = []
-    recs << Argot::Flattener.process(doc, {'note_performer_credits' => {'flattener' => 'note'}})
+    config = {'note_performer_credits' => {'flattener' => 'note'}}
+    rec = flatten_test_record('argot-note-flattener.json', config).first
 
-    rec = recs[0]
     assert_equal rec['note_performer_credits'],
                  ["Cast: Ronald Colman, Elizabeth Allan, Edna May Oliver.",
                   "This should be displayed only",
@@ -87,12 +224,9 @@ class ArgotFlattenerTest < Minitest::Test
   end
 
   def test_title_variant_flattener
-    title_variant = Util.get_file("argot-title-variant-flattener.json")
-    doc = JSON.parse(title_variant.read)
-    recs = []
-    recs << Argot::Flattener.process(doc, {'title_variant' => {'flattener' => 'title_variant'}})
+    config = {'title_variant' => {'flattener' => 'title_variant'}}
+    rec = flatten_test_record('argot-title-variant-flattener.json', config).first
 
-    rec = recs[0]
     assert_equal rec['title_abbrev_indexed'],
                  ['GATT act.',
                   'New-England j. med. surg. collat. branches sci.']

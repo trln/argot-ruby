@@ -22,3 +22,5 @@ note_reproduction:
     flattener: note
 title_variant:
     flattener: title_variant
+included_work:
+    flattener: work_entry
