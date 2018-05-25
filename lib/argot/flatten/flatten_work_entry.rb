@@ -41,14 +41,14 @@ module Argot
         end
 
         flattened["#{key}_work_indexed"] << [v.fetch('author', ''),
-                                             v.fetch('title', '').join(' ')].join(' ').strip
+                                             v.fetch('title', []).join(' ')].join(' ').strip
         flattened["#{key}_author"] << v.fetch('author', '') if v.has_key?('author')
-        flattened["#{key}_title"] << v.fetch('title', '').join(' ') if v.has_key?('title')
+        flattened["#{key}_title"] << v.fetch('title', []).join(' ') if v.has_key?('title')
         flattened["#{key}_title"] << v.fetch('title_nonfiling', '') if v.has_key?('title_nonfiling')
         flattened["#{key}_title"] << v.fetch('title_variation', '') if v.has_key?('title_variation')
-        flattened["#{key}_isbn"].concat(v.fetch('isbn', '')) if v.has_key?('isbn')
+        flattened["#{key}_isbn"].concat(v.fetch('isbn', [])) if v.has_key?('isbn')
         flattened["#{key}_issn"] << v.fetch('issn', '') if v.has_key?('issn')
-        flattened["#{key}_other_ids"].concat(v.fetch('other_ids', '')) if v.has_key?('other_ids')
+        flattened["#{key}_other_ids"].concat(v.fetch('other_ids', [])) if v.has_key?('other_ids')
       end
 
       flattened.delete_if { |k,v| v.empty? }
