@@ -2,6 +2,18 @@ access_type:
   type: tf
   attr:
   - stored
+alt_edition_author:
+  type: t
+alt_edition_title:
+  type: t
+alt_edition_work_indexed:
+  type: t
+alt_edition_isbn:
+  type: isbn
+alt_edition_issn:
+  type: num
+alt_edition_other_ids:
+  type: str
 author_facet:
   type: tf
   attr:
@@ -42,6 +54,18 @@ copyright_year:
   type: i
   attr:
   - stored
+data_source_author:
+  type: t
+data_source_title:
+  type: t
+data_source_work_indexed:
+  type: t
+data_source_isbn:
+  type: isbn
+data_source_issn:
+  type: num
+data_source_other_ids:
+  type: str
 date_cataloged:
   type: dt
   attr:
@@ -67,6 +91,18 @@ description_video:
   type: t
   attr:
   - stored
+earlier_author:
+  type: t
+earlier_title:
+  type: t
+earlier_work_indexed:
+  type: t
+earlier_isbn:
+  type: isbn
+earlier_issn:
+  type: num
+earlier_other_ids:
+  type: str
 edition:
   type: t
   attr:
@@ -75,6 +111,30 @@ format:
   type: f
   attr:
   - stored
+has_supplement_author:
+  type: t
+has_supplement_title:
+  type: t
+has_supplement_work_indexed:
+  type: t
+has_supplement_isbn:
+  type: isbn
+has_supplement_issn:
+  type: num
+has_supplement_other_ids:
+  type: str
+has_supplement_to_author:
+  type: t
+has_supplement_to_title:
+  type: t
+has_supplement_to_work_indexed:
+  type: t
+has_supplement_to_isbn:
+  type: isbn
+has_supplement_to_issn:
+  type: num
+has_supplement_to_other_ids:
+  type: str
 holdings:
   type: t
   attr:
@@ -83,6 +143,18 @@ holdings_note:
   type: t
   attr:
   - stored
+host_item_author:
+  type: t
+host_item_title:
+  type: t
+host_item_work_indexed:
+  type: t
+host_item_isbn:
+  type: isbn
+host_item_issn:
+  type: num
+host_item_other_ids:
+  type: str
 id:
   type: str
   attr:
@@ -132,6 +204,18 @@ issn_series:
   type: num
   attr:
   - stored
+issued_with_author:
+  type: t
+issued_with_title:
+  type: t
+issued_with_work_indexed:
+  type: t
+issued_with_isbn:
+  type: isbn
+issued_with_issn:
+  type: num
+issued_with_other_ids:
+  type: str
 items:
   type: str
   attr:
@@ -144,6 +228,18 @@ language:
   type: f
   attr:
   - stored
+later_author:
+  type: t
+later_title:
+  type: t
+later_work_indexed:
+  type: t
+later_isbn:
+  type: isbn
+later_issn:
+  type: num
+later_other_ids:
+  type: str
 lcc_callnum_classification:
   type: tf
   attr:
@@ -332,6 +428,18 @@ publisher_number:
   type: str
   attr:
   - stored
+related_author:
+  type: t
+related_title:
+  type: t
+related_work_indexed:
+  type: t
+related_isbn:
+  type: isbn
+related_issn:
+  type: num
+related_other_ids:
+  type: str
 resource_type:
   type: tf
   attr:
@@ -361,6 +469,18 @@ series_uniform:
   type: t
   attr:
   - stored
+series_author:
+  type: t
+series_title:
+  type: t
+series_work_indexed:
+  type: t
+series_isbn:
+  type: isbn
+series_issn:
+  type: num
+series_other_ids:
+  type: str
 source_of_acquisition:
   type: t
   attr:
@@ -393,6 +513,30 @@ subjects:
   type: tf
   attr:
   - stored
+subseries_author:
+  type: t
+subseries_title:
+  type: t
+subseries_work_indexed:
+  type: t
+subseries_isbn:
+  type: isbn
+subseries_issn:
+  type: num
+subseries_other_ids:
+  type: str
+this_author:
+  type: t
+this_title:
+  type: t
+this_work_indexed:
+  type: t
+this_isbn:
+  type: isbn
+this_issn:
+  type: num
+this_other_ids:
+  type: str
 title_abbrev_indexed:
   type: t
 title_abbreviation:
@@ -449,6 +593,30 @@ title_uniform:
   - stored
 title_variant_indexed:
   type: t
+translated_as_author:
+  type: t
+translated_as_title:
+  type: t
+translated_as_work_indexed:
+  type: t
+translated_as_isbn:
+  type: isbn
+translated_as_issn:
+  type: num
+translated_as_other_ids:
+  type: str
+translation_of_author:
+  type: t
+translation_of_title:
+  type: t
+translation_of_work_indexed:
+  type: t
+translation_of_isbn:
+  type: isbn
+translation_of_issn:
+  type: num
+translation_of_other_ids:
+  type: str
 url:
   type: str
   attr:

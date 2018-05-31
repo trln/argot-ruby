@@ -24,3 +24,9 @@ title_variant:
     flattener: title_variant
 included_work:
     flattener: work_entry
+series_work:
+    flattener: work_entry
+this_work:
+    flattener: work_entry
+related_work:
+    flattener: work_entry
