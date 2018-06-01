@@ -617,6 +617,8 @@ translation_of_issn:
   type: num
 translation_of_other_ids:
   type: str
+upc_indexed:
+  type: str  
 url:
   type: str
   attr:
