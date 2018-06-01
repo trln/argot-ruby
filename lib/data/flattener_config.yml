@@ -30,3 +30,5 @@ this_work:
     flattener: work_entry
 related_work:
     flattener: work_entry
+upc:
+    flattener: misc_id
