@@ -266,4 +266,16 @@ class ArgotFlattenerTest < Minitest::Test
                   'Anales de las Reales Junta de Fomento y Sociedad Económica de la Habana']
     assert_equal rec['title_former_issn'], '8756-2995'
   end
+
+  def test_indexed_value_flattener
+    config = {'physical_description' => {'flattener' => 'indexed_value'}}
+    rec = flatten_test_record('argot-indexed-value-flattener.json', config).first
+
+    assert_equal rec['physical_description'],
+                 ["videodiscs: 1 videodisc (107 min.) : sound, color ; 4 3/4 in.", "volumes: 286 pages : illustrations ; 21 cm.",
+                  "print: 1 reel of 1 (18 min., 30 sec.) (656 ft.) : opt sd., b&w ; 16 mm. with study guide."]
+    assert_equal rec['physical_description_indexed'],
+                    ["1 videodisc (107 min.) : sound, color ; 4 3/4 in.", "286 pages : illustrations ; 21 cm.",
+                     "1 reel of 1 (18 min., 30 sec.) (656 ft.) : opt sd., b&w ; 16 mm. with study guide."]
+  end
 end

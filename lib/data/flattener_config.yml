@@ -32,3 +32,7 @@ related_work:
     flattener: work_entry
 upc:
     flattener: misc_id
+physical_description:
+    flattener: indexed_value
+physical_description_details:
+    flattener: indexed_value

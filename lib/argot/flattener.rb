@@ -40,6 +40,8 @@ module Argot
 
     def self.flatten_klass(key, config = {})
       case config.fetch(key, {}).fetch('flattener', '')
+      when 'indexed_value'
+        Argot::FlattenIndexedValue
       when 'misc_id'
         Argot::FlattenMiscId
       when 'note'
