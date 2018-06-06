@@ -56,6 +56,9 @@ module Argot
     # format.  Allows loading of rules from YAML files in a default location
     # and adding rules generated programmatically.
     class Validator
+
+      DEFAULT_PATH = File.expand_path('../data', __dir__)
+
       attr_accessor :rules
 
       attr_reader :rules_files
@@ -67,16 +70,13 @@ module Argot
       #   this gem's data directory (+../../data+ relative to this file)
       # see BasicRule for examples.
       def self.from_files(rules_files = [])
-        if rules_files.empty?
-          data = File.expand_path('../../data', __FILE__)
-          rules_files = Dir.glob(data + '/rule*.yml').collect do |f|
-            File.new(f)
-          end
-        end
-        @rules = rules_files.collect do |x|
-          File.new(x)
-        end
+        rules_files = default_files if rules_files.empty?
         Validator.new(compile(rules_files))
+      end
+
+
+      def self.default_files
+        Dir.glob(DEFAULT_PATH + '/rule*.yml').collect
       end
 
       ##
@@ -87,21 +87,22 @@ module Argot
       #
       # see BasicRule for documentation format
       def self.compile(files)
-        rules = []
-        files.each do |f|
-          next unless f && File.exist?(f)
-          ruledefs = YAML.safe_load(f)
+        files.select { |f| f && File.exist?(f) }.collect do |name|
+
+          ruledefs = File.open(name) { |f| YAML.safe_load(f) }
           ruledefs.each do |rd|
-            rules << BasicRule.new(rd)
+            BasicRule.new(rd)
           end
         end
-        rules
       end
 
       ##
       # Creates a new validator with a supplied set of rules.
       # * +rules+ an array of callable rules.
-      def initialize(rules)
+      def initialize(rules = [])
+        if rules.empty?
+          rules = self.class.compile(self.class.default_files)
+        end
         @rules = rules
       end
 

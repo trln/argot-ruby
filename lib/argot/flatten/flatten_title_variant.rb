@@ -1,5 +1,5 @@
 module Argot
-  class FlattenTitleVariant
+  class FlattenTitleVariant < TypeFlattener
 
     # Argot Format for use with FlattenTitleVariant
     #
@@ -10,7 +10,7 @@ module Argot
     #   indexed_value: string|optional|if present "indexed_value" will be indexed instead of "value"
     #   issn: string|optional|stored separately for indexing and also appended to display value
     #   display: boolean|optional[defaults to "true" if not set to "false"]|if "false" value will be indexed only
-    def self.flatten(value, _)
+    def flatten(value, _)
       flattened = {}
 
       value.each do |v|

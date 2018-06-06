@@ -39,6 +39,7 @@ Gem::Specification.new do |s|
 
     # system rubies may be installed wihtout minitest
     s.add_development_dependency 'rake' , '~> 12.0'
+    s.add_development_dependency 'rspec', '~> 3.7.0'
     s.add_development_dependency 'minitest', '~> 5.0'
 
 end

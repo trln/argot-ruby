@@ -1,36 +1,36 @@
 require 'pp'
 
 module Argot
-  # utility method to convert string keys of a hash to symbolx
-  def self.symbolize_hash(h)
-    h.each_with_object({}) { |(k, v), m| m[k.to_sym] = v }
-  end
-  #Converts flattened Arrgot to Solr document
+  # Converts flattened Arrgot to Solr document
   class Suffixer
+    include Methods
+
+    DEFAULT_PATH = File.expand_path('../data', __dir__)
+
+    DEFAULT_CONFIG = 'solr_suffixer_config.yml'
+
+    DEFAULT_FIELDS = 'solr_fields_config.yml'
+
+    
+
     INT_TYPES = %w[i float long double].freeze
     LANG_CODE = 'lang_code'.freeze
     VERNACULAR = 'vernacular'.freeze
 
     attr_reader :config, :lang_code, :vernacular
 
-    # Gets an instance using the default configuration
-    def self.default_instance
-      path = File.expand_path('../../data/', __FILE__)
-      config = YAML.parse_file(File.join(path, 'solr_suffixer_config.yml')).transform
-      fields = YAML.parse_file(File.join(path, 'solr_fields_config.yml')).transform
-      Suffixer.new(config, fields)
-    end
-
-    def initialize(config, solr_fields)
-      @solr_fields = Argot.symbolize_hash(solr_fields)
-      @config = Argot.symbolize_hash(config)
-      warn("config has no id atttribute: #{@config}") unless @config.key?(:id)
+    def initialize(options = {})
+      config = options.fetch(:config, DEFAULT_CONFIG)
+      fields = options.fetch(:fields, DEFAULT_FIELDS)
+      @config = config.is_a?(Hash) ? config : load_yaml(config)
+      @solr_fields = fields.is_a?(Hash) ? fields : load_yaml(fields)
       read_config
     end
 
     def read_config
       @vernacular = @config.fetch(:vernacular, VERNACULAR)
       @lang_code = @config.fetch(:lang_code, LANG_CODE)
+      warn("config has no id atttribute: #{@config}") unless @config.key?(:id)
       warn("Config's trim attribute is not an array") unless @config.fetch(:trim, []).is_a?(Array)
       warn("Config's :ignore is not an array") unless @config.fetch(:trim, []).is_a?(Array)
       # @solr_fields.each do |k, v|
@@ -74,6 +74,8 @@ module Argot
     end
 
     def skip_key(key)
+      # todo check this logic
+      key = key.first if key.is_a?(Array)
       @config.fetch(:ignore, []).any? { |v| key.end_with?("_#{v}") }
     end
 
@@ -104,6 +106,17 @@ module Argot
           end
         end
       suffixed
+    end
+
+    alias call process
+
+    private
+
+    def load_yaml(name)
+      name = File.exist?(name) ? name : File.join(DEFAULT_PATH, name)
+      File.open(name) do |f|
+        symbolize_hash(YAML.safe_load(f))
+      end
     end
   end
 end
