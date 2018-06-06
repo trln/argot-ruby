@@ -1,0 +1,8 @@
+note_performer_credits:
+  - "Cast: Ronald Colman, Elizabeth Allan, Edna May Oliver."
+  - "This should be displayed only"
+  - "This should be displayed only, too"
+
+note_performer_credits_indexed:
+  - "Ronald Colman, Elizabeth Allan, Edna May Oliver."
+  - "This should be indexed instead"

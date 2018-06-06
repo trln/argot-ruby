@@ -1,12 +1,12 @@
 require 'pp'
 
 module Argot
-  # utility method to convert string keys of a hash to symbolx
-  def self.symbolize_hash(h)
-    h.each_with_object({}) { |(k, v), m| m[k.to_sym] = v }
-  end
-  #Converts flattened Arrgot to Solr document
+  # Converts flattened Arrgot to Solr document
   class Suffixer
+    include Methods
+
+    
+
     INT_TYPES = %w[i float long double].freeze
     LANG_CODE = 'lang_code'.freeze
     VERNACULAR = 'vernacular'.freeze
@@ -15,15 +15,15 @@ module Argot
 
     # Gets an instance using the default configuration
     def self.default_instance
-      path = File.expand_path('../../data/', __FILE__)
+      path = File.expand_path('../data/', __dir__)
       config = YAML.parse_file(File.join(path, 'solr_suffixer_config.yml')).transform
       fields = YAML.parse_file(File.join(path, 'solr_fields_config.yml')).transform
       Suffixer.new(config, fields)
     end
 
     def initialize(config, solr_fields)
-      @solr_fields = Argot.symbolize_hash(solr_fields)
-      @config = Argot.symbolize_hash(config)
+      @solr_fields = symbolize_hash(solr_fields)
+      @config = symbolize_hash(config)
       warn("config has no id atttribute: #{@config}") unless @config.key?(:id)
       read_config
     end
@@ -74,6 +74,8 @@ module Argot
     end
 
     def skip_key(key)
+      # todo check this logic
+      key = key.first if key.is_a?(Array)
       @config.fetch(:ignore, []).any? { |v| key.end_with?("_#{v}") }
     end
 
@@ -105,5 +107,8 @@ module Argot
         end
       suffixed
     end
+
+    alias call process
+
   end
 end

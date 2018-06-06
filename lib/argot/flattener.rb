@@ -7,30 +7,41 @@ module Argot
   # Flattens an argot hash
   class Flattener
 
-    def self.default_config
-      data_load_path = File.expand_path('../data', File.dirname(__FILE__))
-      flattener_config = YAML.load_file(data_load_path + '/flattener_config.yml')
-      flattener_config
+  	include Methods
+
+  	attr_accessor :config
+
+  	attr_reader :flatteners
+
+  	DATA_LOAD_PATH = File.expand_path('../data', __dir__)
+
+  	DEFAULT_FILE = 'flattener_config.yml'
+
+    def initialize(options = {})
+    	@config = options.fetch(:config, load_config(options))
+    	# cache flattener instances by name
+    	@flatteners = Hash.new { |h, name|
+    		h[name] = flatten_klass(name).new(@config)
+    	}
     end
 
-    def self.combine(hash1, hash2)
-      hash2.each do |k, v|
-        if hash1.key?(k)
-          hash1[k] = Array(hash1[k])
-          hash1[k] = hash1[k] + v
-        else
-          hash1[k] = v
-        end
-      end
-      hash1
-    end
 
-    def self.process(input, config = {})
-      config = default_config if config.empty?
+    # def combine(hash1, hash2)
+    #   hash2.each do |k, v|
+    #     if hash1.key?(k)
+    #       hash1[k] = Array(hash1[k])
+    #       hash1[k] = hash1[k] + v
+    #     else
+    #       hash1[k] = v
+    #     end
+    #   end
+    #   hash1
+    # end
+
+    def process(input)
       flattened = {}
-
       input.each do |k, v|
-        flattened = combine(flattened, flatten_klass(k, config).flatten(v, k)) unless v.nil?
+        flattened = combine(flattened, flatteners[k].flatten(v, k)) unless v.nil?
       end
 
       flattened.each do |k, v|
@@ -38,7 +49,8 @@ module Argot
       end
     end
 
-    def self.flatten_klass(key, config = {})
+    def flatten_klass(key)
+
       case config.fetch(key, {}).fetch('flattener', '')
       when 'indexed_value'
         Argot::FlattenIndexedValue
@@ -54,5 +66,25 @@ module Argot
         Argot::FlattenDefault
       end
     end
+
+    alias call process
+
+    private 
+
+    def load_config(options = {})
+    	location = options.fetch(:config_file, File.join(DATA_LOAD_PATH, DEFAULT_FILE))
+    	YAML.load_file(location)
+    end
+  end
+
+  # superclass for special case per-field flatteners
+  class TypeFlattener
+  	include Methods
+
+  	attr_accessor :config
+
+  	def initialize(config = {})
+  		@config = config
+  	end
   end
 end

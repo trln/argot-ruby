@@ -448,6 +448,11 @@ resource_type:
   type: tf
   attr:
   - stored
+reverse_shelfkey:
+  type: t
+  attr:
+  - stored
+  - single
 rollup_id:
   type: str
   attr:
@@ -485,6 +490,11 @@ series_issn:
   type: num
 series_other_ids:
   type: str
+shelfkey:
+  type: t
+  attr:
+  - stored
+  - single
 source_of_acquisition:
   type: t
   attr:
