@@ -412,6 +412,10 @@ organization:
   type: t
   attr:
   - stored
+physical_description_indexed:
+  type: t
+physical_description_details_indexed:
+  type: t
 physical_media:
   type: tf
   attr:
