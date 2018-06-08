@@ -15,9 +15,7 @@ alt_edition_issn:
 alt_edition_other_ids:
   type: str
 author_facet:
-  type: tf
-  attr:
-  - stored
+  type: f
 authors_directors:
   type: t
   attr:
@@ -333,6 +331,24 @@ most_recent:
   type: t
   attr:
   - stored
+names_contributor:
+  type: t
+names_director:
+  type: t
+names_creator:
+  type: t
+names_director:
+  type: t
+names_editor:
+  type: t
+names_no_rel:
+  type: t
+names_other:
+  type: t
+names_owner:
+  type: t
+names_uncategorized:
+  type: t
 note_admin_history:
   type: t
   attr:

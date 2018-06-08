@@ -9,6 +9,8 @@ edition:
     flattener: indexed_value
 misc_id:
     flattener: misc_id
+names:
+    flattener: names
 note_binding:
     flattener: note
 note_general:

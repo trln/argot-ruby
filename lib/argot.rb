@@ -16,6 +16,7 @@ module Argot
   autoload :FlattenDefault, 'argot/flatten/flatten_default'
   autoload :FlattenIndexedValue, 'argot/flatten/flatten_indexed_value'
   autoload :FlattenMiscId, 'argot/flatten/flatten_misc_id'
+  autoload :FlattenNames, 'argot/flatten/flatten_names'
   autoload :FlattenNote, 'argot/flatten/flatten_note'
   autoload :FlattenSeriesStatement, 'argot/flatten/flatten_series_statement'
   autoload :FlattenTitleVariant, 'argot/flatten/flatten_title_variant'

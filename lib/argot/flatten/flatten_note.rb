@@ -57,7 +57,7 @@ module Argot
       flattened = {}
       stored_values = []
       indexed_values = []
-      
+
       value.each do |v|
         stored_values << [v.fetch('label', ''), v.fetch('value', '')].reject(&:empty?).join(': ')
 
