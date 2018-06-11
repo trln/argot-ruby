@@ -5,7 +5,8 @@
 #
 # note_performer_credits:
 #   flattener: note
-
+edition:
+    flattener: indexed_value
 misc_id:
     flattener: misc_id
 note_binding:

@@ -103,10 +103,8 @@ earlier_issn:
   type: num
 earlier_other_ids:
   type: str
-edition:
-  type: t
-  attr:
-  - stored
+edition_indexed:
+  type: t  
 format:
   type: f
   attr:
