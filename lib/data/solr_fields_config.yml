@@ -103,10 +103,8 @@ earlier_issn:
   type: num
 earlier_other_ids:
   type: str
-edition:
-  type: t
-  attr:
-  - stored
+edition_indexed:
+  type: t  
 format:
   type: f
   attr:
@@ -480,6 +478,12 @@ series_uniform:
   - stored
 series_author:
   type: t
+series_statement_indexed:
+  type: t
+series_statement_issn:
+  type: isbn
+series_statement_other_ids:
+  type: num
 series_title:
   type: t
 series_work_indexed:

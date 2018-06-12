@@ -58,6 +58,8 @@ module Argot
         Argot::FlattenMiscId
       when 'note'
         Argot::FlattenNote
+      when 'series_statement'
+        Argot::FlattenSeriesStatement
       when 'title_variant'
         Argot::FlattenTitleVariant
       when 'work_entry'
