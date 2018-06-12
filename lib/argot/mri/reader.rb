@@ -10,6 +10,8 @@ module Argot
   class Reader
     include Enumerable
 
+    attr_reader :count
+    
     attr_accessor :input
     ##
     # Initializes a reader
@@ -34,12 +36,17 @@ module Argot
     # Gets an enumeration of the records found in the input.
     def each
       return enum_for(:each) unless block_given?
+      @count = 0
       fiber = Fiber.new do |x|
         @input.rewind
         @parser.on_parse_complete = ->(rec) { Fiber.yield rec }
         @parser.parse(@input)
       end
-      yield fiber.resume while fiber.alive?
+      while fiber.alive?
+        result = fiber.resume
+        @count += 1
+        yield result unless result.nil?
+      end
     end
 
     private

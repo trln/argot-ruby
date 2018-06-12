@@ -1,12 +1,12 @@
 require 'yaml'
 
 module Util
-  TEST_FILES = File.expand_path('../data', __FILE__)
+  TEST_FILES = File.expand_path('data', __dir__)
 
   # finds a test data file's full name
   def find_file(name)
     path = File.join(TEST_FILES, name)
-    raise "Can't find #{name}" unless File.exist?(path)
+    raise "Can't find #{path}" unless File.exist?(path)
     yield path if block_given?
     path
   end
@@ -38,8 +38,12 @@ module Util
   end
 
   def yaml_fixture(name)
-    open_file(name + '.yml') do |f|
-      YAML.load_file(f)
+    begin 
+      open_file(name) do |f|
+        YAML.load_file(f)
+      end
+    rescue StandardError => e
+      raise "YAML load of #{name} failed #{e}"
     end
   end
 
@@ -87,6 +91,7 @@ module Util
     #   json:
     #     - "{ \"
     def load_expectations(exp_file, record)
+      exp_file = exp_file + '.yml' unless exp_file.end_with?('.yml')
       yaml_fixture(exp_file).map do |field, ev|
         if ev.respond_to?(:has_key?) && ev.has_key?('json')
           ev = ev['json']

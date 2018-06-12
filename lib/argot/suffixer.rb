@@ -5,16 +5,17 @@ module Argot
   class Suffixer
     include Methods
 
+
     DEFAULT_PATH = File.expand_path('../data', __dir__)
 
     DEFAULT_CONFIG = 'solr_suffixer_config.yml'
 
     DEFAULT_FIELDS = 'solr_fields_config.yml'
 
-    
-
     INT_TYPES = %w[i float long double].freeze
+
     LANG_CODE = 'lang_code'.freeze
+
     VERNACULAR = 'vernacular'.freeze
 
     attr_reader :config, :lang_code, :vernacular
@@ -24,6 +25,23 @@ module Argot
       fields = options.fetch(:fields, DEFAULT_FIELDS)
       @config = config.is_a?(Hash) ? config : load_yaml(config)
       @solr_fields = fields.is_a?(Hash) ? fields : load_yaml(fields)
+    end
+    
+    # Creates a new suffixer
+    # @param [Hash] options for loading configuration
+    # @opt options [String, Hash] :config if a string, a YAML filename from which
+    #   to load the basic suffixer configuration.  If a Hash, contains the 
+    #   configuration itself.
+    # @opt options [String, Hash] :fields if a string, a YAML filename from which
+    #   to load the Solr field configuration.  If a hash, contains the solr
+    #   field configuration itself.
+    # Default configuration will be loaded from `File.join(DEFAULT_PATH, DEFAULT_CONFIG)`
+    # and default Solr fields are loaded from `File.join(DEFAULT_PATH, DEFAULT_FIELDS)
+    def initialize(options = {})
+      config = options.fetch(:config, File.join(DEFAULT_PATH, DEFAULT_CONFIG))
+      fields = options.fetch(:fields, File.join(DEFAULT_PATH, DEFAULT_FIELDS))
+      @config = config.is_a?(String) ? load_yaml(config) : config
+      @solr_fields = fields.is_a?(String) ? load_yaml(fields) : fields
       read_config
     end
 
@@ -32,10 +50,7 @@ module Argot
       @lang_code = @config.fetch(:lang_code, LANG_CODE)
       warn("config has no id atttribute: #{@config}") unless @config.key?(:id)
       warn("Config's trim attribute is not an array") unless @config.fetch(:trim, []).is_a?(Array)
-      warn("Config's :ignore is not an array") unless @config.fetch(:trim, []).is_a?(Array)
-      # @solr_fields.each do |k, v|
-      # @solr_fields[k] = Argot.symbolize_hash(v) if v.is_a?(Hash)
-      # end
+      warn("Config's :ignore is not an array") unless @config.fetch(:ignore, []).is_a?(Array)
     end
 
     def add_suffix(key, vernacular, lang)

@@ -38,7 +38,15 @@ module Argot
     # only checks to see whether a given document is valid
     # against the schema
     def valid?(rec)
-      analyze(rec).empty?
+      result = analyze(rec)
+      yield result if block_given? && result.empty?
+      result.empty?
+    end
+
+    def as_block
+      lambda do |rec|
+        valid?(rec)
+      end
     end
 
     # analyzes an input document against the field definitions in the

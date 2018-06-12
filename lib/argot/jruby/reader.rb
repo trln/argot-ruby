@@ -28,6 +28,7 @@ module Argot
   class Reader
     include Enumerable
 
+    attr_reader :count
 
     def initialize(input, options = {})
       options[:encoding] ||= 'utf-8'
@@ -38,7 +39,9 @@ module Argot
     def each
       return enum_for(:each) unless block_given?
       begin
+        @count = 0
         while (rec = @builder.getObject)
+          @count += 1
           yield rec
         end
       rescue JSONParser::ParseException => px

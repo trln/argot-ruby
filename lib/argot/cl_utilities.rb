@@ -128,7 +128,7 @@ module Argot
     def flatten_pipeline(_options = {})
       flatten = Argot::Flattener.new.as_block
       Argot::Pipeline.setup do
-        transform &flatten
+        transform(&flatten)
       end
     end
 
@@ -141,9 +141,9 @@ module Argot
       end
     end
 
+
     def everything_pipeline(options)
       validate = create_validator(options)
-
       flatten = Argot::Flattener.new.as_block
       suffix = Argot::Suffixer.new.as_block
       schema = Argot::SolrSchema.new
