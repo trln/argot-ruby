@@ -73,10 +73,8 @@ module Argot
       attr_reader :rules_files
 
       def self.load_files(files=[])
-        if files.empty?
-          files = Dir.glob(DEFAULT_PATH + '/rule*.yml').collect(&:itself)
-        end
-        files.flatten
+        files = default_files if files.empty?
+        files
       end
 
       ##
@@ -110,7 +108,7 @@ module Argot
             rules << BasicRule.new(rd)
           end
         end
-        rules
+        rules.flatten
       end
 
       ##
@@ -171,7 +169,6 @@ module Argot
       # yields a block=version of this validator, which calls #valid?
       # This is not a wrapper around #call because the common usage of this
       # validator is to serve as a filter.  Filtered results can be logged
-      # by 
       def as_block
         lambda do |rec|
           valid?(rec)

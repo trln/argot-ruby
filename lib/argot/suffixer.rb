@@ -4,8 +4,6 @@ module Argot
   # Converts flattened Arrgot to Solr document
   class Suffixer
     include Methods
-
-
     DEFAULT_PATH = File.expand_path('../data', __dir__)
 
     DEFAULT_CONFIG = 'solr_suffixer_config.yml'
@@ -20,28 +18,12 @@ module Argot
 
     attr_reader :config, :lang_code, :vernacular
 
+
     def initialize(options = {})
       config = options.fetch(:config, DEFAULT_CONFIG)
       fields = options.fetch(:fields, DEFAULT_FIELDS)
       @config = config.is_a?(Hash) ? config : load_yaml(config)
       @solr_fields = fields.is_a?(Hash) ? fields : load_yaml(fields)
-    end
-    
-    # Creates a new suffixer
-    # @param [Hash] options for loading configuration
-    # @opt options [String, Hash] :config if a string, a YAML filename from which
-    #   to load the basic suffixer configuration.  If a Hash, contains the 
-    #   configuration itself.
-    # @opt options [String, Hash] :fields if a string, a YAML filename from which
-    #   to load the Solr field configuration.  If a hash, contains the solr
-    #   field configuration itself.
-    # Default configuration will be loaded from `File.join(DEFAULT_PATH, DEFAULT_CONFIG)`
-    # and default Solr fields are loaded from `File.join(DEFAULT_PATH, DEFAULT_FIELDS)
-    def initialize(options = {})
-      config = options.fetch(:config, File.join(DEFAULT_PATH, DEFAULT_CONFIG))
-      fields = options.fetch(:fields, File.join(DEFAULT_PATH, DEFAULT_FIELDS))
-      @config = config.is_a?(String) ? load_yaml(config) : config
-      @solr_fields = fields.is_a?(String) ? load_yaml(fields) : fields
       read_config
     end
 

@@ -141,7 +141,6 @@ module Argot
       end
     end
 
-
     def everything_pipeline(options)
       validate = create_validator(options)
       flatten = Argot::Flattener.new.as_block

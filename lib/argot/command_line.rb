@@ -8,8 +8,8 @@ require 'yaml'
 require 'rsolr'
 require 'argot/cl_utilities'
 
-module Argot  
-
+module Argot
+  
   # The class that executes for the Argot command line utility.
   class CommandLine < Thor
 
@@ -41,6 +41,7 @@ module Argot
     # Validate
     ###############
     desc 'validate [INPUT]', 'Validate Argot file converted from MARC (stdin or filename).'
+
     method_option   :quiet,
                     type: :boolean,
                     default: true,
@@ -53,12 +54,6 @@ module Argot
                     aliases: '-a',
                     desc: "validate, flatten, suffix, and Solr validate results (same as full_validate)"
     
-    method_option   :quiet,
-                    type: :boolean,
-                    default: false,
-                    aliases: '-q',
-                    desc: 'Suppress output of records on [output]'
-
     method_option    :format,
                      type: :string,
                      default: 'text',
@@ -70,14 +65,11 @@ module Argot
                     default:  false,
                     aliases:  '-v',
                     desc:  'display rules and error information'
-
     def validate(input = $stdin, output = $stdout)
       p = options.all ? everything_pipeline(options) : validate_pipeline(options)
       total = 0
       count = 0
-
       formatter = formatter(options)
-
       get_output(output) do |out|
         get_input(input) do |f|
           reader = Argot::Reader.new(f)
@@ -88,7 +80,6 @@ module Argot
           end
           total = reader.count
         end
-        
         warn "Found #{count}/#{total} document(s) with errors" if options.verbose
       end
       exit ( total > count  ? 1 : 0)
