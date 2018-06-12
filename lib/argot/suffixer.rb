@@ -5,25 +5,44 @@ module Argot
   class Suffixer
     include Methods
 
-    
+    DEFAULT_PATH = File.expand_path('../data/', __dir__)
+
+    DEFAULT_CONFIG = 'solr_suffixer_config.yml'
+
+    DEFAULT_FIELDS = 'solr_fields_config.yml'
 
     INT_TYPES = %w[i float long double].freeze
+
     LANG_CODE = 'lang_code'.freeze
+
     VERNACULAR = 'vernacular'.freeze
 
     attr_reader :config, :lang_code, :vernacular
 
     # Gets an instance using the default configuration
     def self.default_instance
-      path = File.expand_path('../data/', __dir__)
-      config = YAML.parse_file(File.join(path, 'solr_suffixer_config.yml')).transform
-      fields = YAML.parse_file(File.join(path, 'solr_fields_config.yml')).transform
-      Suffixer.new(config, fields)
+      warn "Suffixer#default_instance is deprecated: #{caller.first}"
+      Suffixer.new
+      config = File.join(DEFAULT_PATH, 'solr_suffixer_config.yml')
+      fields = File.join(DEFAULT_PATH, 'solr_fields_config.yml')
+      Suffixer.new(config: config, fields: fields)
     end
 
-    def initialize(config, solr_fields)
-      @solr_fields = symbolize_hash(solr_fields)
-      @config = symbolize_hash(config)
+    # Creates a new suffixer
+    # @param [Hash] options for loading configuration
+    # @opt options [String, Hash] :config if a string, a YAML filename from which
+    #   to load the basic suffixer configuration.  If a Hash, contains the 
+    #   configuration itself.
+    # @opt options [String, Hash] :fields if a string, a YAML filename from which
+    #   to load the Solr field configuration.  If a hash, contains the solr
+    #   field configuration itself.
+    # Default configuration will be loaded from `File.join(DEFAULT_PATH, DEFAULT_CONFIG)`
+    # and default Solr fields are loaded from `File.join(DEFAULT_PATH, DEFAULT_FIELDS)
+    def initialize(options = {})
+      config = options.fetch(:config, File.join(DEFAULT_PATH, DEFAULT_CONFIG))
+      fields = options.fetch(:fields, File.join(DEFAULT_PATH, DEFAULT_FIELDS))
+      @config = config.is_a?(String) ? load_yaml(config) : config
+      @solr_fields = fields.is_a?(String) ? load_yaml(fields) : fields
       warn("config has no id atttribute: #{@config}") unless @config.key?(:id)
       read_config
     end
@@ -32,10 +51,7 @@ module Argot
       @vernacular = @config.fetch(:vernacular, VERNACULAR)
       @lang_code = @config.fetch(:lang_code, LANG_CODE)
       warn("Config's trim attribute is not an array") unless @config.fetch(:trim, []).is_a?(Array)
-      warn("Config's :ignore is not an array") unless @config.fetch(:trim, []).is_a?(Array)
-      # @solr_fields.each do |k, v|
-      # @solr_fields[k] = Argot.symbolize_hash(v) if v.is_a?(Hash)
-      # end
+      warn("Config's :ignore is not an array") unless @config.fetch(:ignore, []).is_a?(Array)
     end
 
     def add_suffix(key, vernacular, lang)
@@ -109,6 +125,13 @@ module Argot
     end
 
     alias call process
+
+
+    private
+
+    def load_yaml(filename)
+      symbolize_hash(YAML.parse_file(filename).transform)
+    end
 
   end
 end

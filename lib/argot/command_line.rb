@@ -5,82 +5,18 @@ require 'thor'
 require 'json'
 require 'yaml'
 require 'rsolr'
+require 'argot/cl_utilities'
 
 module Argot
-  # Utility for creating pipelines to process records
-  class Pipelines
-    DATA_LOAD_PATH = File.expand_path('../data', __dir__)
-
-    def self.configuration_paths(options)
-      {
-        flattener_config_path: YAML.load_file(File.join(DATA_LOAD_PATH, options.flattener_config)),
-        fields_path: File.join(DATA_LOAD_PATH, options.fields)
-      }
-    end
-
-    def self.everything(_options = {})
-      validator = Argot::Validator.new
-      flattener = Argot::Flattener.new
-      suffixer = Argot::Suffixer.new
-      schema = Argot::SolrSchema.new
-      solr_validator = lambda do |rec|
-        res = schema.analyze(rec)
-        warn res.to_json unless res.empty?
-        res.empty?
-      end
-
-      Argot::Pipeline.setup do
-        filter { validator.as_block }
-        transformer { flattener.as_block }
-        suffixer { suffixer.as_block }
-        filter { solr_validator }
-      end
-    end
-  end
+  
 
   # The class that executes for the Argot command line utility.
   class CommandLine < Thor
+
     default_task :full_validate
 
     no_commands do
-      # Utility wrapper for producing a `:read` able object
-      # based on a range of possible argument types.
-      # @param input [`:read`, String]  if `nil`, or the string `-`,
-      # result is $stdin; if `:read`, result is the original argument,
-      # if a String other than `-`, result is an opened File handle.
-      # @yield `:read`
-      # @return `:read`
-      def get_input(input = nil)
-        input = $stdin if input.nil? or input == '-'
-        input = File.open(input, 'r') unless input.respond_to?(:read)
-        if block_given?
-          begin
-            yield input
-          ensure
-            input.close if input.respond_to?(:close) and input != $stdin
-          end
-        else
-          input
-        end
-      end
-
-      def get_output(output = nil)
-        output = $stdout if output.nil?
-        output = File.open(output,'w') unless output.respond_to?(:write)
-        if block_given?
-          begin
-            yield output
-          ensure
-            output.close unless output == $stdout
-          end
-        else
-          output
-        end
-      end
-
-      def json_formatter(options = { pretty: false })
-        options[:pretty] ? JSON.method(:pretty_generate) : JSON.method(:generate)
-      end
+      include Argot::Pipelines
     end
 
     map %w[--version -v] => :__version
@@ -90,17 +26,17 @@ module Argot
       puts "argot version #{Argot::VERSION}, installed #{File.mtime(__FILE__)}"
     end
 
-    desc 'full_validate [INPUT] [OUTPUT]', 'Validate, flatten, suffix, and check results for Solr validity'
+    desc 'full_validate [INPUT] [OUTPUT]', 'Validate, flatten, suffix, and check results against the Solr schema'
     method_option   :quiet,
                     type: :boolean,
                     default: true,
                     aliases: '-q',
                     desc: "Don't write anything to STDOUT"
-    def full_validate(input = nil, output = nil)
-      pipeline = Pipelines.everything(options)
+    def full_validate(input = $stdin, output = $stdin)
+      pipeline = everything_pipeline(options)
       get_output(output) do |out|
         get_input(input) do |f|
-          pipeline.process(Argot::Reader.new(f)) do |rec|
+          pipeline.run(Argot::Reader.new(f)) do |rec|
             out.write(rec.to_json) unless options.quiet
           end
         end
@@ -111,46 +47,69 @@ module Argot
     # Validate
     ###############
     desc 'validate [INPUT]', 'Validate Argot file converted from MARC (stdin or filename).'
-    method_option   :rules,
-                    type: :string,
-                    default: '',
-                    aliases:  '-r',
-                    desc:  'path to a rules file. Default is lib/data/rules.yml'
-
-    method_option   :cull,
+    method_option   :all,
                     type: :boolean,
                     default: false,
-                    aliases: '-c',
-                    desc: "writes documents that pass validation to output, omitting failed
-                          documents.  Validation errors to STDERR"
+                    aliases: '-a',
+                    desc: 'Validate, flatten, suffix, and run Solr validation on base Argot output'
+
+    method_option   :quiet,
+                    type: :boolean,
+                    default: false,
+                    aliases: '-q',
+                    desc: 'Suppress output of records on [output]'
+
+    method_option    :format,
+                     type: :string,
+                     default: 'text',
+                     aliases: '-f',
+                     desc: 'Format for error messages [text|json|pretty_json] text, JSON, or indented ("pretty") JSON'
+
     method_option   :verbose,
                     type:  :boolean,
                     default:  false,
                     aliases:  '-v',
                     desc:  'display rules and error information'
-    def validate(input = nil)
-      rules_file = options.rules.empty? ? [] : [options.rules]
-      validator = Argot::Validator.from_files(rules_file)
+    def validate(input = $stdin, output = $stdout)
+      return full_validate(input, output) if options.all
+      validator = Argot::Validator.new
+      total = 0
       count = 0
+
+      formatter = formatter(options)
+
       get_output(output) do |out|
-        process_json(input) do |doc|
-          valid = validator.valid?(doc)
-          if valid.errors?
-            count += 1
-            warn "Document #{doc.fetch('id', '<no id found>')} will be skipped:"
-            if options.verbose || options.cull
-              valid.errors.each do |error|
-                warn "#{error[:rule]}:"
-                error[:errors].each do |e|
-                  warn "\t  - #{e}"
+        get_input(input) do |f|
+          reader = Argot::Reader.new(f)
+          prev_rec = nil
+          reader.each do |rec|
+            total += 1
+
+            if rec.nil?
+              warn "Record #{total} was nil: previous #{prev_rec['id']}"
+              next
+            end
+            prev_rec = rec
+            valid = validator.valid?(rec) do |results|
+              if options.verbose
+                errdoc = { 
+                  id: rec.fetch('id', '<unknown id>'),
+                  msg: results.first_error,
+                  errors: []
+                }
+                results.errors.each_with_object(errdoc) do |err, ed|
+                  ed[:errors] << err
                 end
+                warn formatter.call(errdoc)
+              else
+                warn "Document #{rec.fetch('id', '<unknown id>')} skipped (#{results.first_error})"
               end
             end
-          elsif options.cull
-            out.write(doc.to_json)
+            count +=1 unless valid
+            out.write(rec.to_json) unless options.quiet
           end
         end
-        warn "Found #{count} document(s) with errors" if options.verbose || options.cull
+        warn "Found #{count}/#{total} document(s) with errors" if options.verbose
       end
     end
 
@@ -168,12 +127,12 @@ module Argot
                     aliases:  '-t',
                     desc:  'Solr flattener config file'
     def flatten(input=$stdin, output=$stdout)
-      flattener = Argot::Flattener.new
+      p = flatten_pipeline(options)
+      formatter = json_formatter(options)
       get_output(output) do |out|
-        fmt = json_formatter(options)
         get_input(input) do |f|
-          f.each_line.map { |x| JSON.parse(x) }.each do |rec|
-            out.write( fmt.call(flattener.process(rec)) )
+          p.run(Argot::Reader.new(f)) do |rec|
+            out.write(formatter.call(rec))
           end
         end
       end
@@ -202,27 +161,19 @@ module Argot
                     desc:  'Solr flattener config file'
 
     def suffix(input = $stdin, output = $stdout)
-      data_load_path = File.expand_path('../data', __dir__)
-      config = YAML.load_file(data_load_path + options.config)
-      fields = YAML.load_file(data_load_path + options.fields)
-      flattener_config = YAML.load_file(data_load_path + options.flattener)
-      results = []
-      suffixer = Argot::Suffixer.new(config, fields)
-      get_input(input) do |f|
-        f.each_line do |line|
-          doc = JSON.parse(line)
-          flattened = Argot::Flattener.process(doc, flattener_config)
-          results << suffixer.process(flattened)
+      p = suffix_pipeline
+      fmt = json_formatter(options)
+      get_output(output) do |out|
+        get_input(input) do |f|
+          reader = Argot::Reader.new(f)
+          p.run(reader) do |rec|
+            out.write(fmt.call(rec))
+          end
         end
-      end
-      return if results.empty?
-      get_output(output) do |f|
-        fmt = json_formatter(options)
-        results.each { |rec| f.puts fmt.call(rec) }
       end
     end
 
-    desc 'solrvalidate <input> <output>' , 'Attempts to validate flattened Solr documents against schema'
+    desc 'solrvalidate <input> <output>' , 'Flattens, suffixes, and validates results against Solr schema'
     method_option   :schema_location,
                     default:  '/solr_schema.xml',
                     aliases:  '-s',
@@ -235,11 +186,12 @@ module Argot
       data_load_path = File.expand_path('../data', __dir__)
       schema_loc = File.join(data_load_path, 'solr_schema.xml')
       schema = Argot::SolrSchema.new(File.open(schema_loc))
+
       all_valid = true
       get_output(output) do |out|
         get_input(input) do |f|
-          reader = Argot::Reader.new
-          reader.process(f) do |data|
+          reader = Argot::Reader.new(f)
+          reader.each do |data|
             data = [data] unless data.is_a?(Array)
             data.each do |rec|
               result = schema.analyze(rec)

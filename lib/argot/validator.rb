@@ -37,6 +37,15 @@ module Argot
         !errors.empty?
       end
 
+
+      def first_error
+        if errors.nil? || errors.empty?
+          nil
+        else
+          errors.first.fetch(:errors, []).first
+        end
+      end
+
       ##
       # Adds the result of an individual rule to this result.
       # * +result+ a :rdoc-ref RuleResult instance
@@ -56,9 +65,18 @@ module Argot
     # format.  Allows loading of rules from YAML files in a default location
     # and adding rules generated programmatically.
     class Validator
+
+      DEFAULT_LOCATION = File.expand_path("../data", __dir__)
       attr_accessor :rules
 
       attr_reader :rules_files
+
+      def self.load_files(files=[])
+        if files.empty?
+          files = Dir.glob(DEFAULT_LOCATION + '/rule*.yml').collect(&:itself)
+        end
+        files.flatten
+      end
 
       ##
       # Creates a new instance from YAML files specified as arguments.
@@ -67,16 +85,8 @@ module Argot
       #   this gem's data directory (+../../data+ relative to this file)
       # see BasicRule for examples.
       def self.from_files(rules_files = [])
-        if rules_files.empty?
-          data = File.expand_path('../../data', __FILE__)
-          rules_files = Dir.glob(data + '/rule*.yml').collect do |f|
-            File.new(f)
-          end
-        end
-        @rules = rules_files.collect do |x|
-          File.new(x)
-        end
-        Validator.new(compile(rules_files))
+        rules_files = load_files(rules_files)
+        Validator.new(rules: compile(rules_files))
       end
 
       ##
@@ -88,20 +98,34 @@ module Argot
       # see BasicRule for documentation format
       def self.compile(files)
         rules = []
-        files.each do |f|
-          next unless f && File.exist?(f)
-          ruledefs = YAML.safe_load(f)
-          ruledefs.each do |rd|
-            rules << BasicRule.new(rd)
+        files.each do |fname|
+          next unless File.exist?(fname)
+          File.open(fname) do |f|
+            ruledefs = YAML.safe_load(f)
+            rules << ruledefs.collect do |rd|
+                BasicRule.new(rd)
+            end
           end
         end
-        rules
+        rules.flatten
       end
 
       ##
-      # Creates a new validator with a supplied set of rules.
-      # * +rules+ an array of callable rules.
-      def initialize(rules)
+      # Creates a new validator.
+      # @param [Hash] options the options to use.
+      # @option [Array<Rule>] :rules the rules to be applied to each record
+      # @option [Boolean] :append whether the rules in :rules should be 
+      # appended to the default set (default: `true`)
+      # Default rules are loaded from `../data/rule*.yml` relative to 
+      # wherever the gem's file is installed.
+      def initialize(options = {})
+        rules = options.fetch(:rules, [])
+        append = options.fetch(:append, true)
+        if rules.empty? || append
+          fopts = options.fetch(:files, [])
+          files = self.class.load_files(fopts)
+          rules = self.class.compile(files) + rules
+        end
         @rules = rules
       end
 
@@ -111,23 +135,14 @@ module Argot
       # an object corresponding to the basic structure of
       # the RuleResult struct.
       def <<(rule)
-        @rules = [] if @rules.nil?
-        unless rule.method_defined?(:call)
+        @rules = []
+        unless rule.respond_to?(:call)
           raise 'Rules added with << must respond to #call'
         end
         @rules << rule
       end
 
-      ##
-      # Tests whether a given record is valid, returning boolean +true+ if
-      # the record is valid; if a block is supplied, the block will
-      # be invoked with a collection of the errors and rules that were
-      # violated for more detailed error reporting.
-      #
-      #
-      # * +location+  the record or line number in the file being processed
-      # see {ValidationResult}[rdoc-ref:Argot::ValidationResult]
-      def valid?(rec, location = 0)
+      def call(rec, location = 0)
         results = ValidationResult.create(location)
         @rules.each do |r|
           begin
@@ -140,7 +155,54 @@ module Argot
         yield results if block_given?
         results
       end
+
+      ##
+      # Tests whether a given record is valid, returning boolean +true+ if
+      # the record is valid; if a block is supplied, the block will
+      # be invoked with a collection of the errors and rules that were
+      # violated for more detailed error reporting.
+      # @param [Hash<String, Object>] rec the Argot record to be validated.
+      # @param [Fixnum] location the location in a source file currently being
+      # processed.
+      # @yield [Array] the rule evaluation results that contain errors
+      def valid?(rec, location = 0)
+        results = call(rec, location)
+        valid = results.errors.empty?
+        yield results if block_given? and !valid
+        valid
+      end
+
+      def as_block
+        lambda do |rec|
+          valid?(rec)
+        end
+      end
     end
+
+    # Tests for types when running under JRuby; in order to
+    # avoid problem of Java` namespace not being defined under
+    # MRI, put these checks behind a platform test.
+    module JRubyTests
+
+      def jruby?
+        @jruby ||= ( RUBY_PLATFORM =~/java/ )
+      end
+
+      def java_list?(obj)
+        jruby? && obj.is_a?(Java::JavaUtil::List) 
+      end
+
+      def java_string?(obj)
+        jruby? && obj.is_a?(Java::JavaLang::String)
+      end
+
+      def java_integer?(obj)
+        jruby? && obj.is_a?(Java::JavaLang::Integer)
+      end
+    end
+
+
+
 
     ##
     # Implementation of a rule that can be loaded from a data file.  Supported attributes:
@@ -149,7 +211,7 @@ module Argot
     # * +path+ : (required) the path within an argot document to the field this rule handles
     #   e.g. +title.main+ refers to the +main+ attribute of the top-level +title+ attribute.
     # * +required+ : (optional, defaults to +false+) whether the field must be present in the document.
-    # * +type+ : (optional) - the expected Ruby type of object at +path+, e.g. +String+ or +Fixnum+.
+    # * +type+ : (optional) - the expected Ruby type of object at +path+, e.g. +String+, `Array` or +Integer+.
     # * +single+ : (optional, defaults to +false+) - there should only be 1 value
     #   this attribute is only used to check validity if the field is present.  If left
     #   unspecfied, no type checking will be done.
@@ -162,11 +224,12 @@ module Argot
     #  - name : 'local_id' attribute is required
     #    path : local_id
     #    required: true
-    #    type : string
+    #    type : String
     # The above defines two rules, one of which checks for the existence of a 'title' attribute that
     # can have any value, and the other which verfies the presence of a +local_id+ attribute that is a 
     # ruby String (i.e. if local_id is itself an object, this rule would be violated)
     class BasicRule
+      include JRubyTests
       attr_reader :data
 
       ##
@@ -176,6 +239,22 @@ module Argot
       def initialize(rule_obj)
         @data = OpenStruct.new(rule_obj)
         compile
+      end
+
+      ## 
+      # Checks whether a given value looks like an array
+      # (use this for cross-platform compatibility; JRuby
+      # `Array`s are ofen `java.util.List`s
+      def arrayish?(obj)
+        obj.is_a?(Array) || java_list?(obj)
+      end
+
+      def stringish?(obj)
+        obj.is_a?(String) || java_string?(obj)
+      end
+
+      def integerish?(ob)
+        obj.is_a?(Integer) || java_integer?(obj)
       end
 
       ##
@@ -188,11 +267,20 @@ module Argot
         value = @expr.call(rec)
         result.errors << "#{@data.path} not found" if value.nil? && @data.required
         unless @data.type.nil?
-          if @data.type.to_s != value.class.to_s
-            result.errors << "#{@data.path} should be type #{@data.type} (found: #{value.class})"
-          end
+          typestr = @data.type.to_s
+          type_check = case typestr
+                       when 'Array'
+                         arrayish?(value)
+                       when 'String'
+                        stringish?(value)
+                       when 'Integer'
+                        integerish?(value)
+                       else
+                         typestr == value.class.to_s
+                       end
+          result.errors << "#{@data.path} should be type #{@data.type} (found: #{value.class})" unless type_check
         end
-        if value.is_a?(Array) && @data.single
+        if arrayish?(value) && @data.single
           unless value[1].nil?
             result.errors << "#{@data.path} should only have a single value, multiple values found"
           end
@@ -203,11 +291,11 @@ module Argot
       private
 
       def empty_result
-        RuleResult.new(@data.name, [].freeze, [].freeze)
+        RuleResult.new(data.name, [].freeze, [].freeze)
       end
 
       def compile
-        keys = @data.path.split('.')
+        keys = data.path.split('.')
         @expr = lambda do |hash|
           keys.inject(hash) do |obj, key|
             begin

@@ -39,7 +39,10 @@ module Argot
         @parser.on_parse_complete = ->(rec) { Fiber.yield rec }
         @parser.parse(@input)
       end
-      yield fiber.resume while fiber.alive?
+      while fiber.alive?
+        result = fiber.resume
+        yield result unless result.nil?
+      end
     end
 
     private
