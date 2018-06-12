@@ -9,13 +9,13 @@ cache:
         - $HOME/.m2
 
 jdk:
-    - oraclejdk8
+    - openjdk8
 
 language: ruby
 rvm:
-       - 2.3
-       - 2.4.0
-       - jruby-9.1.5.0
+       - 2.4.4
+       - 2.5.1
+       - jruby-9.2.0.0
 
 
 
