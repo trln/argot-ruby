@@ -1,1 +1,1 @@
-jar 'org.noggit:noggit', '0.7'
+jar 'org.noggit:noggit', '0.8'

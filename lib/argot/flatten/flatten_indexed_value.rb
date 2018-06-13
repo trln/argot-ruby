@@ -1,6 +1,6 @@
 module Argot
-  class FlattenIndexedValue
-    def self.flatten(value, key)
+  class FlattenIndexedValue < TypeFlattener
+    def flatten(value, key)
       flattened = {}
       stored_values = []
       indexed_values = []

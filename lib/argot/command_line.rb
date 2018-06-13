@@ -1,93 +1,93 @@
+# frozen_string_literal: true
+
 require 'argot'
+require 'argot/cl_utilities'
 require 'thor'
 require 'json'
 require 'yaml'
 require 'rsolr'
+require 'argot/cl_utilities'
 
 module Argot
+  
   # The class that executes for the Argot command line utility.
-
   class CommandLine < Thor
 
+    default_task :full_validate
 
     no_commands do
-      # Utility wrapper for producing a `:read` able object
-      # based on a range of possible argument types.
-      # @param input [`:read`, String]  if `nil`, or the string `-`, result is $stdin; if `:read`, result is the original argument,
-      #  if a String other than `-`, result is an opened File handle.
-      # @yield `:read`
-      # @return `:read`
-      def get_input(input=nil)
-        input = $stdin if input.nil? or input == '-'
-        input = File.open(input, 'r') unless input.respond_to?(:read)
-        if block_given?
-          begin
-            yield input
-          ensure
-            input.close if input.respond_to?(:close) and input != $stdin
-          end
-        else
-          input
-        end
-      end
+      include Argot::Pipelines
+    end
 
-      def get_output(output=nil)
-        output = $stdout if output.nil?
-        output = File.open(output,'w') unless output.respond_to?(:write)
-        if block_given?
-          begin
-            yield output
-          ensure
-            output.close unless output == $stdout
-          end
-        else
-          output
-        end
-      end
+    map %w[--version -v] => :__version
 
-      def json_formatter(options={pretty: false})
-        options[:pretty] ? JSON.method(:pretty_generate) : JSON.method(:generate)
-      end
+    desc '--version, -v', 'print the version'
+    def __version
+      puts "argot version #{Argot::VERSION}, installed #{File.mtime(__FILE__)}"
+    end
+
+    desc 'full_validate [INPUT] [OUTPUT]', 'Validate, flatten, suffix, and check results against the Solr schema'
+    method_option   :quiet,
+                    type: :boolean,
+                    default: true,
+                    aliases: '-q',
+                    desc: "Don't write anything to STDOUT"
+    method_option   :format,
+                     type: :string,
+                     default: 'text',
+                     aliases: '-f',
+                     desc: 'Format for error messages [text|json|pretty_json] text, JSON, or indented ("pretty") JSON'
+    def full_validate(input = $stdin, output = $stdin)
+      options.all = true
+      return validate(input, output)
     end
 
     ###############
     # Validate
     ###############
     desc 'validate [INPUT]', 'Validate Argot file converted from MARC (stdin or filename).'
-    method_option   :rules,
-                    type: :string,
-                    default: '',
-                    aliases:  '-r',
-                    desc:  'path to a rules file. Default is lib/data/rules.yml'
+
+    method_option   :quiet,
+                    type: :boolean,
+                    default: true,
+                    aliases: '-q',
+                    desc: "Don't write records to STDOUT"
+
+    method_option   :all,
+                    type: :boolean,
+                    default: true,
+                    aliases: '-a',
+                    desc: "validate, flatten, suffix, and Solr validate results (same as full_validate)"
+    
+    method_option    :format,
+                     type: :string,
+                     default: 'text',
+                     aliases: '-f',
+                     desc: 'Format for error messages [text|json|pretty_json] text, JSON, or indented ("pretty") JSON'
+
     method_option   :verbose,
                     type:  :boolean,
                     default:  false,
-                    aliases:  "-v",
+                    aliases:  '-v',
                     desc:  'display rules and error information'
-    def validate(input = nil)
-      rules_file = options.rules.empty? ? [] : [options.rules]
-      validator = Argot::Validator.from_files(rules_file)
+    def validate(input = $stdin, output = $stdout)
+      p = options.all ? everything_pipeline(options) : validate_pipeline(options)
+      total = 0
       count = 0
-      get_input(input) do |f|
-        f.each_line do |line|
-          doc = JSON.parse(line)
-          valid = validator.valid?(doc)
-          if valid.errors?
+      formatter = formatter(options)
+      get_output(output) do |out|
+        get_input(input) do |f|
+          reader = Argot::Reader.new(f)
+          prev_rec = nil
+          p.run(reader) do |rec|
             count += 1
-            puts "Document #{doc['id']} will be skipped:"
-            if options.verbose
-              valid.errors.each do |error|
-                puts "#{error[:rule]}:"
-                error[:errors].each do |e|
-                  puts "\t  - #{e}"
-                end
-              end # each error
-              puts "\n"
-            end # if verbose
-          end # has_errors
-        end # each_line
-       end #get_input
-      puts "Found #{count} document(s) with errors"
+            out.write(rec.to_json) unless options.quiet
+          end
+          total = reader.count
+        end
+        warn "Found #{count}/#{total} document(s) with errors" if options.verbose
+      end
+      exit ( total > count  ? 1 : 0)
     end
 
     ###############
@@ -99,26 +99,20 @@ module Argot
                     default:  false,
                     aliases:  '-p',
                     desc:  'pretty print resulting json'
-    method_option   :flattener,
+    method_option   :flattener_config,
                     default:  '/flattener_config.yml',
                     aliases:  '-t',
                     desc:  'Solr flattener config file'
     def flatten(input=$stdin, output=$stdout)
-      data_load_path = File.expand_path('../data', File.dirname(__FILE__))
-      flattener_config = YAML.load_file(data_load_path + options.fetch('flattener', '/flattener_config.yml'))
-      results = []
-      get_input(input) do |f|
-        f.each_line do |line|
-            doc = JSON.parse(line);
-            results << Argot::Flattener.process(doc, flattener_config)
+      p = flatten_pipeline(options)
+      formatter = json_formatter(options)
+      get_output(output) do |out|
+        get_input(input) do |f|
+          p.run(Argot::Reader.new(f)) do |rec|
+            out.write(formatter.call(rec))
+          end
         end
       end
-      if !results.empty?
-        get_output(output) do |f|
-          fmt = json_formatter(options)
-          results.each { |rec| f.write fmt.call(rec) }
-        end
-      end # results not empty
     end
 
     ###############
@@ -143,50 +137,47 @@ module Argot
                     aliases:  '-t',
                     desc:  'Solr flattener config file'
 
-    def suffix(input=$stdin, output=$stdout)
-      data_load_path = File.expand_path('../data', File.dirname(__FILE__))
-      config = YAML.load_file(data_load_path + options.config)
-      fields = YAML.load_file(data_load_path + options.fields)
-      flattener_config = YAML.load_file(data_load_path + options.flattener)
-      results = []
-      suffixer = Argot::Suffixer.new(config, fields)
-      get_input(input) do |f|
-        f.each_line do |line|
-            doc = JSON.parse(line);
-            flattened = Argot::Flattener.process(doc, flattener_config)
-            results << suffixer.process(flattened)
-        end # each_line
-      end # get_input
+    def suffix(input = $stdin, output = $stdout)
+      p = suffix_pipeline
+      fmt = json_formatter(options)
+      get_output(output) do |out|
+        get_input(input) do |f|
+          reader = Argot::Reader.new(f)
+          p.run(reader) do |rec|
+            out.write(fmt.call(rec))
+          end
+        end
+      end
+    end
 
-      if !results.empty?
-        get_output(output) do |f|
-            fmt = json_formatter(options)
-            results.each { |rec| f.puts fmt.call(rec) }
-        end # get_output
-      end # results_empty
-    end # method
-
-     desc 'solrvalidate <input> <output>' , 'Attempts to validate flattened Solr documents against schema'
-     method_option   :schema_location,
-                      default:  '/solr_schema.xml',
-                      aliases:  '-s',
-                      desc:  'Solr schema to load'
-    def solrvalidate(input=$stdin, output=$stdout)
-      data_load_path = File.expand_path('../data', File.dirname(__FILE__))
+    desc 'solrvalidate <input> <output>' , 'Flattens, suffixes, and validates results against Solr schema'
+    method_option   :schema_location,
+                    default:  '/solr_schema.xml',
+                    aliases:  '-s',
+                    desc:  'Solr schema to load'
+     method_option  :cull,
+                    type: :boolean,
+                    aliases: '-c',
+                    desc: 'Writes valid records to output, warns about invalid records on STDERR'
+    def solrvalidate(input = $stdin, output = $stdout)
+      data_load_path = File.expand_path('../data', __dir__)
       schema_loc = File.join(data_load_path, 'solr_schema.xml')
       schema = Argot::SolrSchema.new(File.open(schema_loc))
+
       all_valid = true
       get_output(output) do |out|
         get_input(input) do |f|
-          reader = Argot::Reader.new
-          reader.process(f) do |data|
+          reader = Argot::Reader.new(f)
+          reader.each do |data|
             data = [data] unless data.is_a?(Array)
             data.each do |rec|
               result = schema.analyze(rec)
-              unless result.empty?
+              if result.empty?
+                data.each { |d| out.write(d.to_json) } if options.cull
+              else
                 all_valid = false
                 result['id'] = rec['id']
-                out.write(result.to_json)
+                warn result.to_json
               end
             end # data enumerate
           end # lambda
@@ -200,76 +191,57 @@ module Argot
     ###############
     desc 'ingest <input, default STDIN>', 'Flatten, suffix, and ingest an argot file'
     method_option   :solrUrl,
-                    default:  "http://localhost:8983/solr/trln",
+                    default:  'http://localhost:8983/solr/trln',
                     aliases:  '-s',
                     desc:  'Solr endpoint'
-    method_option   :fields,
-                    default:  '/solr_fields_config.yml',
-                    aliases:  '-f',
-                    desc:  'Solr fields configuration file'
-    method_option   :config,
-                    default:  '/solr_suffixer_config.yml',
-                    aliases:  '-c',
-                    desc:  'Solr suffixer config file'
-    method_option   :flattener,
-                    default:  '/flattener_config.yml',
-                    aliases:  '-t',
-                    desc:  'Solr flattener config file'
-    method_option   :rules,
-                    type:  :string,
-                    default:  '',
-                    aliases:  '-r',
-                    desc:  'path to a rules file. Default is lib/data/rules.yml'
+
+    method_option   :interval,
+                    default: 500,
+                    type: :numeric,
+                    aliases: '-i',
+                    desc: 'Document add interval'
+
+    method_option   :quiet,
+                    type: :boolean,
+                    default: false,
+                    aliases: '-q',
+                    desc: 'Suppress progress on STDOUT'
+
+    method_option   :format,
+                    type: :string,
+                    default: 'text',
+                    aliases: '-f',
+                    desc: 'Format for error messages [text|json|pretty_json] text, JSON, or indented ("pretty") JSON'
+
     method_option   :verbose,
                     type:  :boolean,
                     default:  false,
                     aliases:  '-v',
                     desc:  'display rules and error information'
-    def ingest(input = nil)
-      data_load_path = File.expand_path('../data', File.dirname(__FILE__))
-
-      config = YAML.load_file(data_load_path + options.config)
-      fields = YAML.load_file(data_load_path + options.fields)
-      flattener_config = YAML.load_file(data_load_path + options.flattener)
-      results = []
-
-      rules_file = options.rules.empty? ? [] : [options.rules]
-      validator = Argot::Validator::from_files(rules_file)
-
-      suffixer = Argot::Suffixer.new(config, fields)
-
-      error_count = 0
-      added_count = 0
-      get_input(input) do |f|
-        f.each_line do |line|
-          doc = JSON.parse(line);
-          valid = validator.valid?(doc)
-          if valid.errors?
-            error_count += 1
-            # Show errors
-            $stderr.puts "Document #{doc['id']} skipped"
-            if options.verbose
-              valid.errors.each do |error|
-                $stderr.puts "#{error[:rule]}:"
-                error[:errors].each do |e|
-                  $stderr.puts "\t  - #{e}"
-                end
-              end
-              $stderr.puts "\n"
-            end # verbose
-          else # we has_errors
-            added_count += 1
-            flattened = Argot::Flattener.process(doc, flattener_config)
-            results << suffixer.process(flattened)
-          end # has_errors
-        end # each_line
-      end # get_input
-
-      unless results.empty?
-        solr = RSolr.connect :url => options.solrUrl
-        solr.add results
+    def ingest(input = $stdin)
+      p = everything_pipeline(options)
+      solr = RSolr.connect url: options.solrUrl
+      cache = []
+      flush = lambda do |commit = false|
+        solr.add cache
+        print '#' unless options.quiet
+        solr.commit if commit
+        puts ' commit' if commit && !options.quiet
+        cache.clear
       end
-      puts "Added #{added_count} document(s), skipped #{error_count} document(s)"
-    end # ingest
-  end # CommandLine
-end # Argot module
+      puts "Each '#' represents #{options.interval} documents added" unless options.quiet
+      total = count = 0
+      get_input(input) do |f|
+        reader = Argot::Reader.new(f)
+        p.run(reader) do |doc|
+          count += 1
+          cache << doc
+          flush.call if cache.length >= options.interval
+        end
+        total = reader.count
+      end
+      flush.call(true)
+      puts "Added #{count}/#{total} document(s) [skipped #{total - count}]" unless options.quiet
+    end
+  end
+end

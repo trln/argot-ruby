@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'fiber'
 require 'logger'
 unless Object.respond_to?(:itself)
@@ -34,7 +36,7 @@ module Argot
     # intiializes this instance
     # @param [Hash] options options for this stage
     # @option options [String] name a name for this stage.
-    def initialize(options = {}, &block)
+    def initialize(options = {})
       @transformer ||= method(:transform)
       @filter ||= method(:filter)
       @fiber_delegate = Fiber.new do
@@ -147,6 +149,27 @@ module Argot
       options[:name] ||= 'filter'
       @filter = block
       super
+    end
+  end
+
+  # Subclass of Filter that counts records seen and rejected
+  # @param &block a block that returns tru for results that
+  # should be passed along, and false for results that should not
+  # @attr [Fixnum] :seen number of records this filter recieved on
+  # its 'input port'
+  # @attr [Fixnum] :filtered number of records this filter filtered
+  # out.
+  class CountingFilter < Stage
+    attr_reader :seen, :filtered
+
+    def initialize(options = {}, &block)
+      super
+      @filter = lambda do |x|
+        @seen += 1
+        res = block.yield(x)
+        @filtered += 1 unless res
+        yield res
+      end
     end
   end
 
@@ -457,7 +480,7 @@ module Argot
       self
     end
 
-    # sets the enumerable this pipeline pulls records from.  
+    # sets the enumerable this pipeline pulls records from.
     def enumerable=(something)
       @enumerable = something.respond_to?(:next) ? something : something.each.lazy
       @delegate_fiber = Fiber.new do

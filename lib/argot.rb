@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
 require 'argot/meta'
+
+require 'json'
 
 # Argot is TRLN's shared ingest format; it is a dialect of JSON, and
 # represents (primarily) a tranformation of MARC into a more human-readable
@@ -19,4 +23,46 @@ module Argot
   autoload :Suffixer, 'argot/suffixer'
   autoload :Validator, 'argot/validator'
   autoload :SolrSchema, 'argot/solr_schema'
+
+  # Allow classes to be used as blocks
+  module Methods
+    # converts a hash whose keys are strings
+    # one whose keys are symbols
+    # ONLY AFFECTS TOP LEVEL
+    def symbolize_hash(hash)
+      hash.each_with_object({}) { |(k, v), m| m[k.to_sym] = v }
+    end
+
+    # shortcut to get a block that calls the instance's
+    # 3call method with a single record
+    def as_block
+      lambda do |rec|
+        call(rec)
+      end
+    end
+
+    # merges hash2 into hash1, converting values
+    # that are already in hash1 to arrays
+    def combine(hash1, hash2)
+      hash2.each do |k, v|
+        if hash1.key?(k)
+          hash1[k] = Array(hash1[k])
+          hash1[k] = hash1[k] + v
+        else
+          hash1[k] = v
+        end
+      end
+      hash1
+    end
+
+    def memoize(method_name)
+      m = method(method_name.to_sym)
+      memo = Hash.new { |h, key|
+        h[key] = m.call(key)
+      }
+      lambda do args
+        memo[args]
+      end
+    end
+  end
 end

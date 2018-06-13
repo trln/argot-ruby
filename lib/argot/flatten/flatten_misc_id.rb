@@ -1,6 +1,6 @@
 module Argot
-  class FlattenMiscId
-
+  class FlattenMiscId < TypeFlattener
+ 
     # Argot Format for use with FlattenMiscId
     #
     # misc_id:
@@ -8,7 +8,7 @@ module Argot
     #   type: string|optional|prefixed as a label to the value if display is not false.
     #   qualifier: string|optional|appended as a qualifier to the value if display is not false
     #   display: boolean|optional[defaults to "true" if not set to "false"]|if "false" value will be indexed only
-    def self.flatten(value, key)
+    def flatten(value, key)
       flattened = {}
       stored_values = []
       indexed_values = []

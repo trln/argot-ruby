@@ -1,5 +1,5 @@
 module Argot
-  class FlattenWorkEntry
+  class FlattenWorkEntry < TypeFlattener
 
     # Argot Format for use with FlattenWorkEntry
     #
@@ -14,7 +14,7 @@ module Argot
     #  other_ids: ARRAY|optional
     #  display: STRING[true|false]|optional[default: true]
 
-    def self.flatten(value, _)
+    def flatten(value, _)
       flattened = {}
 
       value.each do |v|

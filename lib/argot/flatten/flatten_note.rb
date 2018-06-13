@@ -1,5 +1,8 @@
+require 'yaml'
+
 module Argot
-  class FlattenNote
+  class FlattenNote < TypeFlattener
+
     # This note flattener will be used in place of FlattenDefault
     # when an argot field is configured to use it
     # in config file lib/argot/data/flattener_config.yml
@@ -50,13 +53,13 @@ module Argot
     # lib/argot/data/solr_fields_config.yml as an indexed field,
     # otherwise it will be stored only
     #
-    def self.flatten(value, key)
+    def flatten(value, key)
       flattened = {}
       stored_values = []
       indexed_values = []
-
+      
       value.each do |v|
-        stored_values << [v.fetch('label', ''), v.fetch('value', '')].select { |e| !e.empty? }.join(': ')
+        stored_values << [v.fetch('label', ''), v.fetch('value', '')].reject(&:empty?).join(': ')
 
         if v.fetch('indexed', 'true') == 'true'
           indexed_values << (v.fetch('indexed_value', false) || v.fetch('value', ''))
@@ -65,7 +68,6 @@ module Argot
 
       flattened[key] = stored_values
       flattened["#{key}_indexed"] = indexed_values unless indexed_values.empty?
-
       flattened
     end
   end

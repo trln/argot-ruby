@@ -9,33 +9,39 @@ end
 
 begin
   require 'argot_jars'
-rescue
-  $stderr.write 'argot_jars not found'
+rescue LoadError
+  warn 'argot_jars not found'
 end
 
 begin
   java_import java.nio.charset.Charset
   java_import org.noggit.JSONParser
   java_import org.noggit.ObjectBuilder
-rescue
-  $stderr.write 'noggit classes not found.'
-  $stderr.write ' This is not a problem during installation\n'
+rescue NameError
+  warn 'noggit classes not found.'
+  warn ' This is not a problem during installation\n'
 end
 
 module Argot
   ##
   # A basic reader for Argot JSON.
   class Reader
-    # Process an IO/File/HTTP stream
-    # @param input [IO,String] containing 'streaming' JSON
-    # @yield [Hash] an Argot record
-    def process(input, options = {})
+    include Enumerable
+
+    attr_reader :count
+
+    def initialize(input, options = {})
       options[:encoding] ||= 'utf-8'
       reader = _get_reader(input, options)
       _init(reader)
+    end
+
+    def each
+      return enum_for(:each) unless block_given?
       begin
-        # rubocop:disable Lint/AssignmentInCondition
-        while rec = @builder.getObject
+        @count = 0
+        while (rec = @builder.getObject)
+          @count += 1
           yield rec
         end
       rescue JSONParser::ParseException => px
@@ -43,7 +49,15 @@ module Argot
       end
     end
 
+    alias process each
+
     private
+
+    def _setup(input, options = {})
+      options[:encoding] ||= 'utf-8'
+      reader = _get_reader(input, options)
+      _init(reader)
+    end
 
     def _init(reader)
       @parser = JSONParser.new(reader)
@@ -52,16 +66,16 @@ module Argot
 
     def _get_reader(input, options)
       encoding = Charset.forName(options[:encoding])
-      if input.java.is_a?(java.io.Reader)
-        reader = input
-      elsif input.java.kind_of?(java.io.InputStream)
-        reader = java.io.InputStreamReader.new(input, encoding)
-      elsif input.respond_to?(:to_inputstream) 
-        reader =  java.io.InputStreamReader.new(input.to_inputstream, encoding)
-      else
-        reader = java.io.StringReader.new(input)
-      end
+      reader = if input.java.is_a?(java.io.Reader)
+                 input
+               elsif input.java.is_a?(java.io.InputStream)
+                 java.io.InputStreamReader.new(input, encoding)
+               elsif input.respond_to?(:to_inputstream)
+                 java.io.InputStreamReader.new(input.to_inputstream, encoding)
+               else
+                 java.io.StringReader.new(input)
+               end
       java.io.LineNumberReader.new(reader)
     end
-  end # class
+  end
 end
