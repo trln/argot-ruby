@@ -43,6 +43,8 @@ module Argot
         Argot::FlattenIndexedValue
       when 'misc_id'
         Argot::FlattenMiscId
+      when 'names'
+        Argot::FlattenNames
       when 'note'
         Argot::FlattenNote
       when 'series_statement'
@@ -58,7 +60,7 @@ module Argot
 
     alias call process
 
-    private 
+    private
 
     def load_config(options = {})
     	location = options.fetch(:config_file, File.join(DATA_LOAD_PATH, DEFAULT_FILE))

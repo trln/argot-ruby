@@ -27,7 +27,7 @@ module Util
   end
 
   # reads a JSON file containing a single object into
-  # a Ruby object  
+  # a Ruby object
   def get_json(name)
     r = {}
     open_file(name) do |f|
@@ -80,13 +80,13 @@ module Util
     # of which are the values of the field.
     # Wrinkle for output where the field is serialized JSON,
     # if the value in the YAML is a hash with the key 'json',
-    # then the 
+    # then the
     # e.g.
-    # 
+    #
     # foo_field:
     #   - value 1
     #   - value 2
-    #   
+    #
     # foo_json_field:
     #   json:
     #     - "{ \"
