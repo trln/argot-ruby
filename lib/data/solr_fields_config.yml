@@ -333,19 +333,23 @@ most_recent:
   - stored
 names_contributor:
   type: t
-names_director:
-  type: t
 names_creator:
   type: t
 names_director:
   type: t
+names_distributor:
+  type: t
 names_editor:
+  type: t
+names_manufacturer:
   type: t
 names_no_rel:
   type: t
 names_other:
   type: t
 names_owner:
+  type: t
+names_publisher:
   type: t
 names_uncategorized:
   type: t
