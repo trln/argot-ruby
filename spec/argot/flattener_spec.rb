@@ -4,6 +4,28 @@ describe Argot::Flattener do
 
   subject { Argot::Flattener.new }
 
+  context 'default_vernacular' do
+    @record = flatten_test_record('argot-vernacular-default.json')
+    @expectations = load_expectations('flattener/vernacular_expectations', @record)
+    @expectations.each do |record, field, ev|
+      it "converts vernacular #{field} correctly" do
+        expect(record).to have_key(field)
+        expect(record[field]).to eq(ev)
+      end
+    end
+  end
+
+  context 'title_main' do
+    @record = flatten_test_record('argot-vernacular-default.json')
+    @expectations = load_expectations('flattener/title_main_expectations', @record)
+    @expectations.each do |record, field, ev|
+      it "converts #{field} correctly" do
+        expect(record).to have_key(field)
+        expect(record[field]).to eq(ev)
+      end
+    end
+  end
+
 
   context 'work_entry' do
     @record = flatten_test_record('argot-included-work-flattener.json',

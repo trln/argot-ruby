@@ -19,6 +19,7 @@ module Argot
   autoload :FlattenNames, 'argot/flatten/flatten_names'
   autoload :FlattenNote, 'argot/flatten/flatten_note'
   autoload :FlattenSeriesStatement, 'argot/flatten/flatten_series_statement'
+  autoload :FlattenTitleMain, 'argot/flatten/flatten_title_main'
   autoload :FlattenTitleVariant, 'argot/flatten/flatten_title_variant'
   autoload :FlattenWorkEntry, 'argot/flatten/flatten_work_entry'
   autoload :Suffixer, 'argot/suffixer'
