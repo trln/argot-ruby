@@ -119,18 +119,6 @@ has_supplement_issn:
   type: num
 has_supplement_other_ids:
   type: str
-has_supplement_to_author:
-  type: t
-has_supplement_to_title:
-  type: t
-has_supplement_to_work_indexed:
-  type: t
-has_supplement_to_isbn:
-  type: isbn
-has_supplement_to_issn:
-  type: num
-has_supplement_to_other_ids:
-  type: str
 holdings:
   type: t
   attr:
@@ -383,14 +371,6 @@ note_production_credits:
   - stored
 note_related_work_indexed:
   type: t
-note_report_type:
-  type: t
-  attr:
-  - stored
-note_report_coverage:
-  type: t
-  attr:
-  - stored
 note_reproduction_indexed:
   type: t
 note_scale:
@@ -562,6 +542,18 @@ subseries_isbn:
 subseries_issn:
   type: num
 subseries_other_ids:
+  type: str
+supplement_to_author:
+  type: t
+supplement_to_title:
+  type: t
+supplement_to_work_indexed:
+  type: t
+supplement_to_isbn:
+  type: isbn
+supplement_to_issn:
+  type: num
+supplement_to_other_ids:
   type: str
 this_author:
   type: t
