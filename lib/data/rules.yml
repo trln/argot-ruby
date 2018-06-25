@@ -1,6 +1,9 @@
 - name: "title is required"
-  path: 'title.main'
+  path: 'title_main'
   required: true
+
+- name: "title sort is singular"
+  path: 'title_sort'
   single: true
 
 - name: "id is required"

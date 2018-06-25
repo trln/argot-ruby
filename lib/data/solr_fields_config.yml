@@ -612,10 +612,11 @@ title_later:
   attr:
   - stored
 title_main:
-  type: t
   attr:
   - stored
   - single
+title_main_indexed:
+  type: t
 title_sort:
   type: str
   attr:

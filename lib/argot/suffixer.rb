@@ -12,7 +12,7 @@ module Argot
 
     INT_TYPES = %w[i float long double].freeze
 
-    LANG_CODE = 'lang_code'.freeze
+    LANG_CODE = 'lang'.freeze
 
     VERNACULAR = 'vernacular'.freeze
 

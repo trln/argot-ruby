@@ -25,6 +25,8 @@ note_reproduction:
     flattener: note
 series_statement:
     flattener: series_statement
+title_main:
+    flattener: title_main
 title_variant:
     flattener: title_variant
 included_work:
