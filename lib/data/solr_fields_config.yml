@@ -16,22 +16,6 @@ alt_edition_other_ids:
   type: str
 author_facet:
   type: f
-authors_directors:
-  type: t
-  attr:
-  - stored
-authors_main:
-  type: tf
-  attr:
-  - stored
-authors_other:
-  type: t
-  attr:
-  - stored
-authors_uncontrolled:
-  type: t
-  attr:
-  - stored
 available:
   type: f
   attr:
@@ -105,6 +89,10 @@ edition_indexed:
   type: t  
 format:
   type: f
+  attr:
+  - stored
+genre_headings:
+  type: tf
   attr:
   - stored
 has_supplement_author:
@@ -226,78 +214,6 @@ later_other_ids:
   type: str
 lcc_callnum_classification:
   type: tf
-  attr:
-  - stored
-linking_added_entry:
-  type: t
-  attr:
-  - stored
-linking_added_entry_isn:
-  type: str
-  attr:
-  - stored
-linking_constituent_unit:
-  type: t
-  attr:
-  - stored
-linking_constituent_unit_isn:
-  type: str
-  attr:
-  - stored
-linking_has_supplement:
-  type: t
-  attr:
-  - stored
-linking_has_supplement_isn:
-  type: str
-  attr:
-  - stored
-linking_host_item:
-  type: t
-  attr:
-  - stored
-linking_host_item_isn:
-  type: str
-  attr:
-  - stored
-linking_main_series:
-  type: t
-  attr:
-  - stored
-linking_main_series_isn:
-  type: str
-  attr:
-  - stored
-linking_subseries:
-  type: t
-  attr:
-  - stored
-linking_subseries_isn:
-  type: str
-  attr:
-  - stored
-linking_supplement_to:
-  type: t
-  attr:
-  - stored
-linking_supplement_to_isn:
-  type: str
-  attr:
-  - stored
-linking_translated_as:
-  type: t
-  attr:
-  - stored
-linking_translated_as_isn:
-  type: str
-  attr:
-  - stored
-linking_translation_of:
-  type: t
-  attr:
-  - stored
-linking_translation_of_isn:
-  type: str
   attr:
   - stored
 local_id:
@@ -456,26 +372,6 @@ rollup_id:
   attr:
   - stored
   - single
-series_corporate:
-  type: t
-  attr:
-  - stored
-series_main:
-  type: t
-  attr:
-  - stored
-series_meeting:
-  type: t
-  attr:
-  - stored
-series_personal:
-  type: t
-  attr:
-  - stored
-series_uniform:
-  type: t
-  attr:
-  - stored
 series_author:
   type: t
 series_statement_indexed:
@@ -523,11 +419,11 @@ subject_medical:
   type: tf
   attr:
   - stored
-subject_topic_lcsh:
+subject_topical:
   type: tf
   attr:
   - stored
-subjects:
+subject_headings:
   type: tf
   attr:
   - stored
@@ -569,40 +465,12 @@ this_other_ids:
   type: str
 title_abbrev_indexed:
   type: t
-title_abbreviation:
-  type: t
-  attr:
-  - stored
-title_alternate:
-  type: t
-  attr:
-  - stored
-title_analytical:
-  type: t
-  attr:
-  - stored
-title_collective:
-  type: t
-  attr:
-  - stored
-title_earlier:
-  type: t
-  attr:
-  - stored
 title_former_indexed:
   type: t
 title_former_issn:
   type: num
-title_journal:
-  type: t
-  attr:
-  - stored
 title_key_indexed:
   type: t
-title_later:
-  type: t
-  attr:
-  - stored
 title_main:
   attr:
   - stored
@@ -614,14 +482,6 @@ title_sort:
   attr:
   - sort
   - single
-title_translation:
-  type: t
-  attr:
-  - stored
-title_uniform:
-  type: t
-  attr:
-  - stored
 title_variant_indexed:
   type: t
 translated_as_author:
