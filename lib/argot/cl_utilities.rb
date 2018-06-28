@@ -64,7 +64,7 @@ module Argot
     # @return 
     def validation_reporter(options)
       formatter = formatter(options)
-      lambda do |results|
+      lambda do |rec, results|
         if options.verbose
           errdoc = {
             id: rec.fetch('id', '<unknown id>'),
@@ -78,6 +78,7 @@ module Argot
         else
           warn "Document #{rec.fetch('id', '<unknown id>')} skipped (#{results.first_error})"
         end
+        false
       end
     end
 
@@ -114,7 +115,7 @@ module Argot
       validator = Argot::Validator.new
       reporter = validation_reporter(options)
       validate = lambda do |rec|
-        validator.valid?(rec) &reporter
+        validator.valid?(rec, &reporter)
       end
     end
 
