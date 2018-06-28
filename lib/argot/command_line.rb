@@ -49,13 +49,13 @@ module Argot
 
     method_option   :quiet,
                     type: :boolean,
-                    default: true,
+                    default: false,
                     aliases: '-q',
                     desc: "Don't write records to STDOUT"
 
     method_option   :all,
                     type: :boolean,
-                    default: true,
+                    default: false,
                     aliases: '-a',
                     desc: "validate, flatten, suffix, and Solr validate results (same as full_validate)"
     

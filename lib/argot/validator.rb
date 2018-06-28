@@ -150,18 +150,21 @@ module Argot
       end
 
       ##
-      # Tests whether a given record is valid, returning boolean +true+ if
-      # the record is valid; if a block is supplied, the block will
-      # be invoked with a collection of the errors and rules that were
-      # violated for more detailed error reporting.
+      # Tests the record for validity.
+      # if a block is supplied,  it will be called with the input record and
+      # the validation result object that indicates errors
       # @param [Hash<String, Object>] rec the Argot record to be validated.
       # @param [Fixnum] location the location in a source file currently being
       # processed.
-      # @yield [Array] the rule evaluation results that contain errors
-      def valid?(rec, location = 0)
+      # @return [Bool] true if the record is valid, false if not
+      # @yield [rec, result] an handler to be invoked if the record is not valid
+      # @yieldparam [Hash] rec the input record
+      # @yieldparam [ValidationResult] result the validation result, which
+      #  includes error messages
+      def valid?(rec, location = 0, &block)
         results = call(rec, location)
         valid = results.errors.empty?
-        yield results if block_given? && !valid
+        yield(rec, results) if block_given? && !valid
         valid
       end
 
