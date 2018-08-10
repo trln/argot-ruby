@@ -9,6 +9,7 @@ module Argot
     #  title: ARRAY|optional
     #  title_nonfiling: STRING|optional
     #  title_variation: STRING|optional
+    #  details: STRING|optional
     #  isbn: ARRAY|optional
     #  issn: STRING|optional
     #  other_ids: ARRAY|optional
@@ -34,6 +35,7 @@ module Argot
           display_v[:author] = v['author'] if v.has_key?('author')
           display_v[:title] = v['title'] if v.has_key?('title')
           display_v[:title_variation] = v['title_variation'] if v.has_key?('title_variation')
+          display_v[:details] = v['details'] if v.has_key?('details')
           display_v[:isbn] = v['isbn'] if v.has_key?('isbn')
           display_v[:issn] = v['issn'] if v.has_key?('issn')
 
