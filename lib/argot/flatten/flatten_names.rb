@@ -1,6 +1,7 @@
 module Argot
   class FlattenNames < TypeFlattener
     def flatten(value, key)
+
       flattened = {}
       facet_values = []
       stored_values = []
@@ -19,6 +20,8 @@ module Argot
         indexed_value = v.fetch('name', '')
         flattened[indexed_key] ||= []
         flattened[indexed_key] << indexed_value unless indexed_value.empty?
+
+        Argot::BuildSuggestFields.add_value_to_suggest(flattened, key, indexed_value)
       end
 
       flattened["author_facet"] = facet_values.compact unless facet_values.empty?

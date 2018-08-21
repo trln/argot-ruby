@@ -44,8 +44,16 @@ module Argot
 
         flattened["#{key}_work_indexed"] << [v.fetch('author', ''),
                                              v.fetch('title', []).join(' ')].join(' ').strip
-        flattened["#{key}_author"] << v.fetch('author', '') if v.has_key?('author')
-        flattened["#{key}_title"] << v.fetch('title', []).join(' ') if v.has_key?('title')
+        if v.has_key?('author')
+          flattened["#{key}_author"] << v.fetch('author', '')
+          Argot::BuildSuggestFields.add_value_to_suggest(flattened, "#{key}_author", v['author'])
+        end
+
+        if v.has_key?('title')
+          flattened["#{key}_title"] << v.fetch('title', []).join(' ')
+          Argot::BuildSuggestFields.add_value_to_suggest(flattened, "#{key}_title", v.fetch('title', []).join(' '))
+        end
+
         flattened["#{key}_title"] << v.fetch('title_nonfiling', '') if v.has_key?('title_nonfiling')
         flattened["#{key}_title"] << v.fetch('title_variation', '') if v.has_key?('title_variation')
         flattened["#{key}_isbn"].concat(v.fetch('isbn', [])) if v.has_key?('isbn')
