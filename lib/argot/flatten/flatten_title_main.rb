@@ -19,6 +19,10 @@ module Argot
         else
           flattened["#{key}_indexed"] << v['value'] if v.has_key?('value')
         end
+
+        if v.has_key?('value')
+          Argot::BuildSuggestFields.add_value_to_suggest(flattened, key, v['value'])
+        end
       end
 
       flattened["#{key}_value"] = stored.uniq.join(' / ')

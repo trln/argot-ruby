@@ -74,6 +74,48 @@ included_work_indexed :
   - "Bulletin (North Carolina Agricultural Experiment Station)"
   - "Bellevue literary review :"
 
+author_suggest:
+  - "Saint-Saëns, Camille, 1835-1921."
+  - "Schwenkel, Christina."
+  - "Ferrini, Vincent, 1913-2007."
+  - "Plotinus."
+  - "Name, Author, (Test name), 1944-."
+  - "Kungliga Biblioteket (Sweden)."
+  - "United States. Congress (94th, 2nd session : 1976)."
+  - "North Carolina. Building Code Council."
+  - "Germany (East)."
+  - "Café Tacuba (Musical group)"
+  - "Great Central Fair for the U.S. Sanitary Commission (1864 : Philadelphia, Pa.). Committee on Public Charities and Benevolent Institutions."
+  - "Deutsch Foundation Conference (1930 : University of Chicago)."
+  - "Masson, VeNeta."
+  - "Masson, VeNeta."
+
+title_suggest:
+  - "Quartets, violins (2), viola, cello, no. 2, op. 153, G major"
+  - "Architecture and dwelling in the 'war of destruction' in Vietnam."
+  - "Tidal wave : poems of the great strikes. 1945 (New York : Great-Concord Publishers)"
+  - "Peri tou kalou. French (Achard and Narbonne)"
+  - "Test title."
+  - "Manuscript. KB787a. Church Slavic. 1966."
+  - "Memorial services held in the House of Representatives and Senate of the United States, together with remarks presented in eulogy of Jerry L. Litton, late a Representative from Missouri. 197."
+  - "North Carolina state building code. 1, General construction. 11X, Making buildings and facilities accessible to and usable by the physically handicapped."
+  - "Treaties, etc. Germany (West), 1990 May 18. 1990."
+  - "12/12"
+  - "Philadelphia [blank] 1864. 619 Walnut Street. To [blank] ..."
+  - "Care of the aged. 2000, 1972. Reprint."
+  - "Cahiers de civilisation médiévale. Bibliographie."
+  - "Jane Pickering's lute book. arr."
+  - "Magnificent Ambersons (Motion picture). Spanish."
+  - "Magnificent Ambersons (Motion picture). English."
+  - "Deutsche Geschichte. Band 6."
+  - "English pilot. The fourth book : describing the West India navigation, from Hudson's-Bay to the river Amazones ..."
+  - "Industrial sales management game 5."
+  - "Rehab at the Florida Avenue Grill."
+  - "Rehab at the Florida Avenue Grill."
+  - "Sports illustrated."
+  - "Bulletin (North Carolina Agricultural Experiment Station)"
+  - "Bellevue literary review :"
+
 included_work:
   json:
     - author: Saint-Saëns, Camille, 1835-1921.

@@ -21,6 +21,7 @@ module Argot
         unless value.nil?
           flattened[parent] = [] if flattened[parent].nil?
           flattened[parent] << value
+          Argot::BuildSuggestFields.add_value_to_suggest(flattened, parent, value)
         end
       end
       flattened

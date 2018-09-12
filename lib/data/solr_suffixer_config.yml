@@ -8,6 +8,8 @@ id: 'id'
 lang: 'lang'
 # the key-name suffix used to denote vernacular fields. Example key: title_main_vernacular
 vernacular: 'vernacular'
+# the key-name suffix to demote suggest fields. Example title_suggest
+suggest: 'suggest'
 # key-name suffixes to remove. Example: title_main_value => title_main
 trim:
   - 'value'
@@ -16,4 +18,3 @@ trim:
 ignore:
   - 'marc'
   - 'lang'
-

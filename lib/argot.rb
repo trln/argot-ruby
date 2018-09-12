@@ -25,6 +25,7 @@ module Argot
   autoload :Suffixer, 'argot/suffixer'
   autoload :Validator, 'argot/validator'
   autoload :SolrSchema, 'argot/solr_schema'
+  autoload :BuildSuggestFields, 'argot/build_suggest_fields'
 
   # Allow classes to be used as blocks
   module Methods

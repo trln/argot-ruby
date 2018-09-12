@@ -28,7 +28,9 @@ module Argot
           flattened[key] << display_v
         end
 
-        flattened["#{key}_indexed"] << (v.fetch('indexed_value', false) || v.fetch('value', ''))
+        indexed_value = v.fetch('indexed_value', false) || v.fetch('value', '')
+        flattened["#{key}_indexed"] << indexed_value
+        Argot::BuildSuggestFields.add_value_to_suggest(flattened, key, indexed_value)
 
         if v.has_key?('issn')
           flattened["#{key}_issn"] << v.fetch('issn', '')

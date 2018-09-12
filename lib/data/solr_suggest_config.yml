@@ -1,0 +1,73 @@
+# This file defines which flattened fields get included in which
+# suggest dictionary in Solr. There are 3 suggest dictionaries
+# title, author, subject and they should only include values
+# that are included in indexed fields that are searched by the
+# title, author, and subject fielded search options in Blacklight/Argon.
+#
+# There are a few more things to keep in mind.
+#
+# The field keys used in this configuration depend on which
+# flattener is used to process the source Argot data
+# and the specifics of how that flattener works.
+# For instance, included_author isn't an Argot field
+# But it is a flattened key that gets created as part of the
+# work_entry flattener process. So you have to know how that flattener works
+# and how the source fields are configured in order to configure field keys properly.
+# When in doubt look up which flattener is configured in lib/argot/data/flattener_config.yml
+# and examine the flattener in lib/argot/flatten/
+#
+# In the case of the default flattener you would need to specify the nested path
+# for the field/value you want to store for the suggest engine:
+# For this argot field/value: "oclc_number": { "value": "00071429" }
+# to add "00071429" to the (non-existent) numbers suggest dictionary you would
+# add this to this config:
+#
+# oclc_number_value:
+#  suggest_fields:
+#    - numbers
+#
+# For this argot field/value: "language": [ "English" ]
+# to add "English" to the (non-existent) languages suggest dictionary you would
+# add this to this config:
+#
+# language:
+#  suggest_fields:
+#    - languages
+#
+# Also, it's pointless to include any field value that doesn't get indexed.
+# You should be sure that fields that are getting mapped to suggest fields ARE ALSO
+# getting mapped to fields that are indexed in Solr, and furthermore that these fields are
+# included in the default list of indexed fields searched by Solr/Blacklight
+# fielded search options. Check the Solr and Argon/Blacklight configuration.
+#
+# I've not added the ability to add values from certain flatteners because they
+# don't seem like likely candidates for inclusion. You can configure fields that use
+# the default flattener, the indexed_value flattener, the names flattener, the title_main
+# flattener, the title_variant flattener, and the work_entry flattener.
+# The Argot::BuildSuggestFields.add_value_to_suggest(flattened_fields, field_key, value) module/method
+# provides a convenient way to add this functionality to additional flatteners if needed.
+
+names:
+  suggest_fields:
+    - author
+included_author:
+  suggest_fields:
+    - author
+series_author:
+  suggest_fields:
+    - author
+title_main:
+  suggest_fields:
+    - title
+included_title:
+  suggest_fields:
+    - title
+series_title:
+  suggest_fields:
+    - title
+genre_headings_value:
+  suggest_fields:
+    - subject
+subject_headings_value:
+  suggest_fields:
+    - subject

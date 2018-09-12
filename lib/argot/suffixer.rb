@@ -16,6 +16,8 @@ module Argot
 
     VERNACULAR = 'vernacular'.freeze
 
+    SUGGEST = 'suggest'.freeze
+
     attr_reader :config, :lang_code, :vernacular
 
 
@@ -30,6 +32,7 @@ module Argot
     def read_config
       @vernacular = @config.fetch(:vernacular, VERNACULAR)
       @lang_code = @config.fetch(:lang_code, LANG_CODE)
+      @suggest = @config.fetch(:suggest, SUGGEST)
       warn("config has no id atttribute: #{@config}") unless @config.key?(:id)
       warn("Config's trim attribute is not an array") unless @config.fetch(:trim, []).is_a?(Array)
       warn("Config's :ignore is not an array") unless @config.fetch(:ignore, []).is_a?(Array)
@@ -92,6 +95,8 @@ module Argot
             case orig_key
             when @config.fetch(:id, 'id')
               'id'
+            when /.*_#{Regexp.escape(@suggest)}/
+              orig_key
             else
               add_suffix(k, vern, lang)
             end
