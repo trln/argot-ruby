@@ -367,11 +367,6 @@ reverse_shelfkey:
   attr:
   - stored
   - single
-rollup_id:
-  type: str
-  attr:
-  - stored
-  - single
 series_author:
   type: t
 series_statement_indexed:
