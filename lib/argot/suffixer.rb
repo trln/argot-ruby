@@ -18,6 +18,8 @@ module Argot
 
     SUGGEST = 'suggest'.freeze
 
+    ROLLUP_ID = 'rollup_id'.freeze
+
     attr_reader :config, :lang_code, :vernacular
 
 
@@ -33,6 +35,7 @@ module Argot
       @vernacular = @config.fetch(:vernacular, VERNACULAR)
       @lang_code = @config.fetch(:lang_code, LANG_CODE)
       @suggest = @config.fetch(:suggest, SUGGEST)
+      @rollup_id = @config.fetch(:rollup_id, ROLLUP_ID)
       warn("config has no id atttribute: #{@config}") unless @config.key?(:id)
       warn("Config's trim attribute is not an array") unless @config.fetch(:trim, []).is_a?(Array)
       warn("Config's :ignore is not an array") unless @config.fetch(:ignore, []).is_a?(Array)
@@ -95,6 +98,8 @@ module Argot
             case orig_key
             when @config.fetch(:id, 'id')
               'id'
+            when @rollup_id
+              @rollup_id
             when /.*_#{Regexp.escape(@suggest)}/
               orig_key
             else
