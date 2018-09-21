@@ -25,7 +25,7 @@ module Argot
         end
       end
 
-      flattened["#{key}_value"] = stored.uniq.join(' / ')
+      flattened["#{key}_value"] = stored.reverse.uniq.join(' / ')
       flattened.delete_if { |k,v| v.empty? }
     end
   end
