@@ -339,7 +339,6 @@ publication_year:
   attr:
   - stored
   - sort
-  - single
 publisher:
   type: t
 publisher_number:
