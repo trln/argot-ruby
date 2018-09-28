@@ -16,10 +16,18 @@ module Argot
         stored_value['rel'] = stored_rel unless stored_rel.empty?
         stored_values << stored_value.to_json
 
-        indexed_key = "#{key}_#{v.fetch('type', 'no_rel')}"
         indexed_value = v.fetch('name', '')
-        flattened[indexed_key] ||= []
-        flattened[indexed_key] << indexed_value unless indexed_value.empty?
+        indexed_key = "#{key}_#{v.fetch('type', 'no_rel')}"
+
+        if v.has_key?('lang') && !indexed_value.empty?
+          flattened["#{indexed_key}_vernacular_value"] ||= []
+          flattened["#{indexed_key}_vernacular_lang"] ||= []
+          flattened["#{indexed_key}_vernacular_value"] << indexed_value
+          flattened["#{indexed_key}_vernacular_lang"] << v['lang']
+        elsif !indexed_value.empty?
+          flattened[indexed_key] ||= []
+          flattened[indexed_key] << indexed_value
+        end
 
         Argot::BuildSuggestFields.add_value_to_suggest(flattened, key, indexed_value)
       end
