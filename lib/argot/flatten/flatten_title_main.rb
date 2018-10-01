@@ -6,6 +6,7 @@ module Argot
 
       value.each do |v|
         flattened["#{key}_indexed"] ||= []
+
         if v.has_key?('lang')
           flattened["#{key}_vernacular_value"] ||= []
           flattened["#{key}_vernacular_lang"] ||= []
