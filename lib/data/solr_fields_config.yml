@@ -389,6 +389,10 @@ shelfkey:
   attr:
   - stored
   - single
+short_title:
+  type: t
+  attr:
+    - single
 source_of_acquisition:
   type: t
   attr:
