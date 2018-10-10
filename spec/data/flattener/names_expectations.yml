@@ -1,12 +1,13 @@
 names:
   json:
     - name: Stern, S. M. (Samuel Miklos), 1920-1969
+      rel: author
     - name: Aubin, Jean
     - name: ʻUmar, al-Sayyid, 1950-
     - name: عمر، السيد، 1950-
 
 names_creator:
-    - Stern, S. M. (Samuel Miklos), 1920-1969
+    - Stern, S. M. (Samuel Miklos), 1920-1969, author
     - ʻUmar, al-Sayyid, 1950-
 
 names_creator_vernacular_value: عمر، السيد، 1950-
