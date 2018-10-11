@@ -16,7 +16,8 @@ module Argot
         stored_value['rel'] = stored_rel unless stored_rel.empty?
         stored_values << stored_value.to_json
 
-        indexed_value = v.fetch('name', '')
+        indexed_value = [v.fetch('name', ''), v.fetch('rel', []).join(', ')].delete_if(&:empty?)
+                                                                            .join(', ')
         indexed_key = "#{key}_#{v.fetch('type', 'no_rel')}"
 
         if v.has_key?('lang') && !indexed_value.empty?
@@ -29,7 +30,7 @@ module Argot
           flattened[indexed_key] << indexed_value
         end
 
-        Argot::BuildSuggestFields.add_value_to_suggest(flattened, key, indexed_value)
+        Argot::BuildSuggestFields.add_value_to_suggest(flattened, key, v.fetch('name', ''))
       end
 
       flattened["author_facet"] = facet_values.compact unless facet_values.empty?
