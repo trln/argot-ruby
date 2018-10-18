@@ -86,7 +86,7 @@ earlier_issn:
 earlier_other_ids:
   type: str
 edition_indexed:
-  type: t  
+  type: t
 format:
   type: f
   attr:
