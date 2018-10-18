@@ -68,6 +68,12 @@ series_title:
 genre_headings_value:
   suggest_fields:
     - subject
+genre_headings_vernacular_value:
+  suggest_fields:
+    - subject
 subject_headings_value:
+  suggest_fields:
+    - subject
+subject_headings_vernacular_value:
   suggest_fields:
     - subject
