@@ -92,7 +92,7 @@ format:
   attr:
   - stored
 genre_headings:
-  type: tf
+  type: t
   attr:
   - stored
 has_supplement_author:
@@ -422,7 +422,7 @@ subject_topical:
   attr:
   - stored
 subject_headings:
-  type: tf
+  type: t
   attr:
   - stored
 subseries_author:
