@@ -267,6 +267,8 @@ note_biographical:
   type: t
   attr:
   - stored
+note_cited_in_indexed:
+  type: t
 note_dissertation:
   type: t
   attr:
