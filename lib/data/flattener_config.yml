@@ -13,6 +13,8 @@ names:
     flattener: names
 note_binding:
     flattener: note
+note_cited_in:
+    flattener: note
 note_general:
     flattener: note
 note_local:
