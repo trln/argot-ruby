@@ -7,8 +7,8 @@ id: 'id'
 # the key-name of the unique rollup_id argot attribute. It will not be suffixed.
 rollup_id: 'rollup_id'
 # key-name of problematic subject headings that will be searchable but not displayed
-#  It will not be suffixed in the usual way
-search_only_subject: 'subject_headings_t'
+#  It will not be suffixed.
+subject_headings_t: 'subject_headings_t'
 # the key-name suffix used to denote language codes. Example key: title_main_vernacular_lang_code
 lang: 'lang'
 # the key-name suffix used to denote vernacular fields. Example key: title_main_vernacular
