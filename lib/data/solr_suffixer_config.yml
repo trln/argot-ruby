@@ -20,8 +20,6 @@ trim:
   - 'value'
   - 'name'
 # key-name suffixes to ignore. Example: title_main_marc would be ignored
-# subject_headings_t will be ignored, so we can send through indexed-but-not-displayed
-#   problematic subject headings
 ignore:
   - 'marc'
   - 'lang'
