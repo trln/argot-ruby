@@ -19,7 +19,7 @@ describe Argot::Suffixer do
         attr: %w[stored single]
       },
       subject_headings: {
-        type: 'tf',
+        type: 't',
         attr: ['stored']
       },
       title_sort: {
@@ -59,7 +59,7 @@ describe Argot::Suffixer do
       fdoc = Argot::Flattener.new.call(doc)
       rec = described_class.new(config:config, fields: solr_fields).call(fdoc)
       puts rec
-      expect(rec).to have_key('subject_headings_tf_stored')
+      expect(rec).to have_key('subject_headings_t_stored')
     end
   end
 end
