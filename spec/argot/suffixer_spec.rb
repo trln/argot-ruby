@@ -7,7 +7,7 @@ describe Argot::Suffixer do
       vernacular: 'vernacular',
       lang: 'lang',
       rollup_id: 'rollup_id',
-      subject_headings_t: 'subject_headings_t',
+      search_only_subject: 'subject_headings_t',
       ignore: ['marc', 'lang']
     }
   end
@@ -17,6 +17,10 @@ describe Argot::Suffixer do
       id: {
         type: 't',
         attr: %w[stored single]
+      },
+      subject_headings: {
+        type: 'tf',
+        attr: ['stored']
       },
       title_sort: {
         type: 'str',
