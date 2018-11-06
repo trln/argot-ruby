@@ -68,6 +68,14 @@
       "vernacular": "",
       "marc_source": "260"
     }
-  ]
+  ],
+    "subject_headings": [
+	{
+	    "value": "Undocumented immigrants"
+	}
+    ],
+    "subject_headings_t": [
+	"Illegal aliens"
+	]
 }
 

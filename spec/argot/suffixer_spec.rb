@@ -6,7 +6,9 @@ describe Argot::Suffixer do
       trim: ['value'],
       vernacular: 'vernacular',
       lang: 'lang',
-      rollup_id: 'rollup_id'
+      rollup_id: 'rollup_id',
+      subject_headings_t: 'subject_headings_t',
+      ignore: ['marc', 'lang']
     }
   end
 
@@ -40,6 +42,20 @@ describe Argot::Suffixer do
       fdoc = Argot::Flattener.new.call(doc)
       rec = described_class.new(config:config, fields: solr_fields).call(fdoc)
       expect(rec).to have_key('rollup_id')
+    end
+    it 'does not suffix the subject_headings_t field' do
+      doc = get_json('argot-allgood.json')
+      fdoc = Argot::Flattener.new.call(doc)
+      rec = described_class.new(config:config, fields: solr_fields).call(fdoc)
+      puts rec
+      expect(rec).to have_key('subject_headings_t')
+    end
+    it 'suffixes the normal subject_headings field' do
+      doc = get_json('argot-allgood.json')
+      fdoc = Argot::Flattener.new.call(doc)
+      rec = described_class.new(config:config, fields: solr_fields).call(fdoc)
+      puts rec
+      expect(rec).to have_key('subject_headings_tf_stored')
     end
   end
 end

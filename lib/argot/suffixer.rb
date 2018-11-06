@@ -20,6 +20,8 @@ module Argot
 
     ROLLUP_ID = 'rollup_id'.freeze
 
+    SUBJECT_HEADINGS_T = 'subject_headings_t'.freeze
+    
     attr_reader :config, :lang_code, :vernacular
 
 
@@ -36,6 +38,7 @@ module Argot
       @lang_code = @config.fetch(:lang_code, LANG_CODE)
       @suggest = @config.fetch(:suggest, SUGGEST)
       @rollup_id = @config.fetch(:rollup_id, ROLLUP_ID)
+      @subject_headings_t = @config.fetch(:subject_headings_t, SUBJECT_HEADINGS_T)
       warn("config has no id atttribute: #{@config}") unless @config.key?(:id)
       warn("Config's trim attribute is not an array") unless @config.fetch(:trim, []).is_a?(Array)
       warn("Config's :ignore is not an array") unless @config.fetch(:ignore, []).is_a?(Array)
@@ -100,6 +103,8 @@ module Argot
               'id'
             when @rollup_id
               @rollup_id
+            when @subject_headings_t
+              @subject_headings_t
             when /.*_#{Regexp.escape(@suggest)}/
               orig_key
             else
