@@ -34,7 +34,7 @@ Gem::Specification.new do |s|
     nokogiri_versions << '< 1.7' if Gem::Version.new(RUBY_VERSION) < Gem::Version.new("2.1.0")
 
     s.add_runtime_dependency 'traject', [ '~> 2.0' ]
-    s.add_runtime_dependency 'thor', ['~> 0.19.4']
+    s.add_runtime_dependency 'thor', ['~> 0.20.0']
     s.add_runtime_dependency 'rsolr', [ '~> 1.1', '>=1.1.2']
 
     # system rubies may be installed wihtout minitest
