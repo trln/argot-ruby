@@ -23,6 +23,13 @@ describe Argot::Suffixer do
       title_main: {
         type: 't',
         attr: %w[single]
+      },
+      subject_headings: {
+        type: 't',
+        attr: ['stored']
+      },
+      subject_headings_remapped: {
+        type: 't'
       }
     }
   end
@@ -40,6 +47,14 @@ describe Argot::Suffixer do
       fdoc = Argot::Flattener.new.call(doc)
       rec = described_class.new(config:config, fields: solr_fields).call(fdoc)
       expect(rec).to have_key('rollup_id')
+    end
+
+    it 'suffixes subject_headings_* correctly' do
+      doc = get_json('argot-problem-subjects.json')
+      fdoc = Argot::Flattener.new.call(doc)
+      rec = described_class.new(config:config, fields: solr_fields).call(fdoc)
+      expect(rec).to have_key('subject_headings_t_stored')
+      expect(rec).to have_key('subject_headings_remapped_t')
     end
   end
 end
