@@ -53,8 +53,8 @@ describe Argot::Suffixer do
       doc = get_json('argot-problem-subjects.json')
       fdoc = Argot::Flattener.new.call(doc)
       rec = described_class.new(config:config, fields: solr_fields).call(fdoc)
-      expect(rec).to have_key('subject_headings_t_stored')
       expect(rec).to have_key('subject_headings_remapped_t')
+      expect(rec).to have_key('subject_headings_t_stored')
     end
   end
 end
