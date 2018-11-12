@@ -427,6 +427,8 @@ subject_headings:
   type: t
   attr:
   - stored
+subject_headings_remapped:
+  type: t
 subseries_author:
   type: t
 subseries_title:
