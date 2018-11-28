@@ -97,4 +97,15 @@ describe Argot::Flattener do
       end
     end
   end
+
+  context 'series statement' do
+    @rec = flatten_test_record('argot-series-statement-flattener.json',
+      {'series_statement' => {'flattener' => 'series_statement'}})
+    load_expectations('flattener/series_statement_expectations', @rec).each do |record, field, ev|
+      it "converts #{field} correctly" do
+        expect(record).to have_key(field)
+        expect(record[field]).to eq(ev)
+      end
+    end
+  end
 end
