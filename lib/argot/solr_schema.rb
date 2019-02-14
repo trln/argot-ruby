@@ -101,12 +101,12 @@ module Argot
     def check_values(field_type, value)
       return true unless field_type && (validator = TYPE_FORMAT_VALIDATORS[field_type.to_sym])
 
-      value = [value] unless value.is_a?(Array)
+      value = [value] unless value.respond_to?(:each)
       value.all? { |v| validator.call(v) }
     end
 
     def _validate_matcher(matcher, value)
-      return true unless value.is_a?(Array)
+      return true unless value.respond_to?(:each)
 
       value.length == 1 || matcher[:multi]
     end
