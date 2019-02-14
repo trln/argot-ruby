@@ -1,6 +1,6 @@
+# frozen_string_literal: true
+
 describe Argot::Pipeline do
-  
-  
   let(:words) { %w[one of these things first] }
 
   it 'transforms an array of words when manually configured' do
@@ -34,11 +34,11 @@ describe Argot::Pipeline do
     p.run(words) { |x| r << x }
     r.collect(&:to_a)
     expect(r.length).to (be < words.length)
-    expect(r).to all( satisfy("have fewer than #{max_size} sized chunks") { |x| x.length <= max_size }) 
+    expect(r).to all(satisfy("have fewer than #{max_size} sized chunks") { |x| x.length <= max_size })
     expect(r.flatten).to eq(words)
   end
 
-  it 'scatters results when asked to' do 
+  it 'scatters results when asked to' do
     max_size = 3
     p = Argot::Pipeline.setup do
       gather max_size

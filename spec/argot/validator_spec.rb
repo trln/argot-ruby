@@ -1,15 +1,16 @@
-describe Argot::Validator do
+# frozen_string_literal: true
 
+describe Argot::Validator do
   let(:invalid_rec) { { 'id' => '12345' } }
 
   let(:minimal_valid_rec) do
-      { 'id' => '12345', 'title_main' => 'gooby', 'local_id' => {'value' => 'empty'}, 'institution' => [ 'trln']  }
+    { 'id' => '12345', 'title_main' => 'gooby', 'local_id' => { 'value' => 'empty' }, 'institution' => ['trln'] }
   end
 
   context '#from_files' do
     it 'sucessfully instantiates' do
-		  expect(described_class.from_files).not_to be_nil
-	   end
+      expect(described_class.from_files).not_to be_nil
+    end
   end
 
   context '#valid?' do
@@ -24,7 +25,7 @@ describe Argot::Validator do
     it 'passes results for invalid record to a handler block' do
       stuff = []
       vr = described_class.new.valid?(invalid_rec) do |r2, results|
-        stuff << [ r2, results ]
+        stuff << [r2, results]
         expect(r2).to eq(invalid_rec)
         expect(results.errors).not_to be_empty
       end
@@ -36,7 +37,7 @@ describe Argot::Validator do
       stuff = []
       vr = described_class.new.valid?(minimal_valid_rec) do |r2, results|
         stuff << [r2, results]
-        fail "handler was called on valid record (#{results.errors.first})"
+        raise "handler was called on valid record (#{results.errors.first})"
       end
       expect(vr).to be(true)
       expect(stuff).to be_empty
