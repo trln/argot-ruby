@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'yaml'
 
 module Util
@@ -7,6 +9,7 @@ module Util
   def find_file(name)
     path = File.join(TEST_FILES, name)
     raise "Can't find #{path}" unless File.exist?(path)
+
     yield path if block_given?
     path
   end
@@ -38,13 +41,15 @@ module Util
   end
 
   def yaml_fixture(name)
-    begin 
-      open_file(name) do |f|
-        YAML.load_file(f)
-      end
-    rescue StandardError => e
-      raise "YAML load of #{name} failed #{e}"
+    open_file(name) do |f|
+      YAML.load_file(f)
     end
+  rescue StandardError => e
+    raise "YAML load of #{name} failed #{e}"
+  end
+
+  def argot_reader(file)
+    Argot::Reader.new(open_file(file))
   end
 
   # Flattens data found in a JSON file to a single
@@ -60,12 +65,12 @@ module Util
 
   def fixture_expectations(exp_file, record)
     expectations = yaml_fixture(exp_file)
-    return expectations.map do |field, ev|
-      if ev.respond_to?(:has_key?) && ev.has_key?('json')
+    expectations.map do |field, ev|
+      if ev.respond_to?(:has_key?) && ev.key?('json')
         ev = ev['json']
-        record[field] = record[field].collect{ |e| JSON.parse(e) }
+        record[field] = record[field].collect { |e| JSON.parse(e) }
       end
-      [ record, field, ev ]
+      [record, field, ev]
     end
   end
 
@@ -91,16 +96,14 @@ module Util
     #   json:
     #     - "{ \"
     def load_expectations(exp_file, record)
-      exp_file = exp_file + '.yml' unless exp_file.end_with?('.yml')
+      exp_file += '.yml' unless exp_file.end_with?('.yml')
       yaml_fixture(exp_file).map do |field, ev|
-        if ev.respond_to?(:has_key?) && ev.has_key?('json')
+        if ev.respond_to?(:has_key?) && ev.key?('json')
           ev = ev['json']
-          record[field] = record[field].collect{ |e| JSON.parse(e) }
+          record[field] = record[field].collect { |e| JSON.parse(e) }
         end
-        [ record, field, ev ]
+        [record, field, ev]
       end
     end
   end
-
-
 end

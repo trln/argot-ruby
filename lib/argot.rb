@@ -26,6 +26,7 @@ module Argot
   autoload :Validator, 'argot/validator'
   autoload :SolrSchema, 'argot/solr_schema'
   autoload :BuildSuggestFields, 'argot/build_suggest_fields'
+  autoload :Splitter, 'argot/splitter'
 
   # Allow classes to be used as blocks
   module Methods
