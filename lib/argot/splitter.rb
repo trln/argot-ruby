@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'fileutils' 
+
 module Argot
   # methods to split an input file into multiple output files
   class Splitter
