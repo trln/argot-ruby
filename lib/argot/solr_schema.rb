@@ -5,10 +5,38 @@ require 'uri'
 require 'net/http'
 
 module Argot
-  # Represents a Schema in Solr, and provides for some
-  # basic checking of input documents against that schema
+  # utility method that converts wildcard fields
+  # we find in our schema to Regexp objects
+  def self.regexify(solr_dyn_field)
+    Regexp.new('^.' + solr_dyn_field + '$')
+  end
+
+  # encapsulates info about a `copyField` element
+  # in the schema.
+  CopyField = Struct.new(:source, :dest, :regex) do
+    def initialize(source, dest, regex = nil)
+      self.source = source
+      self.dest = dest
+      self.regex = regex ? regex : Argot.regexify(source)
+    end
+
+    def match?(field_name)
+      field_name.match?(regex)
+    end
+  end
+
+  # Representation of a Solr Schema of the sort used in
+  # TRLN Discovery
   class SolrSchema
+    attr_reader :fielddefs
     EMPTY = {}.freeze
+
+    DF_VALIDATE_REGEX = /\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$/
+
+    TYPE_FORMAT_VALIDATORS = {
+      date: ->(v) { v.match?(DF_VALIDATE_REGEX) },
+      int: ->(v) { v.to_i rescue false }
+    }.freeze
 
     DEFAULT_SCHEMA = File.join(File.expand_path('../data', __dir__), 'solr_schema.xml').to_s.freeze
 
@@ -59,20 +87,28 @@ module Argot
         if m.nil?
           [k, 'matches no solr field']
         else
-          unless _validate_matcher(m, v)
-            [k, m[:msg] % v.length]
+          errs = []
+          errs << m[:msg] % v.length unless _validate_matcher(m, v)
+          unless check_values(m[:field_type], v)
+            errs << "one or more of #{v} does not match pattern for field type #{m[:field_type]}"
           end
+          errs.empty? ? nil : [k, errs]
         end
       end.reject(&:nil?)
       results.nil? || results.empty? ? EMPTY : Hash[results]
     end
 
+    def check_values(field_type, value)
+      return true unless field_type && (validator = TYPE_FORMAT_VALIDATORS[field_type.to_sym])
+
+      value = [value] unless value.respond_to?(:each)
+      value.all? { |v| validator.call(v) }
+    end
+
     def _validate_matcher(matcher, value)
-      if not value.is_a?(Array)
-        true
-      else
-        value.length == 1 || matcher[:multi]
-      end
+      return true unless value.respond_to?(:each)
+
+      value.length == 1 || matcher[:multi]
     end
 
     private
@@ -81,7 +117,6 @@ module Argot
       uri = URI(url)
       Nokogiri::XML(Net::HTTP.get(uri))
     end
-
 
     def find_matcher(field_name)
       field_match = @fielddefs.find { |m| m.key?(:name) && m[:name] == field_name }
@@ -92,28 +127,78 @@ module Argot
         field_match = field_match.max_by { |m| m[:regexp].source.length }
       end
       return if field_match.nil?
+
       begin
         field_name = field_match[:name] || field_match[:regexp].source[2..-2]
       rescue StandardError
         puts "#{field_match} is cattywumpus"
       end
       msg = "is multi-valued (%d) but '#{field_name}' is singular"
-      { name: field_name, multi: field_match[:multi], msg: msg }
+      { name: field_name, multi: field_match[:multi], msg: msg, field_type: field_match[:type] }
+    end
+
+    # makes sure every copy field definition 
+    # maps the destination field and its type.
+    def merge_copy_fields
+      @copy_fields.each do |c|
+        if (dynamic = @dynamic_fields[c.dest])
+          c.dest = dynamic
+        elsif (static = @static_fields[c.dest])
+          c.dest = static
+        end
+      end
+    end
+
+    def field_to_hash(field)
+      hash = Hash[field.attributes.map do |name, att| 
+        [name, att.value]
+      end]
+      [hash['name'], hash.tap { |h| h.delete('name') }]
     end
 
     def compile
       mv_default = Nokogiri::XML::Attr.new(@doc, 'multiValued')
       mv_default.content = 'false'
       @fielddefs = []
-      @doc.xpath('//field').each do |f|
-        attrs = f.attributes
-        @fielddefs << { name: attrs['name'].value, multi: 'true' == attrs.fetch('multiValued',mv_default).value }
+
+      @copy_fields = @doc.xpath('//copyField').map do |f|
+        CopyField.new(f.attributes['source'].value, f.attributes['dest'].value)
       end
-      @doc.xpath('//dynamicField').each do |f|
-        attrs = f.attributes
-        multi = attrs.fetch('multiValued', mv_default).value == 'true' 
-        @fielddefs << { regexp: Regexp.new('^.' + attrs['name'].value + '$'),
-                        multi:  multi }
+
+      @static_fields = Hash[@doc.xpath('//field').map { |f| field_to_hash(f) }]
+      @dynamic_fields = Hash[@doc.xpath('//dynamicField').map do |f|
+        field_to_hash(f)
+      end]
+
+      @static_fields.each do |name, attrs|
+        field = { name: name, multi: 'true' == attrs['multiValued'], type: 'type' }
+        @fielddefs << field
+      end
+      merge_copy_fields
+
+      @static_fields.each do |name, attrs|
+        field = { name: name, multi: attrs['multiValued']== 'true', type: 'type' }
+        copy = @copy_fields.find { |c| c.match?(name) }
+        field[:type] = copy.dest['type'] if copy
+        @fielddefs << field
+      end
+
+      # now all the copyField directives should have a 'dest'
+      # that maps to the dynamicField matching the dest pattern
+      # e.g.
+      # 1. dynamicField *_dt => type date
+      # 2. dynamicFIeld *_dt_single_stored => type ignored
+      # 3. copyField source *_dt_single_stored dest: *_dt
+      # any field matching 2 is going to be (3) copied to *_dt and so must
+      # match the type in (1).
+      @dynamic_fields.each do |name, attrs|
+        multi = attrs.fetch('multiValued', 'false') == 'true'
+        field = { regexp: Argot.regexify(name),
+                  type: attrs['type'],
+                  multi:  multi }
+        copy = @copy_fields.find { |c| c.match?(name) }
+        field[:type] = copy.dest['type'] if copy
+        @fielddefs << field
       end
       @fielddefs
     end

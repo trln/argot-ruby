@@ -4,6 +4,8 @@
 doc/
 .yardoc
 lib/*_jars.rb
+.argot-solr-schema.xml
+Jars.lock
 Gemfile.lock
 lib/org/
 

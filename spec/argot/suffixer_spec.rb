@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 describe Argot::Suffixer do
-  # rubocop:disable MethodLength
-  let (:config) do 
+  let (:config) do
     {
       id: 'id',
       trim: ['value'],
@@ -27,18 +28,18 @@ describe Argot::Suffixer do
     }
   end
 
-  context '#call' do 
+  context '#call' do
     it 'transforms a record using a simple configuration' do
       doc = get_json('argot-allgood.json')
       fdoc = Argot::Flattener.new.call(doc)
-      rec = described_class.new(config:config, fields: solr_fields).call(fdoc)
+      rec = described_class.new(config: config, fields: solr_fields).call(fdoc)
       expect(rec).to have_key('title_main_t')
     end
 
     it 'does not suffix the rollup_id field' do
       doc = get_json('argot-allgood.json')
       fdoc = Argot::Flattener.new.call(doc)
-      rec = described_class.new(config:config, fields: solr_fields).call(fdoc)
+      rec = described_class.new(config: config, fields: solr_fields).call(fdoc)
       expect(rec).to have_key('rollup_id')
     end
 

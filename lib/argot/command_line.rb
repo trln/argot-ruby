@@ -7,16 +7,52 @@ require 'json'
 require 'yaml'
 require 'rsolr'
 require 'argot/cl_utilities'
+require 'logger'
 
 module Argot
-  
   # The class that executes for the Argot command line utility.
   class CommandLine < Thor
-
     default_task :full_validate
 
     no_commands do
       include Argot::Pipelines
+
+      SCHEMA_FILENAME = '.argot-solr-schema.xml'
+
+      def default_schema_locations
+        [
+          File.join(Dir.pwd, SCHEMA_FILENAME),
+          File.join(Dir.home, SCHEMA_FILENAME),
+          File.join(__dir__, '..', 'data', 'solr_schema.xml')
+        ].map { |f| File.absolute_path(f) }
+      end
+
+      def find_schema(location)
+        if location
+          if location.start_with?('http')
+            location + '/schema?wt=schema.xml' unless location.include?('schema.xml')
+          else
+            schema_file = File.exist?(location) ? location : File.join(__dir__, '..', 'data', location)
+            File.open(schema_file)
+          end
+        else
+          default_schema_locations.find { |f| File.exist?(f) }
+        end
+      end
+
+      def logger
+        @logger ||= default_logger
+      end
+
+      def default_logger
+        l = Logger.new(STDERR)
+        l.level = Logger::INFO
+        l
+      end
+
+      def set_verbose
+        logger.level = Logger::DEBUG
+      end
     end
 
     map %w[--version -v] => :__version
@@ -39,7 +75,7 @@ module Argot
                      desc: 'Format for error messages [text|json|pretty_json] text, JSON, or indented ("pretty") JSON'
     def full_validate(input = $stdin, output = $stdin)
       options.all = true
-      return validate(input, output)
+      validate(input, output)
     end
 
     ###############
@@ -57,8 +93,7 @@ module Argot
                     type: :boolean,
                     default: false,
                     aliases: '-a',
-                    desc: "validate, flatten, suffix, and Solr validate results (same as full_validate)"
-    
+                    desc: 'validate, flatten, suffix, and Solr validate results (same as full_validate)'
     method_option    :format,
                      type: :string,
                      default: 'text',
@@ -136,7 +171,6 @@ module Argot
                     default:  '/flattener_config.yml',
                     aliases:  '-t',
                     desc:  'Solr flattener config file'
-
     def suffix(input = $stdin, output = $stdout)
       p = suffix_pipeline
       fmt = json_formatter(options)
@@ -150,19 +184,46 @@ module Argot
       end
     end
 
-    desc 'solrvalidate <input> <output>' , 'Flattens, suffixes, and validates results against Solr schema'
-    method_option   :schema_location,
-                    default:  '/solr_schema.xml',
-                    aliases:  '-s',
-                    desc:  'Solr schema to load'
-     method_option  :cull,
-                    type: :boolean,
-                    aliases: '-c',
-                    desc: 'Writes valid records to output, warns about invalid records on STDERR'
+    desc 'schemaupdate [collection URL]', 'Download a recent version of a schema from a running solr instance'
+    method_option :check,
+                  aliases: '-c',
+                  type: :boolean,
+                  desc: 'Download and write to STDOUT, do not save in default location'
+    def schemaupdate(url)
+      url += '/schema?wt=schema.xml' unless url.include?('/schema?wt=schema.xml')
+      logger.info("Downloading from #{url}")
+      content = Net::HTTP.get(URI(url))
+      puts content && exit(0) if options[:check]
+      doc = Nokogiri::XML(content)
+      unless doc.errors.empty?
+        logger.fatal("Will not save ill-formed document: #{doc.errors}")
+        exit(1)
+      end
+      location = default_schema_locations.first
+      File.open(location, 'w') do |f|
+        f.write(content)
+      end
+      puts "Saved new schema to #{location}"
+    end
+
+    desc 'solrvalidate [options] <input> <output>', 'Flattens, suffixes, and validates results against Solr schema'
+    method_option :schema_location,
+                  aliases:  '-s',
+                  desc:  'Solr schema to load; if http(s), assumed path to collection.'
+    method_option :cull,
+                  type: :boolean,
+                  aliases: '-c',
+                  desc: 'Writes valid records to output, warns about invalid records on STDERR'
+
+    method_option :verbose,
+                  type: :boolean
     def solrvalidate(input = $stdin, output = $stdout)
-      data_load_path = File.expand_path('../data', __dir__)
-      schema_loc = File.join(data_load_path, 'solr_schema.xml')
-      schema = Argot::SolrSchema.new(File.open(schema_loc))
+      set_verbose if options[:verbose]
+      schema_loc = find_schema(options[:schema_location])
+      logger.debug("Default locations: #{default_schema_locations}")
+      logger.debug("Loading schema from #{schema_loc}") if options[:verbose]
+
+      schema = Argot::SolrSchema.new(schema_loc)
 
       all_valid = true
       get_output(output) do |out|
@@ -179,10 +240,10 @@ module Argot
                 result['id'] = rec['id']
                 warn result.to_json
               end
-            end # data enumerate
-          end # lambda
-        end # input
-      end # output
+            end
+          end
+        end
+      end
       exit(1) unless all_valid
     end
 
@@ -242,6 +303,34 @@ module Argot
       end
       flush.call(true)
       puts "Added #{count}/#{total} document(s) [skipped #{total - count}]" unless options.quiet
+    end
+
+    desc 'split [options] file1 file2', 'splits input files into output files'
+    method_option :output,
+                  default:  'argot-files',
+                  aliases: '-o',
+                  desc: 'Output directory for files' 
+    method_option :size,
+      type: 'numeric',
+      default: 20000,
+      aliases: '-s',
+      desc: 'maximum record count in each output file'
+    method_option :pattern,
+      default: Argot::Splitter::DEFAULT_PATTERN,
+      aliases: '-p',
+      desc: 'Pattern to use when naming output files (%d => count of current file)'
+    def split(*files)
+      splitter = Argot::Splitter.new(options[:output], chunk_size: options[:size])
+
+      files.each do |filename|
+        File.open(filename) do |f|
+          parser = Argot::Reader.new(f)
+          parser.each do |rec|
+            splitter.write(rec)
+          end
+        end
+      end
+      splitter.close
     end
   end
 end

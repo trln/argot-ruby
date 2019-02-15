@@ -144,10 +144,16 @@
   </fieldType>
   <fieldType name="text_cjk" class="solr.TextField" positionIncrementGap="100">
     <analyzer>
-      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="([\p{InHangul_Jamo}\p{InHangul_Compatibility_Jamo}\p{InHangul_Syllables}][\p{InBopomofo}\p{InBopomofo_Extended}\p{InCJK_Compatibility}\p{InCJK_Compatibility_Forms}\p{InCJK_Compatibility_Ideographs}\p{InCJK_Compatibility_Ideographs_Supplement}\p{InCJK_Radicals_Supplement}\p{InCJK_Symbols_And_Punctuation}\p{InCJK_Unified_Ideographs}\p{InCJK_Unified_Ideographs_Extension_A}\p{InCJK_Unified_Ideographs_Extension_B}\p{InKangxi_Radicals}\p{InHalfwidth_And_Fullwidth_Forms}\p{InIdeographic_Description_Characters}]*)\s+(?=[\p{InHangul_Jamo}\p{InHangul_Compatibility_Jamo}\p{InHangul_Syllables}\p{InBopomofo}\p{InBopomofo_Extended}\p{InCJK_Compatibility}\p{InCJK_Compatibility_Forms}\p{InCJK_Compatibility_Ideographs}\p{InCJK_Compatibility_Ideographs_Supplement}\p{InCJK_Radicals_Supplement}\p{InCJK_Symbols_And_Punctuation}\p{InCJK_Unified_Ideographs}\p{InCJK_Unified_Ideographs_Extension_A}\p{InCJK_Unified_Ideographs_Extension_B}\p{InKangxi_Radicals}\p{InHalfwidth_And_Fullwidth_Forms}\p{InIdeographic_Description_Characters}])" replacement="$1"/>
+      <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="([\p{InHangul_Jamo}\p{InHangul_Compatibility_Jamo}\p{InHangul_Syllables}\p{InBopomofo}\p{InBopomofo_Extended}\p{InCJK_Compatibility}\p{InCJK_Compatibility_Forms}\p{InCJK_Compatibility_Ideographs}\p{InCJK_Compatibility_Ideographs_Supplement}\p{InCJK_Radicals_Supplement}\p{InCJK_Symbols_And_Punctuation}\p{InCJK_Unified_Ideographs}\p{InCJK_Unified_Ideographs_Extension_A}\p{InCJK_Unified_Ideographs_Extension_B}\p{InKangxi_Radicals}\p{InHalfwidth_And_Fullwidth_Forms}\p{InIdeographic_Description_Characters}])\s+(?=[\p{InBopomofo}\p{InBopomofo_Extended}\p{InCJK_Compatibility}\p{InCJK_Compatibility_Forms}\p{InCJK_Compatibility_Ideographs}\p{InCJK_Compatibility_Ideographs_Supplement}\p{InCJK_Radicals_Supplement}\p{InCJK_Symbols_And_Punctuation}\p{InCJK_Unified_Ideographs}\p{InCJK_Unified_Ideographs_Extension_A}\p{InCJK_Unified_Ideographs_Extension_B}\p{InKangxi_Radicals}\p{InHalfwidth_And_Fullwidth_Forms}\p{InIdeographic_Description_Characters}\s]*[\p{InHangul_Jamo}\p{InHangul_Compatibility_Jamo}\p{InHangul_Syllables}])" replacement="$1"/>
+      <charFilter class="edu.stanford.lucene.analysis.ICUCustomTransformCharFilterFactory" id="edu/stanford/lucene/analysis/stanford_cjk_transliterations.txt"/>
+      <charFilter class="edu.stanford.lucene.analysis.ICUTransformCharFilterFactory" id="Traditional-Simplified"/>
+      <charFilter class="edu.stanford.lucene.analysis.ICUTransformCharFilterFactory" id="Katakana-Hiragana"/>
+      <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="([\p{InHiragana}\p{InKatakana}\p{InKatakana_Phonetic_Extensions}])([^\p{InHiragana}\p{InKatakana}\p{InKatakana_Phonetic_Extensions}])" replacement="$1 $2"/>
+      <tokenizer class="solr.ICUTokenizerFactory"/>
       <filter class="solr.CJKWidthFilterFactory"/>
-      <filter class="solr.LowerCaseFilterFactory"/>
-      <filter class="solr.CJKBigramFilterFactory"/>
+      <filter class="solr.ICUFoldingFilterFactory"/>
+      <filter class="solr.CJKBigramFilterFactory" han="false" hiragana="false" outputUnigrams="true" katakana="false" hangul="true"/>
     </analyzer>
   </fieldType>
   <fieldType name="text_cz" class="solr.TextField" positionIncrementGap="100">
@@ -389,6 +395,13 @@
       <filter class="solr.SnowballPorterFilterFactory" language="Russian"/>
     </analyzer>
   </fieldType>
+  <fieldType name="text_suggest" class="solr.TextField" positionIncrementGap="1000">
+    <analyzer>
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.StandardFilterFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+    </analyzer>
+  </fieldType>
   <fieldType name="text_sv" class="solr.TextField" positionIncrementGap="100">
     <analyzer>
       <tokenizer class="solr.StandardTokenizerFactory"/>
@@ -414,10 +427,11 @@
   </fieldType>
   <field name="_root_" type="string" docValues="false" indexed="true" stored="false"/>
   <field name="_version_" type="long" multiValued="false" indexed="true" stored="false"/>
+  <field name="author_suggest" type="text_suggest" multiValued="true" indexed="false" stored="true"/>
   <field name="id" type="string" multiValued="false" indexed="true" required="true" stored="true"/>
-  <field name="author_suggest" type="textSuggest" indexed="false" stored="true" multiValued="true"/>
-  <field name="title_suggest" type="textSuggest" indexed="false" stored="true" multiValued="true"/>
-  <field name="subject_suggest" type="textSuggest" indexed="false" stored="true" multiValued="true"/>
+  <field name="rollup_id" type="string" multiValued="false" indexed="true" stored="true"/>
+  <field name="subject_suggest" type="text_suggest" multiValued="true" indexed="false" stored="true"/>
+  <field name="title_suggest" type="text_suggest" multiValued="true" indexed="false" stored="true"/>
   <dynamicField name="*_tsearchf_stored_single" type="ignored" multiValued="false" indexed="false" stored="false"/>
   <dynamicField name="*_tsearch_stored_single" type="ignored" multiValued="false" indexed="false" stored="false"/>
   <dynamicField name="*_double_stored_single" type="ignored" multiValued="false" indexed="false" stored="false"/>
@@ -501,37 +515,37 @@
   <dynamicField name="*_ssort" type="string" multiValued="false" indexed="true" stored="false"/>
   <dynamicField name="*_isort" type="long" multiValued="false" indexed="true" stored="false"/>
   <dynamicField name="*_float" type="float" multiValued="true" indexed="true" stored="false"/>
-  <dynamicField name="*_ara_v" type="text_ar" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_bul_v" type="text_bg" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_cat_v" type="text_ca" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_cjk_v" type="text_cjk" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_cze_v" type="text_cz" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_dan_v" type="text_da" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_ger_v" type="text_de" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_gre_v" type="text_el" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_spa_v" type="text_es" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_baq_v" type="text_eu" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_per_v" type="text_fa" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_fin_v" type="text_fi" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_fre_v" type="text_fr" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_gle_v" type="text_ga" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_iri_v" type="text_ga" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_gag_v" type="text_gl" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_hin_v" type="text_hi" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_hun_v" type="text_hu" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_arm_v" type="text_hy" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_ind_v" type="text_id" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_ita_v" type="text_it" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_jpn_v" type="text_ja" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_lav_v" type="text_lv" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_dut_v" type="text_nl" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_nor_v" type="text_no" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_por_v" type="text_pt" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_rum_v" type="text_ro" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_rus_v" type="text_ru" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_swe_v" type="text_sv" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_tha_v" type="text_th" indexed="true" stored="false" multiValued="true"/>
-  <dynamicField name="*_tur_v" type="text_tr" indexed="true" stored="false" multiValued="true"/>
+  <dynamicField name="*_ara_v" type="text_ar" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_bul_v" type="text_bg" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_cat_v" type="text_ca" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_cjk_v" type="text_cjk" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_cze_v" type="text_cz" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_dan_v" type="text_da" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_ger_v" type="text_de" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_gre_v" type="text_el" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_spa_v" type="text_es" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_baq_v" type="text_eu" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_per_v" type="text_fa" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_fin_v" type="text_fi" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_fre_v" type="text_fr" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_gle_v" type="text_ga" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_iri_v" type="text_ga" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_gag_v" type="text_gl" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_hin_v" type="text_hi" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_hun_v" type="text_hu" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_arm_v" type="text_hy" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_ind_v" type="text_id" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_ita_v" type="text_it" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_jpn_v" type="text_ja" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_lav_v" type="text_lv" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_dut_v" type="text_nl" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_nor_v" type="text_no" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_por_v" type="text_pt" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_rum_v" type="text_ro" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_rus_v" type="text_ru" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_swe_v" type="text_sv" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_tha_v" type="text_th" multiValued="true" indexed="true" stored="false"/>
+  <dynamicField name="*_tur_v" type="text_tr" multiValued="true" indexed="true" stored="false"/>
   <dynamicField name="*_long" type="long" multiValued="true" indexed="true" stored="false"/>
   <dynamicField name="*_isbn" type="isbn" multiValued="true" indexed="true" stored="false"/>
   <dynamicField name="*_lccn" type="lccn" multiValued="true" indexed="true" stored="false"/>
