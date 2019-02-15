@@ -30,7 +30,7 @@ module Argot
       def find_schema(location)
         if location
           if location.start_with?('http')
-            location + '/schema?wt=schema.xml' unless loc_option.include?('schema.xml')
+            location + '/schema?wt=schema.xml' unless location.include?('schema.xml')
           else
             schema_file = File.exist?(location) ? location : File.join(__dir__, '..', 'data', location)
             File.open(schema_file)
