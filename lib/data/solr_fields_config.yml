@@ -92,7 +92,7 @@ format:
   attr:
   - stored
 genre_headings:
-  type: tsearch
+  type: tsearchtp
   attr:
   - stored
 has_supplement_author:
@@ -316,12 +316,12 @@ notes_serials_summary:
   attr:
   - stored
 oclc_number:
-  type: strps
+  type: num
   attr:
   - stored
   - single
 oclc_number_old:
-  type: strps
+  type: num
   attr:
   - stored
 organization:
@@ -426,11 +426,11 @@ subject_topical:
   attr:
   - stored
 subject_headings:
-  type: tsearch
+  type: tsearchtp
   attr:
   - stored
 subject_headings_remapped:
-  type: tsearch
+  type: tsearchtp
 subseries_author:
   type: tp
 subseries_title:
