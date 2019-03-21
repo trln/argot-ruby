@@ -343,6 +343,8 @@ publication_year:
   - sort
 publisher:
   type: t
+  attr:
+  - stored
 publisher_number:
   type: str
   attr:
