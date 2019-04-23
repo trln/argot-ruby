@@ -393,6 +393,10 @@ shelfkey:
   attr:
   - stored
   - single
+shelf_numbers:
+  type: tp
+  attr:
+    stored
 short_title:
   type: tsearchtp
   attr:
