@@ -388,6 +388,10 @@ series_issn:
   type: num
 series_other_ids:
   type: e
+shelf_numbers:
+  type: tp
+  attr:
+    stored
 shelfkey:
   type: t
   attr:
