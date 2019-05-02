@@ -95,6 +95,10 @@ genre_headings:
   type: t
   attr:
   - stored
+genre_unc_mrc:
+  type: tf
+  attr:
+  - stored
 has_supplement_author:
   type: t
 has_supplement_title:
