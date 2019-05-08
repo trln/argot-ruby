@@ -25,6 +25,8 @@ note_related_work:
     flattener: note
 note_reproduction:
     flattener: note
+origin_place_search:
+    flattener: indexed_value
 series_statement:
     flattener: series_statement
 title_main:

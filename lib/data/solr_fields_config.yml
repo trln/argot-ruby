@@ -332,6 +332,14 @@ organization:
   type: t
   attr:
   - stored
+origin_place_facet:
+  type: f
+  attr:
+  - stored
+origin_place_search:
+  type: t
+  attr:
+  - stored
 physical_description_indexed:
   type: t
 physical_description_details_indexed:
