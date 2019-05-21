@@ -3,9 +3,9 @@ access_type:
   attr:
   - stored
 alt_edition_author:
-  type: t
+  type: tp
 alt_edition_title:
-  type: t
+  type: tsearchtp
 alt_edition_work_indexed:
   type: t
 alt_edition_isbn:
@@ -13,7 +13,7 @@ alt_edition_isbn:
 alt_edition_issn:
   type: num
 alt_edition_other_ids:
-  type: str
+  type: e
 author_facet:
   type: f
 available:
@@ -21,7 +21,7 @@ available:
   attr:
   - stored
 barcodes:
-  type: str
+  type: strps
   attr:
   - stored
 biographical_sketch:
@@ -37,9 +37,9 @@ copyright_year:
   attr:
   - stored
 data_source_author:
-  type: t
+  type: tp
 data_source_title:
-  type: t
+  type: tsearchtp
 data_source_work_indexed:
   type: t
 data_source_isbn:
@@ -47,7 +47,7 @@ data_source_isbn:
 data_source_issn:
   type: num
 data_source_other_ids:
-  type: str
+  type: e
 date_cataloged:
   type: dt
   attr:
@@ -74,9 +74,9 @@ description_video:
   attr:
   - stored
 earlier_author:
-  type: t
+  type: tp
 earlier_title:
-  type: t
+  type: tsearchtp
 earlier_work_indexed:
   type: t
 earlier_isbn:
@@ -84,7 +84,7 @@ earlier_isbn:
 earlier_issn:
   type: num
 earlier_other_ids:
-  type: str
+  type: e
 edition_indexed:
   type: t
 format:
@@ -92,7 +92,11 @@ format:
   attr:
   - stored
 genre_headings:
-  type: t
+  type: tsearchtp
+  attr:
+  - stored
+genre_unc_mrc:
+  type: tf
   attr:
   - stored
 genre_unc_mrc:
@@ -100,9 +104,9 @@ genre_unc_mrc:
   attr:
   - stored
 has_supplement_author:
-  type: t
+  type: tp
 has_supplement_title:
-  type: t
+  type: tsearchtp
 has_supplement_work_indexed:
   type: t
 has_supplement_isbn:
@@ -110,7 +114,7 @@ has_supplement_isbn:
 has_supplement_issn:
   type: num
 has_supplement_other_ids:
-  type: str
+  type: e
 holdings:
   type: t
   attr:
@@ -120,9 +124,9 @@ holdings_note:
   attr:
   - stored
 host_item_author:
-  type: t
+  type: tp
 host_item_title:
-  type: t
+  type: tsearchtp
 host_item_work_indexed:
   type: t
 host_item_isbn:
@@ -130,7 +134,7 @@ host_item_isbn:
 host_item_issn:
   type: num
 host_item_other_ids:
-  type: str
+  type: e
 id:
   type: str
   attr:
@@ -145,9 +149,9 @@ imprint_multiple:
   attr:
   - stored
 included_author:
-  type: t
+  type: tp
 included_title:
-  type: t
+  type: tsearchtp
 included_work_indexed:
   type: t
 included_isbn:
@@ -155,7 +159,7 @@ included_isbn:
 included_issn:
   type: num
 included_other_ids:
-  type: str
+  type: e
 institution:
   type: f
   attr:
@@ -181,9 +185,9 @@ issn_series:
   attr:
   - stored
 issued_with_author:
-  type: t
+  type: tp
 issued_with_title:
-  type: t
+  type: tsearchtp
 issued_with_work_indexed:
   type: t
 issued_with_isbn:
@@ -191,7 +195,7 @@ issued_with_isbn:
 issued_with_issn:
   type: num
 issued_with_other_ids:
-  type: str
+  type: e
 items:
   type: str
   attr:
@@ -205,9 +209,9 @@ language:
   attr:
   - stored
 later_author:
-  type: t
+  type: tp
 later_title:
-  type: t
+  type: tsearchtp
 later_work_indexed:
   type: t
 later_isbn:
@@ -215,7 +219,7 @@ later_isbn:
 later_issn:
   type: num
 later_other_ids:
-  type: str
+  type: e
 lcc_callnum_classification:
   type: tf
   attr:
@@ -234,33 +238,33 @@ location_hierarchy:
   attr:
   - stored
 misc_id_indexed:
-  type: str
+  type: e
 most_recent:
   type: t
   attr:
   - stored
 names_contributor:
-  type: t
+  type: tp
 names_creator:
-  type: t
+  type: tp
 names_director:
-  type: t
+  type: tp
 names_distributor:
-  type: t
+  type: tp
 names_editor:
-  type: t
+  type: tp
 names_manufacturer:
-  type: t
+  type: tp
 names_no_rel:
-  type: t
+  type: tp
 names_other:
-  type: t
+  type: tp
 names_owner:
-  type: t
+  type: tp
 names_publisher:
-  type: t
+  type: tp
 names_uncategorized:
-  type: t
+  type: tp
 note_admin_history:
   type: t
   attr:
@@ -286,9 +290,9 @@ note_issuance:
 note_local_indexed:
   type: t
 note_performer_credits_indexed:
-  type: t
+  type: tp
 note_production_credits:
-  type: t
+  type: tp
   attr:
   - stored
 note_related_work_indexed:
@@ -320,12 +324,12 @@ notes_serials_summary:
   attr:
   - stored
 oclc_number:
-  type: str
+  type: num
   attr:
   - stored
   - single
 oclc_number_old:
-  type: str
+  type: num
   attr:
   - stored
 organization:
@@ -358,13 +362,13 @@ publisher:
   attr:
   - stored
 publisher_number:
-  type: str
+  type: strps
   attr:
   - stored
 related_author:
-  type: t
+  type: tp
 related_title:
-  type: t
+  type: tsearchtp
 related_work_indexed:
   type: t
 related_isbn:
@@ -372,7 +376,7 @@ related_isbn:
 related_issn:
   type: num
 related_other_ids:
-  type: str
+  type: e
 resource_type:
   type: tf
   attr:
@@ -383,15 +387,15 @@ reverse_shelfkey:
   - stored
   - single
 series_author:
-  type: t
+  type: tp
 series_statement_indexed:
   type: t
 series_statement_issn:
   type: isbn
 series_statement_other_ids:
-  type: num
+  type: e
 series_title:
-  type: t
+  type: tsearchtp
 series_work_indexed:
   type: t
 series_isbn:
@@ -399,14 +403,18 @@ series_isbn:
 series_issn:
   type: num
 series_other_ids:
-  type: str
+  type: e
+shelf_numbers:
+  type: tp
+  attr:
+    stored
 shelfkey:
   type: t
   attr:
   - stored
   - single
 short_title:
-  type: t
+  type: tsearchtp
   attr:
     - single
 source_of_acquisition:
@@ -414,7 +422,7 @@ source_of_acquisition:
   attr:
   - stored
 statement_of_responsibility:
-  type: t
+  type: tp
   attr:
   - stored
 subject_chronological:
@@ -438,15 +446,15 @@ subject_topical:
   attr:
   - stored
 subject_headings:
-  type: t
+  type: tsearchtp
   attr:
   - stored
 subject_headings_remapped:
-  type: t
+  type: tsearchtp
 subseries_author:
-  type: t
+  type: tp
 subseries_title:
-  type: t
+  type: tsearchtp
 subseries_work_indexed:
   type: t
 subseries_isbn:
@@ -454,11 +462,11 @@ subseries_isbn:
 subseries_issn:
   type: num
 subseries_other_ids:
-  type: str
+  type: e
 supplement_to_author:
-  type: t
+  type: tp
 supplement_to_title:
-  type: t
+  type: tsearchtp
 supplement_to_work_indexed:
   type: t
 supplement_to_isbn:
@@ -466,11 +474,11 @@ supplement_to_isbn:
 supplement_to_issn:
   type: num
 supplement_to_other_ids:
-  type: str
+  type: e
 this_author:
-  type: t
+  type: tp
 this_title:
-  type: t
+  type: tsearchtp
 this_work_indexed:
   type: t
 this_isbn:
@@ -478,32 +486,32 @@ this_isbn:
 this_issn:
   type: num
 this_other_ids:
-  type: str
+  type: e
 title_abbrev_indexed:
-  type: t
+  type: tsearchtp
 title_former_indexed:
-  type: t
+  type: tsearchtp
 title_former_issn:
   type: num
 title_key_indexed:
-  type: t
+  type: tsearchtp
 title_main:
   attr:
   - stored
   - single
 title_main_indexed:
-  type: t
+  type: tsearchtp
 title_sort:
   type: str
   attr:
   - sort
   - single
 title_variant_indexed:
-  type: t
+  type: tsearchtp
 translated_as_author:
-  type: t
+  type: tp
 translated_as_title:
-  type: t
+  type: tsearchtp
 translated_as_work_indexed:
   type: t
 translated_as_isbn:
@@ -511,11 +519,11 @@ translated_as_isbn:
 translated_as_issn:
   type: num
 translated_as_other_ids:
-  type: str
+  type: e
 translation_of_author:
-  type: t
+  type: tp
 translation_of_title:
-  type: t
+  type: tsearchtp
 translation_of_work_indexed:
   type: t
 translation_of_isbn:
@@ -523,9 +531,9 @@ translation_of_isbn:
 translation_of_issn:
   type: num
 translation_of_other_ids:
-  type: str
+  type: e
 upc_indexed:
-  type: str  
+  type: strps
 url:
   type: str
   attr:

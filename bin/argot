@@ -9,4 +9,4 @@ require 'argot/command_line'
 
 result = Argot::CommandLine.start(ARGV)
 # non-zero exit status on process telling us there's problems.
-exit 1 unless result
+exit(result.nil? ? 0 : 1)

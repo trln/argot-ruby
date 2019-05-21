@@ -47,8 +47,8 @@ describe Argot::Suffixer do
       doc = get_json('argot-problem-subjects.json')
       fdoc = Argot::Flattener.new.call(doc)
       rec = described_class.new.call(fdoc)
-      expect(rec).to have_key('subject_headings_remapped_t')
-      expect(rec).to have_key('subject_headings_t_stored')
+      expect(rec).to have_key('subject_headings_remapped_tsearchtp')
+      expect(rec).to have_key('subject_headings_tsearchtp_stored')
     end
   end
 end
