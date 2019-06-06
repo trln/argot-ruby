@@ -17,6 +17,7 @@ module Argot
     # Argot Format for use with FlattenNote
     #
     # note_field:
+    #   display: boolean|optional[defaults to "true" if not set to "false]|if "false" "value" will not be stored
     #   label: string|optional|"label" will be prefixed to "value" for display only
     #   value: string|required|will be stored for display and indexed unless "indexed" == false
     #                          OR "indexed_value" is provided
@@ -59,14 +60,16 @@ module Argot
       indexed_values = []
 
       value.each do |v|
-        stored_values << [v.fetch('label', ''), v.fetch('value', '')].reject(&:empty?).join(': ')
+        unless v.fetch('display', 'true') == 'false'
+          stored_values << [v.fetch('label', ''), v.fetch('value', '')].reject(&:empty?).join(': ')
+        end
 
         if v.fetch('indexed', 'true') == 'true'
           indexed_values << (v.fetch('indexed_value', false) || v.fetch('value', ''))
         end
       end
 
-      flattened[key] = stored_values
+      flattened[key] = stored_values unless stored_values.empty?
       flattened["#{key}_indexed"] = indexed_values unless indexed_values.empty?
       flattened
     end
