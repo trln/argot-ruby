@@ -18,9 +18,11 @@ module Argot
     #
     # note_field:
     #   label: string|optional|"label" will be prefixed to "value" for display only
-    #   value: string|required|will be stored for display and indexed unless "indexed" == false
-    #                          OR "indexed_value" is provided
+    #   value: string|optional|will be stored for display if provided. Will be indexed
+    #                          unless "indexed" == false OR "indexed_value" is provided
     #   indexed_value: string|optional|if present "indexed_value" will be indexed instead of "value"
+    #                                  if "indexed_value" is present, but "value" is not, the
+    #                                  "indexed_value" will be a searchable-only note
     #   indexed: boolean|optional[defaults to "true" if not set to "false"]|if "false"
     #                                                                       "value"/"indexed_value" will not
     #                                                                       be added to the *_indexed field
@@ -59,14 +61,16 @@ module Argot
       indexed_values = []
 
       value.each do |v|
-        stored_values << [v.fetch('label', ''), v.fetch('value', '')].reject(&:empty?).join(': ')
+        unless v.fetch('value', '').empty?
+          stored_values << [v.fetch('label', ''), v.fetch('value', '')].reject(&:empty?).join(': ')
+        end
 
         if v.fetch('indexed', 'true') == 'true'
           indexed_values << (v.fetch('indexed_value', false) || v.fetch('value', ''))
         end
       end
 
-      flattened[key] = stored_values
+      flattened[key] = stored_values unless stored_values.empty?
       flattened["#{key}_indexed"] = indexed_values unless indexed_values.empty?
       flattened
     end

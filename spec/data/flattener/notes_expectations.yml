@@ -6,3 +6,4 @@ note_performer_credits:
 note_performer_credits_indexed:
   - "Ronald Colman, Elizabeth Allan, Edna May Oliver."
   - "This should be indexed instead"
+  - "This should be indexed but not stored for display"
