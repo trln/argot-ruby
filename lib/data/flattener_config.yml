@@ -15,6 +15,14 @@ note_binding:
     flattener: note
 note_cited_in:
     flattener: note
+note_ead_biog_hist:
+    flattener: note
+note_ead_overview:
+    flattener: note
+note_ead_scope_content:
+    flattener: note
+note_ead_unit_title:
+    flattener: note
 note_general:
     flattener: note
 note_local:

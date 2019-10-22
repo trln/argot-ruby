@@ -281,6 +281,14 @@ note_dissertation:
   type: t
   attr:
   - stored
+note_ead_biog_hist_indexed:
+  type: t
+note_ead_overview_indexed:
+  type: t
+note_ead_scope_content_indexed:
+  type: t
+note_ead_unit_title_indexed:
+  type: t
 note_general_indexed:
   type: t
 note_issuance:
