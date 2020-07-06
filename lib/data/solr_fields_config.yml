@@ -404,10 +404,14 @@ series_issn:
   type: num
 series_other_ids:
   type: e
+sersol_number:
+  type: e
+  attr:
+  - stored
 shelf_numbers:
   type: tp
   attr:
-    stored
+  - stored
 shelfkey:
   type: t
   attr:
