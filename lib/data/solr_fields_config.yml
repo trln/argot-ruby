@@ -542,6 +542,8 @@ url:
   type: str
   attr:
   - stored
+variant_names:
+  type: tp
 virtual_collection:
   type: tf
   attr:

@@ -5,6 +5,7 @@ module Argot
       flattened = {}
       facet_values = []
       stored_values = []
+      variant_names = []
 
       value.each do |v|
         if %w[director creator editor contributor no_rel].include? v.fetch('type', '')
@@ -16,6 +17,16 @@ module Argot
         stored_value['rel'] = stored_rel unless stored_rel.empty?
         stored_type = v.fetch('type', '')
         stored_value['type'] = stored_type unless stored_type.empty?
+
+        stored_id = v.fetch('id', '')
+        unless stored_id.empty?
+          stored_value['id'] = stored_id
+          variant_name = Argot::NameAuthorityLookup.variant_names(stored_id)
+          unless variant_name.nil? || variant_name.empty?
+            variant_names << variant_name
+          end
+        end
+
         stored_values << stored_value.to_json
 
         indexed_value = [v.fetch('name', ''), v.fetch('rel', []).join(', ')].delete_if(&:empty?)
@@ -37,6 +48,18 @@ module Argot
 
       flattened["author_facet"] = facet_values.compact unless facet_values.empty?
       flattened[key] = stored_values.compact unless stored_values.empty?
+
+      variant_names.compact.flatten.each do |vn|
+        if vn.has_key?('lang')
+          flattened["variant_names_vernacular_value"] ||= []
+          flattened["variant_names_vernacular_lang"] ||= []
+          flattened["variant_names_vernacular_value"] << vn['value']
+          flattened["variant_names_vernacular_lang"] << vn['lang']
+        else
+          flattened['variant_names'] ||= []
+          flattened['variant_names'] << vn['value']
+        end
+      end
 
       flattened
     end

@@ -50,6 +50,8 @@ describe Argot::Flattener do
   end
 
   context 'names' do
+    Argot::NameAuthorityLookup::REDIS.set('lcnaf:no2002066666test',
+                                         ['some name', 'some other name'])
     @rec = flatten_test_record('argot-names-flattener.json',
                                'names' => { 'flattener' => 'names' })
     @expectations = load_expectations('flattener/names_expectations', @rec)
@@ -60,6 +62,8 @@ describe Argot::Flattener do
         expect(record[field]).to eq(ev)
       end
     end
+
+    Argot::NameAuthorityLookup::REDIS.del('lcnaf:no2002066666test')
   end
 
   context 'notes' do
