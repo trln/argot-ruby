@@ -27,6 +27,7 @@ module Argot
   autoload :SolrSchema, 'argot/solr_schema'
   autoload :BuildSuggestFields, 'argot/build_suggest_fields'
   autoload :Splitter, 'argot/splitter'
+  autoload :NameAuthorityLookup, 'argot/name_authority_lookup'
 
   # Allow classes to be used as blocks
   module Methods
