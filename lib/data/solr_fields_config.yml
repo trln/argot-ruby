@@ -87,6 +87,8 @@ earlier_other_ids:
   type: e
 edition_indexed:
   type: t
+entity_id:
+  type: f
 format:
   type: f
   attr:
