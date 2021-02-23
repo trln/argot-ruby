@@ -87,6 +87,8 @@ earlier_other_ids:
   type: e
 edition_indexed:
   type: t
+entity_id:
+  type: f
 format:
   type: f
   attr:
@@ -542,6 +544,8 @@ url:
   type: str
   attr:
   - stored
+variant_names:
+  type: tp
 virtual_collection:
   type: tf
   attr:

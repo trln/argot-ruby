@@ -16,6 +16,9 @@ module Argot
         stored_value['rel'] = stored_rel unless stored_rel.empty?
         stored_type = v.fetch('type', '')
         stored_value['type'] = stored_type unless stored_type.empty?
+        stored_id = v.fetch('id', '')
+        stored_value['id'] = stored_id unless stored_id.empty?
+
         stored_values << stored_value.to_json
 
         indexed_value = [v.fetch('name', ''), v.fetch('rel', []).join(', ')].delete_if(&:empty?)
