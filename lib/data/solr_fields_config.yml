@@ -97,6 +97,8 @@ genre_headings:
   type: tsearchtp
   attr:
   - stored
+genre_headings_remapped:
+  type: tsearchtp
 genre_unc_mrc:
   type: tf
   attr:
