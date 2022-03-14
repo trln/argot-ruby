@@ -32,7 +32,7 @@ Gem::Specification.new do |s|
     s.add_runtime_dependency 'nokogiri', '~> 1.10'
 
     s.add_runtime_dependency 'traject', [ '~> 2.0' ]
-    s.add_runtime_dependency 'thor', ['~> 0.20.0']
+    s.add_runtime_dependency 'thor', ['~> 1.0']
     s.add_runtime_dependency 'rsolr', [ '~> 1.1', '>=1.1.2']
 
     # system rubies may be installed wihtout minitest
