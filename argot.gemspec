@@ -26,17 +26,17 @@ Gem::Specification.new do |s|
         s.requirements << "jar org.noggit:noggit, 0.7"
     else
         s.platform = 'ruby'
-        s.add_runtime_dependency 'yajl-ruby', ['~> 1.2', ">=1.2.1"]
+        s.add_runtime_dependency 'yajl-ruby', '~> 1.2'
     end
 
     s.add_runtime_dependency 'nokogiri', '~> 1.10'
+    s.add_runtime_dependency 'redis'
 
-    s.add_runtime_dependency 'traject', [ '~> 2.0' ]
     s.add_runtime_dependency 'thor', ['~> 1.0']
     s.add_runtime_dependency 'rsolr', [ '~> 1.1', '>=1.1.2']
 
     # system rubies may be installed wihtout minitest
-    s.add_development_dependency 'rake' , '~> 12.0'
+    s.add_development_dependency 'rake'
     s.add_development_dependency 'rspec', '~> 3.7.0'
     s.add_development_dependency 'minitest', '~> 5.0'
 
