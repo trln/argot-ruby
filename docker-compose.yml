@@ -1,10 +1,14 @@
 ---
-version: 3.7
+version: "3.7"
 
 services:
   argot:
     container_name: argot
-    build: .
+    build:
+      context: .
+      args:
+        RUBY_VERSION: 3.1
+
     volumes:
       - ./:/app:Z
     # override entrypoint so the container starts
@@ -17,8 +21,8 @@ services:
 
   redis:
     image: redis:6
-    ports:
-      - 6379:6379
+    container_name: argot-redis
+    ports: ['6379']
     volumes:
       - ./redis-data:/data:Z
 

@@ -11,7 +11,6 @@ Start with
 
 (as long as you have the `bundler` gem available) will install all the dependencies. then
 
-
     $ bundle exec rake spec
 
 or even just
@@ -45,6 +44,16 @@ the running `argot` container, use
 (a `docker.sh` script is provided, along with a `podman.sh` script)` that
 checks for a running container and starts it if necessary, then runs the
 appropriate `exec` command to give you a running shell in the container)
+
+Note that by default the container build for `argot` does not run any `bundler`
+commands so you have to fetch and install the gems.
+
+The redis container (named `argot-redis` by the compose script) will open
+a random port on the host, so if you need to connect to it from the host, run
+
+    $ docker port argot-redis
+
+To see which port got mapped.
 
 If you want to develop on the host, all you need to do is either avoid
 authority processing related operations, or run redis on the host.

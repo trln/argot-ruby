@@ -11,17 +11,17 @@ module Argot
   # Argot, before flattening and suffixing. 
   class AuthorityEnricher < Transformer
     attr_reader :redis
-  
+
     def initialize(redis_url: 'redis://localhost:6379/0', redis: nil)
-      @redis = redis.nil? ? redis : Redis.new(url: redis_url)
+      super
+      @redis = redis || Redis.new(url: redis_url)
     end
-      
+
     def process(rec)
       begin
-        values = rec.fetch('names',[]).map do |name|
-          variant_names(name['id']) if name['id']
+        values = rec.fetch('names', []).select { |n| n['id'] }.map do |name|
+          variant_names(name['id'])
         end.flatten.compact
-
         rec['variant_names'] = values unless values.empty?
       rescue StandardError => e
         warn("unable to enrich #{rec['id']}: #{e}")
@@ -32,7 +32,7 @@ module Argot
     alias call process
 
     private
-    
+
     def variant_names(name_uri)
       variant_names = variant_names_lookup(name_uri)
       variant_names_vern = (variant_names || []).map do |vn|
@@ -47,7 +47,7 @@ module Argot
 
     def variant_names_lookup(uri)
       vn = redis.get(uri.sub('http://id.loc.gov/authorities/names/', 'lcnaf:'))
-      JSON.parse(variant_name) if variant_name
+      JSON.parse(vn) if vn
     end
   end
 end

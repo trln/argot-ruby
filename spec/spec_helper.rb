@@ -3,6 +3,7 @@
 $LOAD_PATH.unshift File.expand_path('../lib', __dir__)
 require 'argot'
 require 'util'
+require 'pry'
 
 RSpec.configure do |c|
   c.include Util
