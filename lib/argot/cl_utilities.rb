@@ -14,9 +14,10 @@ module Argot
 
     # connects to redis (if available) using standard fallbacks
     def redis_connect(options)
+      # fallback for running under docker-compose
       backup_url = 'redis://host.containers.internal:6379/0'
-
-      urls = [options[:redis_url]]
+      # put REDIS_URL at the front of the line, if set
+      urls = [ENV['REDIS_URL'], options[:redis_url]].compact
       if in_container? and options[:redis_url].include?('localhost')
           urls << backup_url
       end

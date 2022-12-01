@@ -213,7 +213,8 @@ added to the output.
 Authority processing assumes a Redis database is available; by default, it is
 assumed to be running on `localhost` (or on a container accessible via
 `host.containers.internal`) on port 6379 and to require no authentication.
-You can provide a custom URL via the `--redis_url` argument.
+You can provide a custom URL via the `REDIS_URL` environment variable or 
+the `--redis_url` argument (checked in that order).
 
 ## Documentation
 

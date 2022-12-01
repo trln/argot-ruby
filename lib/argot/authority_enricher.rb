@@ -12,9 +12,12 @@ module Argot
   class AuthorityEnricher < Transformer
     attr_reader :redis
 
+    # create a new instance
+    # @param redis_url: the URL to a redis instance in the form `redis://[hostname]:[port]. If unspecified and the environment variable REDIS_URL is set, that is used, otherwise the default it used
     def initialize(redis_url: 'redis://localhost:6379/0', redis: nil)
       super
-      @redis = redis || Redis.new(url: redis_url)
+      url = ENV.fetch('REDIS_URL', redis_url)
+      @redis = redis || Redis.new(url: url)
     end
 
     def process(rec)

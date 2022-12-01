@@ -21,7 +21,7 @@ describe Argot::AuthorityEnricher do
   }
 
   context 'spec setup' do
-    it 'does not do the right thing' do
+    it 'uses mock_redis instance for (most) specs' do
       expect(subject.redis).to be(mock_redis)
     end
   end
@@ -45,6 +45,20 @@ describe Argot::AuthorityEnricher do
       end
 
       expect(keys).to eq(variants)
+    end
+  end
+
+  context 'REDIS_URL specfied when instantiating' do
+    it 'prefers REDIS_URL environment variable to default value' do
+      ENV['REDIS_URL'] = 'redis://example.test.trln:6379'
+      instance = described_class.new
+      expect(instance.redis.id).to include('example.test.trln')
+    end
+
+    it 'uses default value for redis URL when REDIS_URL env var is absent' do
+      ENV.delete('REDIS_URL')
+      instance = described_class.new
+      expect(instance.redis.id).to match(/:\/\/(?:localhost|host.containers\.internal)/)
     end
   end
 end
