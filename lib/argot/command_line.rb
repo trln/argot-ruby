@@ -2,6 +2,8 @@
 
 require 'argot'
 require 'argot/cl_utilities'
+require 'io/wait'
+
 require 'thor'
 require 'json'
 require 'yaml'
@@ -13,6 +15,10 @@ module Argot
   # The class that executes for the Argot command line utility.
   class CommandLine < Thor
     default_task :full_validate
+
+    def self.exit_on_failure?
+      true
+    end
 
     no_commands do
       include Argot::Pipelines
@@ -106,6 +112,10 @@ module Argot
                     aliases:  '-v',
                     desc:  'display rules and error information'
     def validate(input = $stdin, output = $stdout)
+      if input == $stdin and !input.ready?
+        warn "no input"
+        exit(1)
+      end
       p = options.all ? everything_pipeline(options) : validate_pipeline(options)
       total = 0
       count = 0
@@ -138,6 +148,17 @@ module Argot
                     default:  '/flattener_config.yml',
                     aliases:  '-t',
                     desc:  'Solr flattener config file'
+
+    method_option   :authorities,
+                    type: :boolean,
+                    default: false,
+                    aliases: '-a',
+                    desc: 'Do name authority processing (assumes Redis is available)'
+    method_option   :redis_url,
+                    type: :string,
+                    aliases: '-r',
+                    default: 'redis://localhost:6379/0',
+                    desc: 'URL to redis instance for authority processing'
     def flatten(input=$stdin, output=$stdout)
       p = flatten_pipeline(options)
       formatter = json_formatter(options)
@@ -171,8 +192,18 @@ module Argot
                     default:  '/flattener_config.yml',
                     aliases:  '-t',
                     desc:  'Solr flattener config file'
+    method_option   :authorities,
+                    type: :boolean,
+                    default: false,
+                    aliases: '-a',
+                    desc: 'Do name authority processing (assumes Redis is available)'
+    method_option   :redis_url,
+                    type: :string,
+                    aliases: '-r',
+                    default: 'redis://localhost:6379/0',
+                    desc: 'Redis URL for use with authority processing'
     def suffix(input = $stdin, output = $stdout)
-      p = suffix_pipeline
+      p = suffix_pipeline(options)
       fmt = json_formatter(options)
       get_output(output) do |out|
         get_input(input) do |f|
@@ -279,6 +310,17 @@ module Argot
                     default:  false,
                     aliases:  '-v',
                     desc:  'display rules and error information'
+
+    method_option   :authorities,
+                    type: :boolean,
+                    default: false,
+                    aliases: '-a',
+                    desc: 'Add variant names from LCNAF authority files (assumes Redis is available)'
+
+    method_option   :redis_url,
+                    type: :string,
+                    default: 'redis://localhost:6379/0',
+                    desc: 'URL to use for Redis; only valid when doing authority processing (see -a)'
     def ingest(input = $stdin)
       p = everything_pipeline(options)
       solr = RSolr.connect url: options.solrUrl
@@ -309,7 +351,7 @@ module Argot
     method_option :output,
                   default:  'argot-files',
                   aliases: '-o',
-                  desc: 'Output directory for files' 
+                  desc: 'Output directory for files'
     method_option :size,
       type: 'numeric',
       default: 20000,
@@ -332,5 +374,30 @@ module Argot
       end
       splitter.close
     end
+
+    desc 'lcnaf <filename>', 'Ingest LCNAF ndjson into Redis'
+    method_option :redis_url,
+                  type: :string,
+                  default: 'redis://localhost:6379/0',
+                  desc: "Redis URL to ingest lcnaf records"
+    method_option :verbose,
+                  aliases: '-v',
+                  type: :boolean,
+                  default: false,
+                  desc: "Log more things"
+    
+    def lcnaf(filename)
+      redis = redis_connect(options)
+      File.open(filename) do |f|
+        count = 0
+        p = Argot::AuthorityParser.new(f)
+        p.each do |r|
+          redis.set(r[:id], r[:labels])
+          count += 1
+        end
+        warn "Ingested #{count} records"
+      end
+    end
+
   end
 end

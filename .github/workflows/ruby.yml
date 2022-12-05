@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby: [2.4.4, 2.5.3, 2.6.1, jruby-9.2.9.0]
+        ruby: [2.6.7, 2.7.6, 3.0.4, 3.1.2, jruby-9.3.8.0]
     steps:
       - uses: actions/checkout@v2
       - name: Set up Ruby

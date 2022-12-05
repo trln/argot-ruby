@@ -27,6 +27,9 @@ module Argot
   autoload :SolrSchema, 'argot/solr_schema'
   autoload :BuildSuggestFields, 'argot/build_suggest_fields'
   autoload :Splitter, 'argot/splitter'
+  autoload :ScriptClassifier, 'argot/script_classifier'
+  autoload :AuthorityEnricher, 'argot/authority_enricher.rb'
+  autoload :AuthorityParser, 'argot/authority_parser.rb'
 
   # Allow classes to be used as blocks
   module Methods

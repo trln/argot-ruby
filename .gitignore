@@ -8,4 +8,5 @@ lib/*_jars.rb
 Jars.lock
 Gemfile.lock
 lib/org/
+redis-data/
 

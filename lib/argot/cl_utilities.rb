@@ -1,8 +1,42 @@
 # frozen_string_literal: true
+require 'redis'
 
 module Argot
   # helper methods for commandline operations
   module CommandLineUtilities
+
+
+    # used to test whether we are running inside a container
+    # some utilities may want to use different default URLs
+    def in_container?
+      File.exist?('/.dockerenv') || File.exist?('/run/.containerenv')
+    end
+
+    # connects to redis (if available) using standard fallbacks
+    def redis_connect(options)
+      # fallback for running under docker-compose
+      backup_url = 'redis://host.containers.internal:6379/0'
+      # put REDIS_URL at the front of the line, if set
+      urls = [ENV['REDIS_URL'], options[:redis_url]].compact
+      if in_container? and options[:redis_url].include?('localhost')
+          urls << backup_url
+      end
+      redis = urls.map { |u| Redis.new(url: u) }.find do |r|
+        begin
+          r.ping
+          true
+        rescue Redis::CannotConnectError
+          warn "no redis available at #{r.id}" if options[:verbose]
+          false
+        end
+      end
+      if redis.nil?
+        warn "Redis not available at #{urls}"
+        exit(1)
+      end
+      warn "connected to redis at #{redis.id}" if options[:verbose]
+      redis
+    end
 
     # Ensures a #read able input 
     # @param [String, #read] input a filename or IO-style object.
@@ -111,6 +145,16 @@ module Argot
       }
     end
 
+    # gets an AuthorityEnricher as a block if the `authorities`
+    # option is present, `nil` otherwise.
+    def load_authorities(options)
+      if options[:authorities]
+        redis = redis_connect(options)
+        Argot::AuthorityEnricher.new(redis: redis)
+      end
+    end
+
+
     def create_validator(options)
       validator = Argot::Validator.new
       reporter = validation_reporter(options)
@@ -125,18 +169,23 @@ module Argot
         filter(&validate)
       end
     end
-      
+
     def flatten_pipeline(_options = {})
       flatten = Argot::Flattener.new.as_block
+      authorities = load_authorities(options)
       Argot::Pipeline.setup do
+        authorities unless authorities.nil?
         transform(&flatten)
       end
     end
 
-    def suffix_pipeline(_options = {})
+    def suffix_pipeline(options = {})
       flatten = Argot::Flattener.new.as_block
       suffix = Argot::Suffixer.new.as_block
+
+      authorities = load_authorities(options)
       Argot::Pipeline.setup do
+        authorities unless authorities.nil?
         transform(&flatten)
         transform(&suffix)
       end
@@ -147,6 +196,7 @@ module Argot
       flatten = Argot::Flattener.new.as_block
       suffix = Argot::Suffixer.new.as_block
       schema = Argot::SolrSchema.new
+      authorities = load_authorities(options)
       solr_validate = lambda do |rec|
         res = schema.analyze(rec)
         unless res.empty?
@@ -160,6 +210,7 @@ module Argot
 
       Argot::Pipeline.setup do
         filter(&validate)
+        authorities if authorities
         transform(&flatten)
         transform(&suffix)
         filter(&solr_validate)

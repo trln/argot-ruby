@@ -11,7 +11,6 @@ Start with
 
 (as long as you have the `bundler` gem available) will install all the dependencies. then
 
-
     $ bundle exec rake spec
 
 or even just
@@ -27,6 +26,37 @@ will install the gem.
 This gem is supported under both MRI and JRuby, but for small input files
 especially, MRI is likely to be faster.  No optimizations are yet in place to
 take advantage of multithreading under JRuby.
+
+## Container-Based development
+
+A `docker-compose.yml` file is provided that allows for developing in a
+container. Start the container with
+
+    $ docker-compose up
+
+This will start two containers, one for argot (using essentially a no-op, but
+the container stays up) and one for redis, which allows working with a running
+instance of Redis to handle name authority processing features. To connect to
+the running `argot` container, use
+
+    $ docker exec -it -w /app argot /bin/bash
+
+(a `docker.sh` script is provided, along with a `podman.sh` script)` that
+checks for a running container and starts it if necessary, then runs the
+appropriate `exec` command to give you a running shell in the container)
+
+Note that by default the container build for `argot` does not run any `bundler`
+commands so you have to fetch and install the gems.
+
+The redis container (named `argot-redis` by the compose script) will open
+a random port on the host, so if you need to connect to it from the host, run
+
+    $ docker port argot-redis
+
+To see which port got mapped.
+
+If you want to develop on the host, all you need to do is either avoid
+authority processing related operations, or run redis on the host.
 
 ## Usage 
 
@@ -53,14 +83,34 @@ end
 
 ## CLI
 
-After installing the gem, you can run `argot help` to see the available
-commands.  The 'validate' commands are described more fully below, but if you
-want to see what 'flattened' and 'flattend and suffixed' Argot look like you
-can run `argot flatten` or `argot suffix`, respectively, on raw Argot output.  
+You do not need to run `rake install` to install the gem and its associated CLI
+utility `argot` into your path to use this gem; it can be executed via
+prepending `bundle exec` to the commands listed below, e.g.
+
+    $ bundle exec argot flatten argot.json
+
+vs.
+
+    $ argot flatten argot.json
+
+In general you should prefer the `bundle exec` version, especially when
+developing, as it's clearer which version of the gem and its associated
+dependencies you are using and you can edit the files under `lib/` and see an
+immediate effect.
+
+    $ argot help
+
+Will show you the available commands.
+
+    $ argot help [command name]
+
+will show detailed help about a given command.
 
 ### Inputs and Outputs
 
-Many commands accept input and output either from/to named files, or from STDIN and STDOUT, where omitting the `input` argument (or using the `-` shortcut) will read from STDIN, while omitting the output argument will output to STDOUT.
+Many commands accept input and output either from/to named files, or from STDIN
+and STDOUT, where omitting the `input` argument (or using the `-` shortcut)
+will read from STDIN, while omitting the output argument will output to STDOUT.
 
 e.g 
 
@@ -79,6 +129,10 @@ to avoid creating intermediate files.
 If you want to read from STDIN but output to a named file, use `-` as the first argument, e.g. 
 
     $ my_argot_maker_that_writes_to_stdout | argot flatten - flattened.json
+
+(although you can accomplish the same via)
+
+    $ my_argot_maker_that_writes_to_stdout | argot flatten > flattened.json
 
 ## Splitting Large Files
 
@@ -138,7 +192,8 @@ if you so choose) by using the `schemaupdate` command.
 
 ## Ingest (Development only)
 
-Sometimes you'll want to ingest your Argot files directly into Solr, e.g. when your'e developing a new feature and don't want to set up an ingest application.
+Sometimes you'll want to ingest your Argot files directly into Solr, e.g. when
+you're developing a new feature and don't want to set up an ingest application.
 
     $ argot ingest some-argot.json 
 
@@ -146,6 +201,20 @@ Will flatten and suffix the records in the named files and send them to
 `http://localhost:8983/solr/trln`.  You can configure the URL and size of the
 batches in which documents are committed to Solr via options.  See `argot help
 ingest` for more details.
+
+## Name Authority Processing
+
+Many of the above commands accept an `--authorities` or `-a` switch that turns
+on name authority processing (un-suffixed, un-flattened Argot records are
+searched for `name` entries that contain LCNAF `id` attributes, and if they
+match records in a Redis database, variant names associated with that ID are
+added to the output.
+
+Authority processing assumes a Redis database is available; by default, it is
+assumed to be running on `localhost` (or on a container accessible via
+`host.containers.internal`) on port 6379 and to require no authentication.
+You can provide a custom URL via the `REDIS_URL` environment variable or 
+the `--redis_url` argument (checked in that order).
 
 ## Documentation
 
@@ -156,12 +225,6 @@ To build the documentation, I suggest YARD.
     $ yard
 
 This will create files in `doc/`
-
-## Dependencies (Gems)
-
-All Platforms:
-
- * [`traject`](https://github.com/traject/traject)
 
 ### MRI
 

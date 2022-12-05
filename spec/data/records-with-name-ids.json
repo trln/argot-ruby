@@ -1,0 +1,2498 @@
+[
+  {
+    "id": "NCSU4052297",
+    "url": [
+      "{\"href\":\"https://proxying.lib.ncsu.edu/index.php?url=https://www.nclive.org/cgi-bin/nclsm?url=https://www.hoopladigital.com/title/10755520?utm_source=MARC.\",\"type\":\"fulltext\",\"note\":\"Available to participating NC libraries through NC LIVE\"}"
+    ],
+    "isbn": [
+      {
+        "number": "9781400128860",
+        "qualifying_info": ""
+      }
+    ],
+    "items": [
+      "{\"call_no\":\"PZ8 .A542 Ug 2011b\",\"cn_scheme\":\"LC\",\"item_id\":\"4052297-1001\",\"loc_n\":\"NET\",\"loc_b\":\"ONLINE\",\"type\":\"AUDIOBOOK\",\"copy_no\":\"\",\"status\":\"Available\"}"
+    ],
+    "names": [
+      {
+        "id": "http://id.loc.gov/authorities/names/n79022941",
+        "name": "Andersen, H. C. (Hans Christian), 1805-1875",
+        "type": "creator"
+      },
+      {
+        "id": "http://id.loc.gov/authorities/names/no97015725",
+        "rel": [
+          "narrator"
+        ],
+        "name": "Burns, Rebecca",
+        "type": "contributor"
+      },
+      {
+        "name": "Tantor Media",
+        "type": "no_rel"
+      },
+      {
+        "name": "OneClick Digital (Firm)",
+        "type": "no_rel"
+      }
+    ],
+    "owner": "ncsu",
+    "edition": [
+      {
+        "value": "Unabridged."
+      }
+    ],
+    "misc_id": [
+      {
+        "qual": "Recorded Books",
+        "type": "Issue Number",
+        "value": "Z10004828"
+      }
+    ],
+    "barcodes": [
+      "4052297-1001"
+    ],
+    "language": [
+      "English"
+    ],
+    "local_id": {
+      "other": [],
+      "value": "4052297"
+    },
+    "note_toc": [
+      "The ugly duckling -- The emperor's new clothes -- The princess and the pea -- Little fir tree -- The red shoes -- The steadfast tin soldier -- Thumbelina -- The little match girl -- The nightingale -- The little mermaid -- Little tiny -- The garden of paradise -- The tinder box -- Great Claus and little Claus -- The swineherd -- The snow queen."
+    ],
+    "shelfkey": "lc:PZ.0008.A542--UG2011B",
+    "available": "Available",
+    "entity_id": [
+      "lcnaf:n79022941",
+      "lcnaf:no97015725"
+    ],
+    "publisher": [
+      {
+        "value": "Tantor Media"
+      },
+      {
+        "value": "[Distributed by] OneClick Digital"
+      }
+    ],
+    "this_work": [
+      {
+        "type": "this",
+        "title": [
+          "Ugly duckling & other stories"
+        ],
+        "author": "Andersen, H. C. (Hans Christian), 1805-1875",
+        "display": "false",
+        "title_nonfiling": "The ugly duckling & other stories /"
+      }
+    ],
+    "title_main": [
+      {
+        "value": "The ugly duckling & other stories"
+      }
+    ],
+    "title_sort": "ugly duckling and other stories",
+    "access_type": [
+      "Online"
+    ],
+    "institution": [
+      "ncsu"
+    ],
+    "series_work": [
+      {
+        "type": "series",
+        "title": [
+          "Unabridged classics."
+        ]
+      }
+    ],
+    "creator_main": [
+      "Andersen, H. C. (Hans Christian), 1805-1875"
+    ],
+    "imprint_main": [
+      "{\"type\":\"publication\",\"value\":\"[San Clemente, Calif.] : Tantor Media ; [Prince Frederick, Md.] : [Distributed by] OneClick Digital, 2011, 2008.\"}"
+    ],
+    "note_general": [
+      {
+        "value": "Downloadable audio file."
+      },
+      {
+        "value": "Previously released in 2005."
+      }
+    ],
+    "note_summary": [
+      "A collection of Andersen's classic fairy tales."
+    ],
+    "primary_isbn": [
+      "9781400128860",
+      "9781400128860"
+    ],
+    "related_work": [
+      {
+        "type": "host_item",
+        "title": [
+          "Hoopla digital"
+        ]
+      }
+    ],
+    "resource_type": [
+      "Audiobook"
+    ],
+    "subject_genre": [
+      "Juvenile sound recordings",
+      "Translations into English",
+      "Sound recordings",
+      "Fiction",
+      "Children's sound recordings"
+    ],
+    "title_variant": [
+      {
+        "value": "Ugly duckling and other stories",
+        "display": "false"
+      }
+    ],
+    "date_cataloged": [
+      "2018-01-08T05:00:00Z"
+    ],
+    "genre_headings": [
+      {
+        "value": "Juvenile sound recordings"
+      },
+      {
+        "value": "Translations into English"
+      },
+      {
+        "value": "Sound recordings"
+      },
+      {
+        "value": "Fiction"
+      },
+      {
+        "value": "Children's sound recordings"
+      }
+    ],
+    "physical_media": [
+      "Online"
+    ],
+    "subject_topical": [
+      "Fairy tales",
+      "Children's stories, Danish"
+    ],
+    "publication_year": [
+      2005
+    ],
+    "reverse_shelfkey": "lc:A0}ZZZR}PUVX~~5JXZYYO",
+    "series_statement": [
+      {
+        "value": "Unabridged classics"
+      }
+    ],
+    "subject_headings": [
+      {
+        "value": "Fairy tales"
+      },
+      {
+        "value": "Fairy tales -- Denmark -- Juvenile sound recordings"
+      },
+      {
+        "value": "Children's stories, Danish -- Translations into English"
+      }
+    ],
+    "location_hierarchy": [],
+    "publisher_location": [
+      "San Clemente, Calif.",
+      "Prince Frederick, Md."
+    ],
+    "record_data_source": [
+      "ILSMARC"
+    ],
+    "subject_geographic": [
+      "Denmark"
+    ],
+    "call_number_schemes": [
+      "LC"
+    ],
+    "note_system_details": [
+      "Mode of access: World Wide Web.",
+      "Requires OneClick Digital Media Manager.",
+      "System requirements: 200 MB of free disk space, 512 MB of RAM, Windows Installer 3.1, Microsoft .NET Framework 4 (x86 and x64), Windows Media Player 10 QA."
+    ],
+    "origin_place_search": [
+      {
+        "value": "[San Clemente, Calif.]"
+      },
+      {
+        "value": "[Prince Frederick, Md.]"
+      },
+      {
+        "value": "California"
+      },
+      {
+        "value": "United States"
+      }
+    ],
+    "physical_description": [
+      {
+        "value": "1 audio file (5 hr., 10 min.) : digital."
+      }
+    ],
+    "note_performer_credits": [
+      {
+        "value": "Read by Rebecca Burns."
+      }
+    ],
+    "note_access_restrictions": [
+      "Access is limited to one user at a time"
+    ],
+    "lcc_callnum_classification": [
+      "P - Language and literature",
+      "P - Language and literature|PZ1 - PZ90 Fiction and juvenile belles lettres",
+      "P - Language and literature|PZ1 - PZ90 Fiction and juvenile belles lettres|PZ5 - PZ90 Juvenile belles lettres"
+    ],
+    "statement_of_responsibility": [
+      {
+        "value": "by Hans Christian Anderson."
+      }
+    ],
+    "physical_description_details": [
+      {
+        "label": "Special audio characteristics",
+        "value": "digital recording"
+      }
+    ]
+  },
+  {
+    "id": "NCSU4052300",
+    "url": [
+      "{\"href\":\"https://proxying.lib.ncsu.edu/index.php?url=https://www.nclive.org/cgi-bin/nclsm?url=https://www.hoopladigital.com/title/10756780?utm_source=MARC.\",\"type\":\"fulltext\",\"note\":\"Available to participating NC libraries through NC LIVE\"}"
+    ],
+    "isbn": [
+      {
+        "number": "9781400129027",
+        "qualifying_info": ""
+      }
+    ],
+    "items": [
+      "{\"call_no\":\"PR3724 .G7 2011b\",\"cn_scheme\":\"LC\",\"item_id\":\"4052300-1001\",\"loc_n\":\"NET\",\"loc_b\":\"ONLINE\",\"type\":\"AUDIOBOOK\",\"copy_no\":\"\",\"status\":\"Available\"}"
+    ],
+    "names": [
+      {
+        "id": "http://id.loc.gov/authorities/names/n78096912",
+        "name": "Swift, Jonathan, 1667-1745",
+        "type": "creator"
+      },
+      {
+        "id": "http://id.loc.gov/authorities/names/n91129431",
+        "name": "Case, David",
+        "type": "no_rel"
+      },
+      {
+        "name": "OneClick Digital (Firm)",
+        "type": "no_rel"
+      }
+    ],
+    "owner": "ncsu",
+    "edition": [
+      {
+        "value": "Unabridged."
+      }
+    ],
+    "misc_id": [
+      {
+        "qual": "Recorded Books",
+        "type": "Issue Number",
+        "value": "Z10004836"
+      }
+    ],
+    "barcodes": [
+      "4052300-1001"
+    ],
+    "language": [
+      "English"
+    ],
+    "local_id": {
+      "other": [],
+      "value": "4052300"
+    },
+    "shelfkey": "lc:PR.3724.G7.2011.B",
+    "available": "Available",
+    "entity_id": [
+      "lcnaf:n78096912",
+      "lcnaf:n91129431"
+    ],
+    "publisher": [
+      {
+        "value": "Tantor Media"
+      },
+      {
+        "value": "[Distributed by] OneClick Digital"
+      }
+    ],
+    "this_work": [
+      {
+        "type": "this",
+        "title": [
+          "Gulliver's travels"
+        ],
+        "author": "Swift, Jonathan, 1667-1745",
+        "display": "false"
+      }
+    ],
+    "title_main": [
+      {
+        "value": "Gulliver's travels"
+      }
+    ],
+    "title_sort": "gullivers travels",
+    "access_type": [
+      "Online"
+    ],
+    "institution": [
+      "ncsu"
+    ],
+    "series_work": [
+      {
+        "type": "series",
+        "title": [
+          "Unabridged classics."
+        ]
+      }
+    ],
+    "short_title": [
+      "Gulliver's travels"
+    ],
+    "creator_main": [
+      "Swift, Jonathan, 1667-1745"
+    ],
+    "imprint_main": [
+      "{\"type\":\"publication\",\"value\":\"[Old Saybrook, Conn.] : Tantor Media ; [Prince Frederick, Md.] : [Distributed by] OneClick Digital, 2011, 2006.\"}"
+    ],
+    "note_general": [
+      {
+        "value": "Downloadable audio file."
+      }
+    ],
+    "note_summary": [
+      "The voyages of an Englishman carry him to such strange places as Lilliput, where people are six inches tall; Brobdingnag, a land of giants; an island of sorcerers; and a country ruled by horses."
+    ],
+    "primary_isbn": [
+      "9781400129027",
+      "9781400129027"
+    ],
+    "related_work": [
+      {
+        "type": "host_item",
+        "title": [
+          "Hoopla digital"
+        ]
+      }
+    ],
+    "resource_type": [
+      "Audiobook"
+    ],
+    "subject_genre": [
+      "Fiction",
+      "Early works to 1800",
+      "Allegories",
+      "Fantasy fiction",
+      "Action and adventure fiction",
+      "Sound recordings"
+    ],
+    "date_cataloged": [
+      "2018-01-08T05:00:00Z"
+    ],
+    "genre_headings": [
+      {
+        "value": "Fiction"
+      },
+      {
+        "value": "Early works to 1800"
+      },
+      {
+        "value": "Allegories"
+      },
+      {
+        "value": "Fantasy fiction"
+      },
+      {
+        "value": "Action and adventure fiction"
+      },
+      {
+        "value": "Sound recordings"
+      }
+    ],
+    "physical_media": [
+      "Online"
+    ],
+    "subject_topical": [
+      "Gulliver, Lemuel (Fictitious character)",
+      "Voyages, Imaginary",
+      "Travelers"
+    ],
+    "publication_year": [
+      2006
+    ],
+    "reverse_shelfkey": "lc:A8}WSXV}JS}XZYY}O",
+    "series_statement": [
+      {
+        "value": "Unabridged classics"
+      }
+    ],
+    "subject_headings": [
+      {
+        "value": "Gulliver, Lemuel (Fictitious character) -- Fiction"
+      },
+      {
+        "value": "Voyages, Imaginary -- Early works to 1800"
+      },
+      {
+        "value": "Voyages, Imaginary -- Fiction"
+      },
+      {
+        "value": "Travelers -- Fiction"
+      }
+    ],
+    "location_hierarchy": [],
+    "publisher_location": [
+      "Old Saybrook, Conn.",
+      "Prince Frederick, Md."
+    ],
+    "record_data_source": [
+      "ILSMARC"
+    ],
+    "call_number_schemes": [
+      "LC"
+    ],
+    "note_system_details": [
+      "Mode of access: World Wide Web.",
+      "Requires OneClick Digital Media Manager.",
+      "System requirements: 200 MB of free disk space, 512 MB of RAM, Windows Installer 3.1, Microsoft .NET Framework 4 (x86 and x64), Windows Media Player 10 QA."
+    ],
+    "origin_place_search": [
+      {
+        "value": "[Old Saybrook, Conn.]"
+      },
+      {
+        "value": "[Prince Frederick, Md.]"
+      },
+      {
+        "value": "Connecticut"
+      },
+      {
+        "value": "United States"
+      }
+    ],
+    "physical_description": [
+      {
+        "value": "1 audio file (10 hr., 48 min.) : digital."
+      }
+    ],
+    "note_performer_credits": [
+      {
+        "value": "Read by David Case."
+      }
+    ],
+    "note_access_restrictions": [
+      "Access is limited to one user at a time"
+    ],
+    "lcc_callnum_classification": [
+      "P - Language and literature",
+      "P - Language and literature|PR1 - PR9680 English literature",
+      "P - Language and literature|PR1 - PR9680 English literature|PR3291 - PR3785 17th and 18th centuries (1640-1770)"
+    ],
+    "statement_of_responsibility": [
+      {
+        "value": "Jonathan Swift."
+      }
+    ],
+    "physical_description_details": [
+      {
+        "label": "Special audio characteristics",
+        "value": "digital recording"
+      }
+    ]
+  },
+  {
+    "id": "NCSU4052309",
+    "url": [
+      "{\"href\":\"https://proxying.lib.ncsu.edu/index.php?url=https://www.nclive.org/cgi-bin/nclsm?url=https://www.hoopladigital.com/title/11632406?utm_source=MARC.\",\"type\":\"fulltext\",\"note\":\"Available to participating NC libraries through NC LIVE\"}"
+    ],
+    "isbn": [
+      {
+        "number": "9780062262981",
+        "qualifying_info": ""
+      },
+      {
+        "number": "9780061784804",
+        "qualifying_info": ""
+      }
+    ],
+    "items": [
+      "{\"call_no\":\"PS3568 .O5398 E94 2013 eb\",\"cn_scheme\":\"LC\",\"item_id\":\"4052309-1001\",\"loc_n\":\"NET\",\"loc_b\":\"ONLINE\",\"type\":\"AUDIOBOOK\",\"copy_no\":\"\",\"status\":\"Available\"}"
+    ],
+    "names": [
+      {
+        "id": "http://id.loc.gov/authorities/names/no99061918",
+        "name": "Rollins, James, 1961-",
+        "type": "creator"
+      },
+      {
+        "id": "http://id.loc.gov/authorities/names/no2007062490",
+        "rel": [
+          "narrator"
+        ],
+        "name": "Baskous, Christian",
+        "type": "contributor"
+      },
+      {
+        "name": "Harper Audio (Firm)",
+        "type": "no_rel"
+      },
+      {
+        "name": "OneClick Digital (Firm)",
+        "type": "no_rel"
+      }
+    ],
+    "owner": "ncsu",
+    "edition": [
+      {
+        "value": "Unabridged."
+      }
+    ],
+    "misc_id": [
+      {
+        "qual": "Recorded Books",
+        "type": "Issue Number",
+        "value": "Z100048453"
+      }
+    ],
+    "barcodes": [
+      "4052309-1001"
+    ],
+    "language": [
+      "English"
+    ],
+    "local_id": {
+      "other": [],
+      "value": "4052309"
+    },
+    "shelfkey": "lc:PS.3568.O5398.E94--2013EB",
+    "available": "Available",
+    "entity_id": [
+      "lcnaf:no99061918",
+      "lcnaf:no2007062490"
+    ],
+    "publisher": [
+      {
+        "value": "Harper Audio"
+      },
+      {
+        "value": "[Distributed by] OneClick Digital"
+      }
+    ],
+    "this_work": [
+      {
+        "type": "this",
+        "title": [
+          "Eye of God"
+        ],
+        "author": "Rollins, James, 1961-",
+        "display": "false",
+        "title_nonfiling": "The eye of God /"
+      }
+    ],
+    "title_main": [
+      {
+        "value": "The eye of God"
+      }
+    ],
+    "title_sort": "eye of god",
+    "access_type": [
+      "Online"
+    ],
+    "institution": [
+      "ncsu"
+    ],
+    "series_work": [
+      {
+        "type": "series",
+        "title": [
+          "Sigma Force novel."
+        ],
+        "author": "Rollins, James, 1961-"
+      }
+    ],
+    "creator_main": [
+      "Rollins, James, 1961-"
+    ],
+    "imprint_main": [
+      "{\"type\":\"publication\",\"value\":\"[New York] : Harper Audio ; [Prince Frederick, Md.] : [Distributed by] OneClick Digital, 2013, 2013.\"}"
+    ],
+    "note_general": [
+      {
+        "value": "Downloadable audio file."
+      },
+      {
+        "value": "Title from title screen (viewed July 10, 2013)."
+      }
+    ],
+    "note_summary": [
+      "Commander Gray Pierce and Sigma Force set out to uncover the truth tied to the fall of the Roman Empire, to a mystery going back to the birth of Christianity, and to a weapon hidden for centuries that holds the fate of humanity."
+    ],
+    "primary_isbn": [
+      "9780062262981",
+      "9780061784804"
+    ],
+    "related_work": [
+      {
+        "type": "host_item",
+        "title": [
+          "Hoopla digital"
+        ]
+      }
+    ],
+    "resource_type": [
+      "Audiobook"
+    ],
+    "subject_genre": [
+      "Fiction",
+      "Suspense fiction",
+      "Downloadable audio books",
+      "Sound recordings"
+    ],
+    "date_cataloged": [
+      "2018-01-08T05:00:00Z"
+    ],
+    "genre_headings": [
+      {
+        "value": "Fiction"
+      },
+      {
+        "value": "Suspense fiction"
+      },
+      {
+        "value": "Downloadable audio books"
+      },
+      {
+        "value": "Sound recordings"
+      }
+    ],
+    "physical_media": [
+      "Online"
+    ],
+    "subject_topical": [
+      "Special operations (Military science)"
+    ],
+    "publication_year": [
+      2013
+    ],
+    "reverse_shelfkey": "lc:A7}WUTR}BUWQR}LQV~~XZYWLO",
+    "series_statement": [
+      {
+        "value": "A Sigma Force novel"
+      }
+    ],
+    "subject_headings": [
+      {
+        "value": "Special operations (Military science) -- Fiction"
+      }
+    ],
+    "location_hierarchy": [],
+    "publisher_location": [
+      "New York",
+      "Prince Frederick, Md."
+    ],
+    "record_data_source": [
+      "ILSMARC"
+    ],
+    "call_number_schemes": [
+      "LC"
+    ],
+    "note_system_details": [
+      "Mode of access: World Wide Web.",
+      "Requires OneClick Digital Media Manager.",
+      "System requirements: 200 MB of free disk space, 512 MB of RAM, Windows Installer 3.1, Microsoft .NET Framework 4 (x86 and x64), Windows Media Player 10 QA."
+    ],
+    "origin_place_search": [
+      {
+        "value": "[New York]"
+      },
+      {
+        "value": "[Prince Frederick, Md.]"
+      },
+      {
+        "value": "New York (State)"
+      },
+      {
+        "value": "United States"
+      }
+    ],
+    "physical_description": [
+      {
+        "value": "1 audio file (14 hr., 44 min.) : digital."
+      }
+    ],
+    "note_performer_credits": [
+      {
+        "value": "Read by Christian Baskous."
+      }
+    ],
+    "note_access_restrictions": [
+      "Access is limited to one user at a time"
+    ],
+    "lcc_callnum_classification": [
+      "P - Language and literature",
+      "P - Language and literature|PS1 - PS3626 American literature. Canadian literature",
+      "P - Language and literature|PS1 - PS3626 American literature. Canadian literature|PS1 - PS3626 American literature"
+    ],
+    "statement_of_responsibility": [
+      {
+        "value": "James Rollins."
+      }
+    ],
+    "physical_description_details": [
+      {
+        "label": "Special audio characteristics",
+        "value": "digital recording"
+      }
+    ]
+  },
+  {
+    "id": "NCSU4052301",
+    "url": [
+      "{\"href\":\"https://proxying.lib.ncsu.edu/index.php?url=https://www.nclive.org/cgi-bin/nclsm?url=https://www.hoopladigital.com/title/10756677?utm_source=MARC.\",\"type\":\"fulltext\",\"note\":\"Available to participating NC libraries through NC LIVE\"}"
+    ],
+    "isbn": [
+      {
+        "number": "9781400129041",
+        "qualifying_info": ""
+      }
+    ],
+    "items": [
+      "{\"call_no\":\"PQ2246 .M2 E5 2011b\",\"cn_scheme\":\"LC\",\"item_id\":\"4052301-1001\",\"loc_n\":\"NET\",\"loc_b\":\"ONLINE\",\"type\":\"AUDIOBOOK\",\"copy_no\":\"\",\"status\":\"Available\"}"
+    ],
+    "names": [
+      {
+        "id": "http://id.loc.gov/authorities/names/n79059896",
+        "name": "Flaubert, Gustave, 1821-1880",
+        "type": "creator"
+      },
+      {
+        "id": "http://id.loc.gov/authorities/names/n93001104",
+        "rel": [
+          "narrator"
+        ],
+        "name": "Peters, Donada",
+        "type": "contributor"
+      },
+      {
+        "name": "Tantor Media",
+        "type": "no_rel"
+      },
+      {
+        "name": "OneClick Digital (Firm)",
+        "type": "no_rel"
+      }
+    ],
+    "owner": "ncsu",
+    "edition": [
+      {
+        "value": "Unabridged."
+      }
+    ],
+    "misc_id": [
+      {
+        "qual": "Recorded Books",
+        "type": "Issue Number",
+        "value": "Z10004837"
+      }
+    ],
+    "barcodes": [
+      "4052301-1001"
+    ],
+    "language": [
+      "English"
+    ],
+    "local_id": {
+      "other": [],
+      "value": "4052301"
+    },
+    "shelfkey": "lc:PQ.2246.M2.E5--2011B",
+    "available": "Available",
+    "entity_id": [
+      "lcnaf:n79059896",
+      "lcnaf:n93001104"
+    ],
+    "publisher": [
+      {
+        "value": "Tantor Media"
+      },
+      {
+        "value": "[Distributed by] OneClick Digital"
+      }
+    ],
+    "this_work": [
+      {
+        "type": "this",
+        "title": [
+          "Madame Bovary.",
+          "English"
+        ],
+        "author": "Flaubert, Gustave, 1821-1880"
+      }
+    ],
+    "title_main": [
+      {
+        "value": "Madame Bovary"
+      }
+    ],
+    "title_sort": "madame bovary",
+    "access_type": [
+      "Online"
+    ],
+    "institution": [
+      "ncsu"
+    ],
+    "short_title": [
+      "Madame Bovary"
+    ],
+    "creator_main": [
+      "Flaubert, Gustave, 1821-1880"
+    ],
+    "imprint_main": [
+      "{\"type\":\"publication\",\"value\":\"[Old Saybrook, Conn.] : Tantor Media ; [Prince Frederick, Md.] : [Distributed by] OneClick Digital, 2011, 2008.\"}"
+    ],
+    "note_general": [
+      {
+        "value": "Downloadable audio file."
+      },
+      {
+        "value": "Previously released in 2006."
+      }
+    ],
+    "note_summary": [
+      "The classic tale of a woman who craves passion and intimacy, but finds only greed, betrayal, and heartbreak, as she stumbles towards suicide."
+    ],
+    "primary_isbn": [
+      "9781400129041",
+      "9781400129041"
+    ],
+    "related_work": [
+      {
+        "type": "host_item",
+        "title": [
+          "Hoopla digital"
+        ]
+      }
+    ],
+    "resource_type": [
+      "Audiobook"
+    ],
+    "subject_genre": [
+      "Fiction",
+      "Sound recordings"
+    ],
+    "date_cataloged": [
+      "2018-01-08T05:00:00Z"
+    ],
+    "genre_headings": [
+      {
+        "value": "Fiction"
+      },
+      {
+        "value": "Sound recordings"
+      }
+    ],
+    "physical_media": [
+      "Online"
+    ],
+    "subject_topical": [
+      "Middle class",
+      "History",
+      "Social life and customs"
+    ],
+    "publication_year": [
+      2006
+    ],
+    "reverse_shelfkey": "lc:A9}XXVT}DX}LU~~XZYYO",
+    "subject_headings": [
+      {
+        "value": "Middle class -- France -- History -- 19th century -- Fiction"
+      },
+      {
+        "value": "France -- Social life and customs -- 19th century -- Fiction"
+      }
+    ],
+    "location_hierarchy": [],
+    "publisher_location": [
+      "Old Saybrook, Conn.",
+      "Prince Frederick, Md."
+    ],
+    "record_data_source": [
+      "ILSMARC"
+    ],
+    "subject_geographic": [
+      "France"
+    ],
+    "call_number_schemes": [
+      "LC"
+    ],
+    "note_system_details": [
+      "Mode of access: World Wide Web.",
+      "Requires OneClick Digital Media Manager.",
+      "System requirements: 200 MB of free disk space, 512 MB of RAM, Windows Installer 3.1, Microsoft .NET Framework 4 (x86 and x64), Windows Media Player 10 QA."
+    ],
+    "origin_place_search": [
+      {
+        "value": "[Old Saybrook, Conn.]"
+      },
+      {
+        "value": "[Prince Frederick, Md.]"
+      },
+      {
+        "value": "Connecticut"
+      },
+      {
+        "value": "United States"
+      }
+    ],
+    "physical_description": [
+      {
+        "value": "1 audio file (11 hr., 39 min.) : digital"
+      }
+    ],
+    "subject_chronological": [
+      "19th century"
+    ],
+    "note_performer_credits": [
+      {
+        "value": "Read by Donada Peters."
+      }
+    ],
+    "note_access_restrictions": [
+      "Access is limited to one user at a time"
+    ],
+    "lcc_callnum_classification": [
+      "P - Language and literature",
+      "P - Language and literature|PQ1 - PQ9698.43 French literature. Italian literature. Spanish literature. Portuguese literature",
+      "P - Language and literature|PQ1 - PQ9698.43 French literature. Italian literature. Spanish literature. Portuguese literature|PQ1 - PQ3999 French literature",
+      "P - Language and literature|PQ1 - PQ9698.43 French literature. Italian literature. Spanish literature. Portuguese literature|PQ1 - PQ3999 French literature|PQ1600 - PQ2726 Modern literature",
+      "P - Language and literature|PQ1 - PQ9698.43 French literature. Italian literature. Spanish literature. Portuguese literature|PQ1 - PQ3999 French literature|PQ1600 - PQ2726 Modern literature|PQ2149 - PQ2551 19th century"
+    ],
+    "statement_of_responsibility": [
+      {
+        "value": "Gustave Flaubert."
+      }
+    ],
+    "physical_description_details": [
+      {
+        "label": "Special audio characteristics",
+        "value": "digital recording"
+      }
+    ]
+  },
+  {
+    "id": "NCSU4052305",
+    "url": [
+      "{\"href\":\"https://proxying.lib.ncsu.edu/index.php?url=https://www.nclive.org/cgi-bin/nclsm?url=https://www.hoopladigital.com/title/10756894?utm_source=MARC.\",\"type\":\"fulltext\",\"note\":\"Available to participating NC libraries through NC LIVE\"}"
+    ],
+    "isbn": [
+      {
+        "number": "9781400129140",
+        "qualifying_info": ""
+      }
+    ],
+    "items": [
+      "{\"call_no\":\"PR5484 .B33 2011b\",\"cn_scheme\":\"LC\",\"item_id\":\"4052305-1001\",\"loc_n\":\"NET\",\"loc_b\":\"ONLINE\",\"type\":\"AUDIOBOOK\",\"copy_no\":\"\",\"status\":\"Available\"}"
+    ],
+    "names": [
+      {
+        "id": "http://id.loc.gov/authorities/names/n78088964",
+        "name": "Stevenson, Robert Louis, 1850-1894",
+        "type": "creator"
+      },
+      {
+        "id": "http://id.loc.gov/authorities/names/no2006124822",
+        "rel": [
+          "narrator"
+        ],
+        "name": "Frasier, Shelly",
+        "type": "contributor"
+      },
+      {
+        "name": "OneClick Digital (Firm)",
+        "type": "no_rel"
+      }
+    ],
+    "owner": "ncsu",
+    "edition": [
+      {
+        "value": "Unabridged."
+      }
+    ],
+    "misc_id": [
+      {
+        "qual": "Recorded Books",
+        "type": "Issue Number",
+        "value": "Z10004843"
+      }
+    ],
+    "barcodes": [
+      "4052305-1001"
+    ],
+    "language": [
+      "English"
+    ],
+    "local_id": {
+      "other": [],
+      "value": "4052305"
+    },
+    "shelfkey": "lc:PR.5484.B33.2011.B",
+    "available": "Available",
+    "entity_id": [
+      "lcnaf:n78088964",
+      "lcnaf:no2006124822"
+    ],
+    "publisher": [
+      {
+        "value": "Tantor Audio"
+      },
+      {
+        "value": "[Distributed by] OneClick Digital"
+      }
+    ],
+    "this_work": [
+      {
+        "type": "this",
+        "title": [
+          "Black arrow"
+        ],
+        "author": "Stevenson, Robert Louis, 1850-1894.",
+        "display": "false",
+        "title_nonfiling": "The black arrow /"
+      }
+    ],
+    "title_main": [
+      {
+        "value": "The black arrow"
+      }
+    ],
+    "title_sort": "black arrow",
+    "access_type": [
+      "Online"
+    ],
+    "institution": [
+      "ncsu"
+    ],
+    "short_title": [
+      "The black arrow"
+    ],
+    "creator_main": [
+      "Stevenson, Robert Louis, 1850-1894"
+    ],
+    "imprint_main": [
+      "{\"type\":\"publication\",\"value\":\"[Old Saybrook, Conn.] : Tantor Audio ; [Prince Frederick, Md.] : [Distributed by] OneClick Digital, 2011.\"}"
+    ],
+    "note_general": [
+      {
+        "value": "Downloadable audio file."
+      }
+    ],
+    "note_summary": [
+      "Caught in the midst of England's War of the Roses, young Dick Shelton's loyalties are torn between a guardian who betrays him and the leader of the secret fellowship, \"The Black Arrow\"."
+    ],
+    "primary_isbn": [
+      "9781400129140",
+      "9781400129140"
+    ],
+    "related_work": [
+      {
+        "type": "host_item",
+        "title": [
+          "Hoopla digital"
+        ]
+      }
+    ],
+    "resource_type": [
+      "Audiobook"
+    ],
+    "subject_genre": [
+      "Fiction",
+      "Sound recordings"
+    ],
+    "date_cataloged": [
+      "2018-01-08T05:00:00Z"
+    ],
+    "genre_headings": [
+      {
+        "value": "Fiction"
+      },
+      {
+        "value": "Sound recordings"
+      }
+    ],
+    "physical_media": [
+      "Online"
+    ],
+    "subject_topical": [
+      "Richard III, King of England, 1452-1485",
+      "History"
+    ],
+    "imprint_multiple": [
+      "{\"type\":\"publication\",\"value\":\"[Old Saybrook, Conn.] : Tantor Audio ; [Prince Frederick, Md.] : [Distributed by] OneClick Digital, 2011.\"}",
+      "{\"type\":\"copyright\",\"value\":\"̐ư2008\"}"
+    ],
+    "publication_year": [
+      2008
+    ],
+    "reverse_shelfkey": "lc:A8}UVRV}OWW}XZYY}O",
+    "subject_headings": [
+      {
+        "value": "Richard III, King of England, 1452-1485 -- Fiction"
+      },
+      {
+        "value": "Great Britain -- History -- Wars of the Roses, 1455-1485 -- Fiction"
+      }
+    ],
+    "location_hierarchy": [],
+    "publisher_location": [
+      "Old Saybrook, Conn.",
+      "Prince Frederick, Md."
+    ],
+    "record_data_source": [
+      "ILSMARC"
+    ],
+    "subject_geographic": [
+      "Great Britain"
+    ],
+    "call_number_schemes": [
+      "LC"
+    ],
+    "note_system_details": [
+      "Mode of access: World Wide Web.",
+      "Requires OneClick Digital Media Manager.",
+      "System requirements: 200 MB of free disk space, 512 MB of RAM, Windows Installer 3.1, Microsoft .NET Framework 4 (x86 and x64), Windows Media Player 10 QA."
+    ],
+    "origin_place_search": [
+      {
+        "value": "[Old Saybrook, Conn.]"
+      },
+      {
+        "value": "[Prince Frederick, Md.]"
+      },
+      {
+        "value": "Connecticut"
+      },
+      {
+        "value": "United States"
+      }
+    ],
+    "physical_description": [
+      {
+        "value": "1 audio file (7 hr., 55 min.) : digital"
+      }
+    ],
+    "subject_chronological": [
+      "Wars of the Roses, 1455-1485"
+    ],
+    "note_performer_credits": [
+      {
+        "value": "Read by Shelly Frasier."
+      }
+    ],
+    "note_access_restrictions": [
+      "Access is limited to one user at a time"
+    ],
+    "lcc_callnum_classification": [
+      "P - Language and literature",
+      "P - Language and literature|PR1 - PR9680 English literature",
+      "P - Language and literature|PR1 - PR9680 English literature|PR3991 - PR5990 19th century, 1770/1800-1890/1900"
+    ],
+    "statement_of_responsibility": [
+      {
+        "value": "Robert Louis Stevenson."
+      }
+    ],
+    "physical_description_details": [
+      {
+        "label": "Special audio characteristics",
+        "value": "digital recording"
+      }
+    ]
+  },
+  {
+    "id": "NCSU4052302",
+    "url": [
+      "{\"href\":\"https://proxying.lib.ncsu.edu/index.php?url=https://www.nclive.org/cgi-bin/nclsm?url=https://www.hoopladigital.com/title/10756773?utm_source=MARC.\",\"type\":\"fulltext\",\"note\":\"Available to participating NC libraries through NC LIVE\"}"
+    ],
+    "isbn": [
+      {
+        "number": "9781400129058",
+        "qualifying_info": ""
+      }
+    ],
+    "items": [
+      "{\"call_no\":\"PS3507 .R55 S5 2011b\",\"cn_scheme\":\"LC\",\"item_id\":\"4052302-1001\",\"loc_n\":\"NET\",\"loc_b\":\"ONLINE\",\"type\":\"AUDIOBOOK\",\"copy_no\":\"\",\"status\":\"Available\"}"
+    ],
+    "names": [
+      {
+        "id": "http://id.loc.gov/authorities/names/n79046644",
+        "name": "Dreiser, Theodore, 1871-1945",
+        "type": "creator"
+      },
+      {
+        "id": "http://id.loc.gov/authorities/names/no2002109665",
+        "name": "Herbert, C. M.",
+        "type": "no_rel"
+      },
+      {
+        "id": "http://id.loc.gov/authorities/names/no97015725",
+        "name": "Burns, Rebecca",
+        "type": "no_rel"
+      },
+      {
+        "name": "OneClick Digital (Firm)",
+        "type": "no_rel"
+      }
+    ],
+    "owner": "ncsu",
+    "edition": [
+      {
+        "value": "Unabridged."
+      }
+    ],
+    "misc_id": [
+      {
+        "qual": "Recorded Books",
+        "type": "Issue Number",
+        "value": "Z10004838"
+      }
+    ],
+    "barcodes": [
+      "4052302-1001"
+    ],
+    "language": [
+      "English"
+    ],
+    "local_id": {
+      "other": [],
+      "value": "4052302"
+    },
+    "shelfkey": "lc:PS.3507.R55.S5--2011B",
+    "available": "Available",
+    "entity_id": [
+      "lcnaf:n79046644",
+      "lcnaf:no2002109665",
+      "lcnaf:no97015725"
+    ],
+    "publisher": [
+      {
+        "value": "Tantor Media"
+      },
+      {
+        "value": "[Distributed by] OneClick Digital"
+      }
+    ],
+    "this_work": [
+      {
+        "type": "this",
+        "title": [
+          "Sister Carrie"
+        ],
+        "author": "Dreiser, Theodore, 1871-1945",
+        "display": "false"
+      }
+    ],
+    "title_main": [
+      {
+        "value": "Sister Carrie"
+      }
+    ],
+    "title_sort": "sister carrie",
+    "access_type": [
+      "Online"
+    ],
+    "institution": [
+      "ncsu"
+    ],
+    "series_work": [
+      {
+        "type": "series",
+        "title": [
+          "Unabridged classics."
+        ]
+      }
+    ],
+    "short_title": [
+      "Sister Carrie"
+    ],
+    "creator_main": [
+      "Dreiser, Theodore, 1871-1945"
+    ],
+    "imprint_main": [
+      "{\"type\":\"publication\",\"value\":\"[Old Saybrook, Conn.] : Tantor Media ; [Prince Frederick, Md.] : [Distributed by] OneClick Digital, 2011, 2006.\"}"
+    ],
+    "note_general": [
+      {
+        "value": "Downloadable audio file."
+      }
+    ],
+    "note_summary": [
+      "The novel tells the story of Carrie Meeber, a Midwestern country girl who moves to Chicago. She meets a salesman, Charles Rouet, and after a period of unemployment becomes his mistress. Soon, however, she becomes disillusioned with him and takes up with his friend George Hurstwood, a middle-aged, married restaurant manager. He embezzles money and elopes with Carrie to New York, where he opens a saloon which fails. Their liaison continues for some three years, until Carrie is forced by their impoverishment to work as a chorus girl to support them. Though she makes an impression in a small part and begins what is to become a successful career, she fails to find happiness."
+    ],
+    "primary_isbn": [
+      "9781400129058",
+      "9781400129058"
+    ],
+    "related_work": [
+      {
+        "type": "host_item",
+        "title": [
+          "Hoopla digital"
+        ]
+      }
+    ],
+    "resource_type": [
+      "Audiobook"
+    ],
+    "subject_genre": [
+      "Fiction",
+      "Didactic fiction",
+      "Sound recordings"
+    ],
+    "date_cataloged": [
+      "2018-01-08T05:00:00Z"
+    ],
+    "genre_headings": [
+      {
+        "value": "Fiction"
+      },
+      {
+        "value": "Didactic fiction"
+      },
+      {
+        "value": "Sound recordings"
+      }
+    ],
+    "physical_media": [
+      "Online"
+    ],
+    "subject_topical": [
+      "Young women",
+      "Mistresses"
+    ],
+    "publication_year": [
+      2006
+    ],
+    "reverse_shelfkey": "lc:A7}WUZS}8UU}7U~~XZYYO",
+    "series_statement": [
+      {
+        "value": "Unabridged classics"
+      }
+    ],
+    "subject_headings": [
+      {
+        "value": "Chicago (Ill.) -- Fiction"
+      },
+      {
+        "value": "Young women -- Fiction"
+      },
+      {
+        "value": "Mistresses -- Fiction"
+      },
+      {
+        "value": "New York (N.Y.) -- Fiction"
+      }
+    ],
+    "location_hierarchy": [],
+    "publisher_location": [
+      "Old Saybrook, Conn.",
+      "Prince Frederick, Md."
+    ],
+    "record_data_source": [
+      "ILSMARC"
+    ],
+    "subject_geographic": [
+      "Chicago (Ill.)",
+      "New York (N.Y.)"
+    ],
+    "call_number_schemes": [
+      "LC"
+    ],
+    "note_system_details": [
+      "Mode of access: World Wide Web.",
+      "Requires OneClick Digital Media Manager.",
+      "System requirements: 200 MB of free disk space, 512 MB of RAM, Windows Installer 3.1, Microsoft .NET Framework 4 (x86 and x64), Windows Media Player 10 QA."
+    ],
+    "origin_place_search": [
+      {
+        "value": "[Old Saybrook, Conn.]"
+      },
+      {
+        "value": "[Prince Frederick, Md.]"
+      },
+      {
+        "value": "Connecticut"
+      },
+      {
+        "value": "United States"
+      }
+    ],
+    "physical_description": [
+      {
+        "value": "1 audio file (18 hr., 22 min.) : digital."
+      }
+    ],
+    "note_performer_credits": [
+      {
+        "value": "Read by Rebecca Burns."
+      }
+    ],
+    "note_access_restrictions": [
+      "Access is limited to one user at a time"
+    ],
+    "lcc_callnum_classification": [
+      "P - Language and literature",
+      "P - Language and literature|PS1 - PS3626 American literature. Canadian literature",
+      "P - Language and literature|PS1 - PS3626 American literature. Canadian literature|PS1 - PS3626 American literature"
+    ],
+    "statement_of_responsibility": [
+      {
+        "value": "Theodore Dreiser."
+      }
+    ],
+    "physical_description_details": [
+      {
+        "label": "Special audio characteristics",
+        "value": "digital recording"
+      }
+    ]
+  },
+  {
+    "id": "NCSU4052304",
+    "url": [
+      "{\"href\":\"https://proxying.lib.ncsu.edu/index.php?url=https://www.nclive.org/cgi-bin/nclsm?url=https://www.hoopladigital.com/title/10755924?utm_source=MARC.\",\"type\":\"fulltext\",\"note\":\"Available to participating NC libraries through NC LIVE\"}"
+    ],
+    "isbn": [
+      {
+        "number": "9781400129133",
+        "qualifying_info": ""
+      }
+    ],
+    "items": [
+      "{\"call_no\":\"PZ8 .C564 2011b\",\"cn_scheme\":\"LC\",\"item_id\":\"4052304-1001\",\"loc_n\":\"NET\",\"loc_b\":\"ONLINE\",\"type\":\"AUDIOBOOK\",\"copy_no\":\"\",\"status\":\"Available\"}"
+    ],
+    "names": [
+      {
+        "id": "http://id.loc.gov/authorities/names/n79018715",
+        "name": "Perrault, Charles, 1628-1703",
+        "type": "creator"
+      },
+      {
+        "id": "http://id.loc.gov/authorities/names/no97015725",
+        "rel": [
+          "narrator"
+        ],
+        "name": "Burns, Rebecca",
+        "type": "contributor"
+      },
+      {
+        "id": "http://id.loc.gov/authorities/names/n78095680",
+        "name": "Grimm, Jacob, 1785-1863",
+        "type": "no_rel"
+      },
+      {
+        "id": "http://id.loc.gov/authorities/names/n78095679",
+        "name": "Grimm, Wilhelm, 1786-1859",
+        "type": "no_rel"
+      },
+      {
+        "name": "OneClick Digital (Firm)",
+        "type": "no_rel"
+      }
+    ],
+    "owner": "ncsu",
+    "edition": [
+      {
+        "value": "Unabridged."
+      }
+    ],
+    "misc_id": [
+      {
+        "qual": "Recorded Books",
+        "type": "Issue Number",
+        "value": "Z10004842"
+      }
+    ],
+    "barcodes": [
+      "4052304-1001"
+    ],
+    "language": [
+      "English"
+    ],
+    "local_id": {
+      "other": [],
+      "value": "4052304"
+    },
+    "shelfkey": "lc:PZ.0008.C564.2011.B",
+    "available": "Available",
+    "entity_id": [
+      "lcnaf:n79018715",
+      "lcnaf:no97015725",
+      "lcnaf:n78095680",
+      "lcnaf:n78095679"
+    ],
+    "publisher": [
+      {
+        "value": "Tantor Media"
+      },
+      {
+        "value": "[Distributed by] OneClick Digital"
+      }
+    ],
+    "this_work": [
+      {
+        "type": "this",
+        "title": [
+          "Cinderella, Rumpelstiltskin & other stories"
+        ],
+        "author": "Perrault, Charles, 1628-1703.",
+        "display": "false"
+      }
+    ],
+    "title_main": [
+      {
+        "value": "Cinderella, Rumpelstiltskin & other stories"
+      }
+    ],
+    "title_sort": "cinderella rumpelstiltskin and other stories",
+    "access_type": [
+      "Online"
+    ],
+    "institution": [
+      "ncsu"
+    ],
+    "series_work": [
+      {
+        "type": "series",
+        "title": [
+          "Unabridged classics."
+        ]
+      }
+    ],
+    "creator_main": [
+      "Perrault, Charles, 1628-1703"
+    ],
+    "imprint_main": [
+      "{\"type\":\"publication\",\"value\":\"[San Clemente, Calif.] : Tantor Media ; [Prince Frederick, Md.] : [Distributed by] OneClick Digital, 2011.\"}"
+    ],
+    "note_general": [
+      {
+        "value": "Downloadable audio file."
+      }
+    ],
+    "note_summary": [
+      "Through the ages children have been enthralled by Cinderella, the glass slipper, and the evil stepmother! Also includes: Sleeping Beauty, Little Red Riding Hood, Little Tom Thumb, Rapunzel, Hansel and Gretel, Snow White and others."
+    ],
+    "primary_isbn": [
+      "9781400129133",
+      "9781400129133"
+    ],
+    "related_work": [
+      {
+        "type": "host_item",
+        "title": [
+          "Hoopla digital"
+        ]
+      }
+    ],
+    "resource_type": [
+      "Audiobook"
+    ],
+    "subject_genre": [
+      "Children's audiobooks",
+      "Sound recordings",
+      "Folk tales"
+    ],
+    "date_cataloged": [
+      "2018-01-08T05:00:00Z"
+    ],
+    "genre_headings": [
+      {
+        "value": "Children's audiobooks"
+      },
+      {
+        "value": "Sound recordings"
+      },
+      {
+        "value": "Folk tales"
+      }
+    ],
+    "physical_media": [
+      "Online"
+    ],
+    "subject_topical": [
+      "Fairy tales",
+      "Fables",
+      "Folklore"
+    ],
+    "imprint_multiple": [
+      "{\"type\":\"publication\",\"value\":\"[San Clemente, Calif.] : Tantor Media ; [Prince Frederick, Md.] : [Distributed by] OneClick Digital, 2011.\"}",
+      "{\"type\":\"copyright\",\"value\":\"̐ư2005\"}"
+    ],
+    "publication_year": [
+      2005
+    ],
+    "reverse_shelfkey": "lc:A0}ZZZR}NUTV}XZYY}O",
+    "series_statement": [
+      {
+        "value": "Unabridged classics"
+      }
+    ],
+    "subject_headings": [
+      {
+        "value": "Fairy tales -- Germany"
+      },
+      {
+        "value": "Fairy tales -- France"
+      },
+      {
+        "value": "Fables"
+      },
+      {
+        "value": "Folklore"
+      }
+    ],
+    "location_hierarchy": [],
+    "publisher_location": [
+      "San Clemente, Calif.",
+      "Prince Frederick, Md."
+    ],
+    "record_data_source": [
+      "ILSMARC"
+    ],
+    "subject_geographic": [
+      "Germany",
+      "France"
+    ],
+    "call_number_schemes": [
+      "LC"
+    ],
+    "note_system_details": [
+      "Mode of access: World Wide Web.",
+      "Requires OneClick Digital Media Manager.",
+      "System requirements: 200 MB of free disk space, 512 MB of RAM, Windows Installer 3.1, Microsoft .NET Framework 4 (x86 and x64), Windows Media Player 10 QA."
+    ],
+    "origin_place_search": [
+      {
+        "value": "[San Clemente, Calif.]"
+      },
+      {
+        "value": "[Prince Frederick, Md.]"
+      },
+      {
+        "value": "California"
+      },
+      {
+        "value": "United States"
+      }
+    ],
+    "physical_description": [
+      {
+        "value": "1 audio file (4 hr., 34 min.) : digital."
+      }
+    ],
+    "note_performer_credits": [
+      {
+        "value": "Read by Rebecca Burns."
+      }
+    ],
+    "note_access_restrictions": [
+      "Access is limited to one user at a time"
+    ],
+    "lcc_callnum_classification": [
+      "P - Language and literature",
+      "P - Language and literature|PZ1 - PZ90 Fiction and juvenile belles lettres",
+      "P - Language and literature|PZ1 - PZ90 Fiction and juvenile belles lettres|PZ5 - PZ90 Juvenile belles lettres"
+    ],
+    "statement_of_responsibility": [
+      {
+        "value": "Charles Perrault & the Brothers Grimm."
+      }
+    ],
+    "physical_description_details": [
+      {
+        "label": "Special audio characteristics",
+        "value": "digital recording"
+      }
+    ]
+  },
+  {
+    "id": "NCSU4052315",
+    "url": [
+      "{\"href\":\"https://proxying.lib.ncsu.edu/index.php?url=https://www.nclive.org/cgi-bin/nclsm?url=https://www.hoopladigital.com/title/13404057?utm_source=MARC.\",\"type\":\"fulltext\",\"note\":\"Available to participating NC libraries through NC LIVE\"}"
+    ],
+    "isbn": [
+      {
+        "number": "9781619699458",
+        "qualifying_info": ""
+      },
+      {
+        "number": "9781455521210",
+        "qualifying_info": ""
+      }
+    ],
+    "items": [
+      "{\"call_no\":\"PS3552 .A446 H55 2013 eb\",\"cn_scheme\":\"LC\",\"item_id\":\"4052315-1001\",\"loc_n\":\"NET\",\"loc_b\":\"ONLINE\",\"type\":\"AUDIOBOOK\",\"copy_no\":\"\",\"status\":\"Available\"}"
+    ],
+    "names": [
+      {
+        "id": "http://id.loc.gov/authorities/names/n95052956",
+        "name": "Baldacci, David",
+        "type": "creator"
+      },
+      {
+        "id": "http://id.loc.gov/authorities/names/no96025672",
+        "rel": [
+          "narrator"
+        ],
+        "name": "McLarty, Ron",
+        "type": "contributor"
+      },
+      {
+        "id": "http://id.loc.gov/authorities/names/n2006089741",
+        "rel": [
+          "narrator"
+        ],
+        "name": "Cassidy, Orlagh",
+        "type": "contributor"
+      },
+      {
+        "name": "AudioGO (Firm)",
+        "type": "no_rel"
+      },
+      {
+        "name": "OneClick Digital (Firm)",
+        "type": "no_rel"
+      }
+    ],
+    "owner": "ncsu",
+    "edition": [
+      {
+        "value": "Unabridged."
+      }
+    ],
+    "misc_id": [
+      {
+        "qual": "Recorded Books",
+        "type": "Issue Number",
+        "value": "Z100048680"
+      }
+    ],
+    "barcodes": [
+      "4052315-1001"
+    ],
+    "language": [
+      "English"
+    ],
+    "local_id": {
+      "other": [],
+      "value": "4052315"
+    },
+    "shelfkey": "lc:PS.3552.A446.H55--2013EB",
+    "available": "Available",
+    "entity_id": [
+      "lcnaf:n95052956",
+      "lcnaf:no96025672",
+      "lcnaf:n2006089741"
+    ],
+    "publisher": [
+      {
+        "value": "AudioGO"
+      },
+      {
+        "value": "[Distributed by] OneClick Digital"
+      }
+    ],
+    "this_work": [
+      {
+        "type": "this",
+        "title": [
+          "Hit"
+        ],
+        "author": "Baldacci, David.",
+        "display": "false",
+        "title_nonfiling": "The hit /"
+      }
+    ],
+    "title_main": [
+      {
+        "value": "The hit"
+      }
+    ],
+    "title_sort": "hit",
+    "access_type": [
+      "Online"
+    ],
+    "institution": [
+      "ncsu"
+    ],
+    "short_title": [
+      "The hit"
+    ],
+    "creator_main": [
+      "Baldacci, David"
+    ],
+    "imprint_main": [
+      "{\"type\":\"publication\",\"value\":\"[North Kingstown, RI] : AudioGO ; [Prince Frederick, Md.] : [Distributed by] OneClick Digital, 2013, 2013.\"}"
+    ],
+    "note_general": [
+      {
+        "value": "Downloadable audio file."
+      },
+      {
+        "value": "Title from title screen (viewed April 30, 2013)."
+      }
+    ],
+    "note_summary": [
+      "Skilled assassin Will Robie is asked by the U.S. government to track down fellow assassin Jessica Reel, who has gone rogue, but during his pursuit of Reel, Robie realizes that her betrayal may be concealing a larger threat that could impact the whole world."
+    ],
+    "primary_isbn": [
+      "9781619699458",
+      "9781455521210"
+    ],
+    "related_work": [
+      {
+        "type": "host_item",
+        "title": [
+          "Hoopla digital"
+        ]
+      }
+    ],
+    "resource_type": [
+      "Audiobook"
+    ],
+    "subject_genre": [
+      "Fiction",
+      "Suspense fiction",
+      "Downloadable audio books",
+      "Sound recordings"
+    ],
+    "date_cataloged": [
+      "2018-01-08T05:00:00Z"
+    ],
+    "genre_headings": [
+      {
+        "value": "Fiction"
+      },
+      {
+        "value": "Suspense fiction"
+      },
+      {
+        "value": "Downloadable audio books"
+      },
+      {
+        "value": "Sound recordings"
+      }
+    ],
+    "physical_media": [
+      "Online"
+    ],
+    "subject_topical": [
+      "Assassins",
+      "Betrayal",
+      "Intelligence officers",
+      "Conspiracies"
+    ],
+    "publication_year": [
+      2013
+    ],
+    "reverse_shelfkey": "lc:A7}WUUX}PVVT}IUU~~XZYWLO",
+    "subject_headings": [
+      {
+        "value": "Assassins -- Fiction"
+      },
+      {
+        "value": "Betrayal -- Fiction"
+      },
+      {
+        "value": "Intelligence officers -- United States -- Fiction"
+      },
+      {
+        "value": "Conspiracies -- Fiction"
+      }
+    ],
+    "location_hierarchy": [],
+    "publisher_location": [
+      "North Kingstown, RI",
+      "Prince Frederick, Md."
+    ],
+    "record_data_source": [
+      "ILSMARC"
+    ],
+    "subject_geographic": [
+      "United States"
+    ],
+    "call_number_schemes": [
+      "LC"
+    ],
+    "note_system_details": [
+      "Mode of access: World Wide Web.",
+      "Requires OneClick Digital Media Manager.",
+      "System requirements: 200 MB of free disk space, 512 MB of RAM, Windows Installer 3.1, Microsoft .NET Framework 4 (x86 and x64), Windows Media Player 10 QA."
+    ],
+    "origin_place_search": [
+      {
+        "value": "[North Kingstown, RI]"
+      },
+      {
+        "value": "[Prince Frederick, Md.]"
+      },
+      {
+        "value": "Rhode Island"
+      },
+      {
+        "value": "United States"
+      }
+    ],
+    "physical_description": [
+      {
+        "value": "1 audio file (12 hr.) : digital"
+      }
+    ],
+    "note_performer_credits": [
+      {
+        "value": "Read by Ron McLarty with Orlagh Cassidy."
+      }
+    ],
+    "note_access_restrictions": [
+      "Access is limited to one user at a time"
+    ],
+    "lcc_callnum_classification": [
+      "P - Language and literature",
+      "P - Language and literature|PS1 - PS3626 American literature. Canadian literature",
+      "P - Language and literature|PS1 - PS3626 American literature. Canadian literature|PS1 - PS3626 American literature"
+    ],
+    "statement_of_responsibility": [
+      {
+        "value": "David Baldacci."
+      }
+    ],
+    "physical_description_details": [
+      {
+        "label": "Special audio characteristics",
+        "value": "digital recording"
+      }
+    ]
+  },
+  {
+    "id": "NCSU4052308",
+    "url": [
+      "{\"href\":\"https://proxying.lib.ncsu.edu/index.php?url=https://www.nclive.org/cgi-bin/nclsm?url=https://www.hoopladigital.com/title/10764230?utm_source=MARC.\",\"type\":\"fulltext\",\"note\":\"Available to participating NC libraries through NC LIVE\"}"
+    ],
+    "isbn": [
+      {
+        "number": "9781400129195",
+        "qualifying_info": ""
+      }
+    ],
+    "items": [
+      "{\"call_no\":\"PR6005 .H66 M97 2011b\",\"cn_scheme\":\"LC\",\"item_id\":\"4052308-1001\",\"loc_n\":\"NET\",\"loc_b\":\"ONLINE\",\"type\":\"AUDIOBOOK\",\"copy_no\":\"\",\"status\":\"Available\"}"
+    ],
+    "names": [
+      {
+        "id": "http://id.loc.gov/authorities/names/n79038407",
+        "name": "Christie, Agatha, 1890-1976",
+        "type": "creator"
+      },
+      {
+        "id": "http://id.loc.gov/authorities/names/nr94001346",
+        "name": "Dellaporta, Penelope",
+        "type": "no_rel"
+      },
+      {
+        "name": "OneClick Digital (Firm)",
+        "type": "no_rel"
+      }
+    ],
+    "owner": "ncsu",
+    "edition": [
+      {
+        "value": "Unabridged."
+      }
+    ],
+    "misc_id": [
+      {
+        "qual": "Recorded Books",
+        "type": "Issue Number",
+        "value": "Z10004845"
+      }
+    ],
+    "barcodes": [
+      "4052308-1001"
+    ],
+    "language": [
+      "English"
+    ],
+    "local_id": {
+      "other": [],
+      "value": "4052308"
+    },
+    "shelfkey": "lc:PR.6005.H66.M97--2011B",
+    "available": "Available",
+    "entity_id": [
+      "lcnaf:n79038407",
+      "lcnaf:nr94001346"
+    ],
+    "publisher": [
+      {
+        "value": "Tantor Media"
+      },
+      {
+        "value": "[Distributed by] OneClick Digital"
+      }
+    ],
+    "this_work": [
+      {
+        "type": "this",
+        "title": [
+          "Mysterious affair at Styles"
+        ],
+        "author": "Christie, Agatha, 1890-1976",
+        "display": "false",
+        "title_nonfiling": "The mysterious affair at Styles /"
+      }
+    ],
+    "title_main": [
+      {
+        "value": "The mysterious affair at Styles"
+      }
+    ],
+    "title_sort": "mysterious affair at styles",
+    "access_type": [
+      "Online"
+    ],
+    "institution": [
+      "ncsu"
+    ],
+    "series_work": [
+      {
+        "type": "series",
+        "title": [
+          "Unabridged classics."
+        ]
+      }
+    ],
+    "creator_main": [
+      "Christie, Agatha, 1890-1976"
+    ],
+    "imprint_main": [
+      "{\"type\":\"publication\",\"value\":\"[Old Saybrook, Conn.] : Tantor Media ; [Prince Frederick, Md.] : [Distributed by] OneClick Digital, 2011, 2006.\"}"
+    ],
+    "note_general": [
+      {
+        "value": "Downloadable audio file."
+      }
+    ],
+    "note_summary": [
+      "There has been a murder at Styles Court. Detective Poirot comes out of retirement to solve who would want the rich heiress Inglethorp dead, and would have the impudence to poison her. The jagged plot turns keep Poirot - and the reader - guessing as suspicion shifts from one peculiar character to the next. In Agatha Christie's first published work, the reader meets Belgian detective Hercule Poirot, destined to become the central detective of her mystery novels."
+    ],
+    "primary_isbn": [
+      "9781400129195",
+      "9781400129195"
+    ],
+    "related_work": [
+      {
+        "type": "host_item",
+        "title": [
+          "Hoopla digital"
+        ]
+      }
+    ],
+    "resource_type": [
+      "Audiobook"
+    ],
+    "subject_genre": [
+      "Fiction",
+      "Detective and mystery fiction",
+      "Sound recordings"
+    ],
+    "date_cataloged": [
+      "2018-01-08T05:00:00Z"
+    ],
+    "genre_headings": [
+      {
+        "value": "Fiction"
+      },
+      {
+        "value": "Detective and mystery fiction"
+      },
+      {
+        "value": "Sound recordings"
+      }
+    ],
+    "physical_media": [
+      "Online"
+    ],
+    "subject_topical": [
+      "Poirot, Hercule (Fictitious character)",
+      "Private investigators"
+    ],
+    "publication_year": [
+      2006
+    ],
+    "reverse_shelfkey": "lc:A8}TZZU}ITT}DQS~~XZYYO",
+    "series_statement": [
+      {
+        "value": "Unabridged classics"
+      }
+    ],
+    "subject_headings": [
+      {
+        "value": "Poirot, Hercule (Fictitious character)"
+      },
+      {
+        "value": "Private investigators -- England -- Fiction"
+      }
+    ],
+    "location_hierarchy": [],
+    "publisher_location": [
+      "Old Saybrook, Conn.",
+      "Prince Frederick, Md."
+    ],
+    "record_data_source": [
+      "ILSMARC"
+    ],
+    "subject_geographic": [
+      "England"
+    ],
+    "call_number_schemes": [
+      "LC"
+    ],
+    "note_system_details": [
+      "Mode of access: World Wide Web.",
+      "Requires OneClick Digital Media Manager.",
+      "System requirements: 200 MB of free disk space, 512 MB of RAM, Windows Installer 3.1, Microsoft .NET Framework 4 (x86 and x64), Windows Media Player 10 QA."
+    ],
+    "origin_place_search": [
+      {
+        "value": "[Old Saybrook, Conn.]"
+      },
+      {
+        "value": "[Prince Frederick, Md.]"
+      },
+      {
+        "value": "Connecticut"
+      },
+      {
+        "value": "United States"
+      }
+    ],
+    "physical_description": [
+      {
+        "value": "1 audio file (8 hr., 30 min.) : digital."
+      }
+    ],
+    "note_performer_credits": [
+      {
+        "value": "Read by Penelope Dellaporta."
+      }
+    ],
+    "note_access_restrictions": [
+      "Access is limited to one user at a time"
+    ],
+    "lcc_callnum_classification": [
+      "P - Language and literature",
+      "P - Language and literature|PR1 - PR9680 English literature",
+      "P - Language and literature|PR1 - PR9680 English literature|PR6000 - PR6049 1900-1960"
+    ],
+    "statement_of_responsibility": [
+      {
+        "value": "Agatha Christie."
+      }
+    ],
+    "physical_description_details": [
+      {
+        "label": "Special audio characteristics",
+        "value": "digital recording"
+      }
+    ]
+  },
+  {
+    "id": "NCSU4052314",
+    "url": [
+      "{\"href\":\"https://proxying.lib.ncsu.edu/index.php?url=https://www.nclive.org/cgi-bin/nclsm?url=https://www.hoopladigital.com/title/13404525?utm_source=MARC.\",\"type\":\"fulltext\",\"note\":\"Available to participating NC libraries through NC LIVE\"}"
+    ],
+    "isbn": [
+      {
+        "number": "9781478977599",
+        "qualifying_info": ""
+      },
+      {
+        "number": "9780316210829",
+        "qualifying_info": ""
+      }
+    ],
+    "items": [
+      "{\"call_no\":\"PS3566 .A822 A6187 2013 eb\",\"cn_scheme\":\"LC\",\"item_id\":\"4052314-1001\",\"loc_n\":\"NET\",\"loc_b\":\"ONLINE\",\"type\":\"AUDIOBOOK\",\"copy_no\":\"\",\"status\":\"Available\"}"
+    ],
+    "names": [
+      {
+        "id": "http://id.loc.gov/authorities/names/n78086409",
+        "name": "Patterson, James, 1947-",
+        "type": "creator"
+      },
+      {
+        "id": "http://id.loc.gov/authorities/names/n79046933",
+        "name": "Paetro, Maxine",
+        "type": "no_rel"
+      },
+      {
+        "id": "http://id.loc.gov/authorities/names/no2010085438",
+        "rel": [
+          "narrator"
+        ],
+        "name": "LaVoy, January",
+        "type": "contributor"
+      },
+      {
+        "name": "AudioGO (Firm)",
+        "type": "no_rel"
+      },
+      {
+        "name": "OneClick Digital (Firm)",
+        "type": "no_rel"
+      }
+    ],
+    "owner": "ncsu",
+    "edition": [
+      {
+        "value": "Unabridged."
+      }
+    ],
+    "misc_id": [
+      {
+        "qual": "Recorded Books",
+        "type": "Issue Number",
+        "value": "Z100048676"
+      }
+    ],
+    "barcodes": [
+      "4052314-1001"
+    ],
+    "language": [
+      "English"
+    ],
+    "local_id": {
+      "other": [],
+      "value": "4052314"
+    },
+    "shelfkey": "lc:PS.3566.A822.A6187--2013EB",
+    "available": "Available",
+    "entity_id": [
+      "lcnaf:n78086409",
+      "lcnaf:n79046933",
+      "lcnaf:no2010085438"
+    ],
+    "publisher": [
+      {
+        "value": "AudioGO"
+      },
+      {
+        "value": "[Distributed by] OneClick Digital"
+      }
+    ],
+    "this_work": [
+      {
+        "type": "this",
+        "title": [
+          "12th of never"
+        ],
+        "author": "Patterson, James, 1947-",
+        "display": "false"
+      }
+    ],
+    "title_main": [
+      {
+        "value": "12th of never"
+      }
+    ],
+    "title_sort": "12th of never",
+    "access_type": [
+      "Online"
+    ],
+    "institution": [
+      "ncsu"
+    ],
+    "series_work": [
+      {
+        "type": "series",
+        "title": [
+          "Women's murder club."
+        ],
+        "author": "Patterson, James, 1947-"
+      }
+    ],
+    "short_title": [
+      "12th of never"
+    ],
+    "creator_main": [
+      "Patterson, James, 1947-"
+    ],
+    "imprint_main": [
+      "{\"type\":\"publication\",\"value\":\"[North Kingstown, RI] : AudioGO ; [Prince Frederick, Md.] : [Distributed by] OneClick Digital, 2013, 2013.\"}"
+    ],
+    "note_general": [
+      {
+        "value": "Downloadable audio file."
+      },
+      {
+        "value": "Title from title screen (viewed May 8, 2013)."
+      }
+    ],
+    "note_summary": [
+      "A week after giving birth, Lindsay Boxer is investigating two cases: a grisly murder where the main suspect is an NFL player and an eccentric professor who thinks his dreams of a murder are real, in this new addition to the best-selling series."
+    ],
+    "primary_isbn": [
+      "9781478977599",
+      "9780316210829"
+    ],
+    "related_work": [
+      {
+        "type": "host_item",
+        "title": [
+          "Hoopla digital"
+        ]
+      }
+    ],
+    "resource_type": [
+      "Audiobook"
+    ],
+    "subject_genre": [
+      "Fiction",
+      "Mystery fiction",
+      "Suspense fiction",
+      "Downloadable audio books",
+      "Sound recordings"
+    ],
+    "title_variant": [
+      {
+        "value": "Twelvth of never",
+        "display": "false"
+      }
+    ],
+    "date_cataloged": [
+      "2018-01-08T05:00:00Z"
+    ],
+    "genre_headings": [
+      {
+        "value": "Fiction"
+      },
+      {
+        "value": "Mystery fiction"
+      },
+      {
+        "value": "Suspense fiction"
+      },
+      {
+        "value": "Downloadable audio books"
+      },
+      {
+        "value": "Sound recordings"
+      }
+    ],
+    "physical_media": [
+      "Online"
+    ],
+    "subject_topical": [
+      "Women detectives",
+      "Murder",
+      "Investigation"
+    ],
+    "publication_year": [
+      2013
+    ],
+    "reverse_shelfkey": "lc:A7}WUTT}PRXX}PTYRS~~XZYWLO",
+    "series_statement": [
+      {
+        "value": "Women's murder club"
+      }
+    ],
+    "subject_headings": [
+      {
+        "value": "Women detectives -- California -- San Francisco -- Fiction"
+      },
+      {
+        "value": "Murder -- Investigation -- Fiction"
+      },
+      {
+        "value": "San Francisco (Calif.) -- Fiction"
+      }
+    ],
+    "location_hierarchy": [],
+    "publisher_location": [
+      "North Kingstown, RI",
+      "Prince Frederick, Md."
+    ],
+    "record_data_source": [
+      "ILSMARC"
+    ],
+    "subject_geographic": [
+      "California",
+      "San Francisco",
+      "San Francisco (Calif.)"
+    ],
+    "call_number_schemes": [
+      "LC"
+    ],
+    "note_system_details": [
+      "Mode of access: World Wide Web.",
+      "Requires OneClick Digital Media Manager.",
+      "System requirements: 200 MB of free disk space, 512 MB of RAM, Windows Installer 3.1, Microsoft .NET Framework 4 (x86 and x64), Windows Media Player 10 QA."
+    ],
+    "origin_place_search": [
+      {
+        "value": "[North Kingstown, RI]"
+      },
+      {
+        "value": "[Prince Frederick, Md.]"
+      },
+      {
+        "value": "Rhode Island"
+      },
+      {
+        "value": "United States"
+      }
+    ],
+    "physical_description": [
+      {
+        "value": "1 audio file (7 hr., 6 min.) : digital."
+      }
+    ],
+    "note_performer_credits": [
+      {
+        "value": "Read by January LaVoy."
+      }
+    ],
+    "note_access_restrictions": [
+      "Access is limited to one user at a time"
+    ],
+    "lcc_callnum_classification": [
+      "P - Language and literature",
+      "P - Language and literature|PS1 - PS3626 American literature. Canadian literature",
+      "P - Language and literature|PS1 - PS3626 American literature. Canadian literature|PS1 - PS3626 American literature"
+    ],
+    "statement_of_responsibility": [
+      {
+        "value": "James Patterson and Maxine Paetro."
+      }
+    ],
+    "physical_description_details": [
+      {
+        "label": "Special audio characteristics",
+        "value": "digital recording"
+      }
+    ]
+  }
+]
