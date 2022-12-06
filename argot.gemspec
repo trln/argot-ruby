@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
     s.summary       = 'Tools for shared ingest infrastructure'
     s.description   = 'see summary?'
     s.authors       = ['Adam Constabaris','Luke Aeschleman']
-    s.files         = Dir.glob("{bin,lib}/**/*.{rb,yml,xml}") + %w(LICENSE README.md ROADMAP.md CHANGELOG.md)
+    s.files         = Dir.glob("{bin,lib}/**/*.{rb,yml,xml}") + %w(LICENSE README.md ROADMAP.md CHANGELOG.md VERSION)
     s.require_path  = 'lib'
     s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
 
