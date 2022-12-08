@@ -23,13 +23,13 @@ module Argot
     no_commands do
       include Argot::Pipelines
 
-      SCHEMA_FILENAME = '.argot-solr-schema.xml'
+      SCHEMA_FILENAME = '.argot-solr-schema.json'
 
       def default_schema_locations
         [
           File.join(Dir.pwd, SCHEMA_FILENAME),
           File.join(Dir.home, SCHEMA_FILENAME),
-          File.join(__dir__, '..', 'data', 'solr_schema.xml')
+          File.join(__dir__, '..', 'data', 'solr_schema.json')
         ].map { |f| File.absolute_path(f) }
       end
 
@@ -221,15 +221,17 @@ module Argot
                   type: :boolean,
                   desc: 'Download and write to STDOUT, do not save in default location'
     def schemaupdate(url)
-      url += '/schema?wt=schema.xml' unless url.include?('/schema?wt=schema.xml')
+      url += '/schema?wt=json' unless url.include?('/schema?wt=json')
       logger.info("Downloading from #{url}")
       content = Net::HTTP.get(URI(url))
       puts content && exit(0) if options[:check]
-      doc = Nokogiri::XML(content)
-      unless doc.errors.empty?
-        logger.fatal("Will not save ill-formed document: #{doc.errors}")
+      begin
+        JSON.parse(content)
+      rescue JSON::ParserError => e
+        logger.fatal("Will not save ill-formed document: #{e}")
         exit(1)
       end
+
       location = default_schema_locations.first
       File.open(location, 'w') do |f|
         f.write(content)
@@ -268,7 +270,8 @@ module Argot
                 data.each { |d| out.write(d.to_json) } if options.cull
               else
                 all_valid = false
-                result['id'] = rec['id']
+                # if ID field is invalid we need to append the error to the id field
+                result['id'] = result.include?('id') ? [rec.fetch('id', '-- not present --'), result['id']] : rec['id']
                 warn result.to_json
               end
             end

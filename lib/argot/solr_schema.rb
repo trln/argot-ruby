@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
-require 'nokogiri'
+require 'set'
 require 'uri'
 require 'net/http'
+require 'ostruct'
 
 module Argot
   # utility method that converts wildcard fields
   # we find in our schema to Regexp objects
   def self.regexify(solr_dyn_field)
-    Regexp.new('^.' + solr_dyn_field + '$')
+    Regexp.new("^.#{solr_dyn_field}$")
   end
 
   # encapsulates info about a `copyField` element
@@ -17,7 +18,7 @@ module Argot
     def initialize(source, dest, regex = nil)
       self.source = source
       self.dest = dest
-      self.regex = regex ? regex : Argot.regexify(source)
+      self.regex = regex || Argot.regexify(source)
     end
 
     def match?(field_name)
@@ -29,16 +30,17 @@ module Argot
   # TRLN Discovery
   class SolrSchema
     attr_reader :fielddefs
+
     EMPTY = {}.freeze
 
-    DF_VALIDATE_REGEX = /\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$/
+    DF_VALIDATE_REGEX = /\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$/.freeze
 
     TYPE_FORMAT_VALIDATORS = {
       date: ->(v) { v.match?(DF_VALIDATE_REGEX) },
       int: ->(v) { v.to_i rescue false }
     }.freeze
 
-    DEFAULT_SCHEMA = File.join(File.expand_path('../data', __dir__), 'solr_schema.xml').to_s.freeze
+    DEFAULT_SCHEMA = File.join(File.expand_path('../data', __dir__), 'solr_schema.json').to_s.freeze
 
     # Create a new validator
     # @param schema [String] the path to an XML document or the contents
@@ -51,13 +53,12 @@ module Argot
       use_http = parsable && schema.start_with?('http://', 'https://')
       @doc = if use_http
                fetch_http(schema) 
-             elsif parsable && schema.end_with?('.xml')
-               File.open(schema) do |f|
-                 Nokogiri::XML(f)
-               end
+             elsif parsable && schema.end_with?('.json')
+               File.open(schema) { |f| JSON.parse(f.read) }
              else
-               Nokogiri::XML(schema)
+               JSON.parse(schema)
              end
+      @required = Set.new
       compile
       # cache of matchers by field name for a speedup
       @matchers = Hash.new { |h, field| h[field] = find_matcher(field) }
@@ -67,7 +68,7 @@ module Argot
     # against the schema
     def valid?(rec)
       result = analyze(rec)
-      yield result if block_given? && result.empty?
+      yield result if block_given? && !result.empty?
       result.empty?
     end
 
@@ -88,13 +89,17 @@ module Argot
           [k, 'matches no solr field']
         else
           errs = []
-          errs << m[:msg] % v.length unless _validate_matcher(m, v)
+          errs << m[:msg] % v.length unless validate_arity(m, v)
           unless check_values(m[:field_type], v)
             errs << "one or more of #{v} does not match pattern for field type #{m[:field_type]}"
           end
           errs.empty? ? nil : [k, errs]
         end
-      end.reject(&:nil?)
+      end.compact
+      unless (missing = (@required - rec.keys)).empty?
+        results += missing.collect { |f| [f, "missing required field"] }
+      end
+
       results.nil? || results.empty? ? EMPTY : Hash[results]
     end
 
@@ -105,17 +110,21 @@ module Argot
       value.all? { |v| validator.call(v) }
     end
 
-    def _validate_matcher(matcher, value)
-      return true unless value.respond_to?(:each)
-
-      value.length == 1 || matcher[:multi]
-    end
-
     private
+
+    # solr is very forgiving; multiValued fields submitted as scalars
+    # are OK (converted to 1-ary array in index)
+    # and single-valued fields submitted as 1-ary arrays are also
+    # OK
+    def validate_arity(matcher, value)
+      return true unless value.respond_to?(:each)
+      return true if value.is_a?(String)
+      matcher[:multi] || value.length == 1
+    end
 
     def fetch_http(url)
       uri = URI(url)
-      Nokogiri::XML(Net::HTTP.get(uri))
+      Net::HTTP.get(uri)
     end
 
     def find_matcher(field_name)
@@ -133,7 +142,11 @@ module Argot
       rescue StandardError
         puts "#{field_match} is cattywumpus"
       end
-      msg = "is multi-valued (%d) but '#{field_name}' is singular"
+      msg = if field_match[:multi]
+              "is multi-valued (%d) but '#{field_name}' is singular"
+            else
+              "is singular but '#{field_name}' contains %d values"
+            end
       { name: field_name, multi: field_match[:multi], msg: msg, field_type: field_match[:type] }
     end
 
@@ -157,27 +170,30 @@ module Argot
     end
 
     def compile
-      mv_default = Nokogiri::XML::Attr.new(@doc, 'multiValued')
-      mv_default.content = 'false'
       @fielddefs = []
+      schema = OpenStruct.new(@doc['schema'])
 
-      @copy_fields = @doc.xpath('//copyField').map do |f|
-        CopyField.new(f.attributes['source'].value, f.attributes['dest'].value)
+      @copy_fields = schema.copyFields.map do |f|
+        CopyField.new(f['source'], f['dest'])
       end
 
-      @static_fields = Hash[@doc.xpath('//field').map { |f| field_to_hash(f) }]
-      @dynamic_fields = Hash[@doc.xpath('//dynamicField').map do |f|
-        field_to_hash(f)
-      end]
+      @static_fields = schema.fields.each_with_object({}) do |f, h|
+        h[f['name']] = f
+        @required << f['name'] if f['required']
+      end
+
+      @dynamic_fields = schema.dynamicFields.each_with_object({}) do |f, h|
+        h[f['name']] = f
+      end
 
       @static_fields.each do |name, attrs|
-        field = { name: name, multi: 'true' == attrs['multiValued'], type: 'type' }
+        field = { name: name, multi: attrs.fetch('multiValued', false), type: attrs['type'] }
         @fielddefs << field
       end
       merge_copy_fields
 
       @static_fields.each do |name, attrs|
-        field = { name: name, multi: attrs['multiValued']== 'true', type: 'type' }
+        field = { name: name, multi: attrs.fetch('multiValued', false), type: 'type' }
         copy = @copy_fields.find { |c| c.match?(name) }
         field[:type] = copy.dest['type'] if copy
         @fielddefs << field
@@ -192,7 +208,7 @@ module Argot
       # any field matching 2 is going to be (3) copied to *_dt and so must
       # match the type in (1).
       @dynamic_fields.each do |name, attrs|
-        multi = attrs.fetch('multiValued', 'false') == 'true'
+        multi = attrs.fetch('multiValued', false)
         field = { regexp: Argot.regexify(name),
                   type: attrs['type'],
                   multi:  multi }
