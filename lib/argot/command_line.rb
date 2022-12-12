@@ -1,27 +1,28 @@
 # frozen_string_literal: true
 
 require 'argot'
-require 'argot/cl_utilities'
 require 'io/wait'
-
-require 'thor'
 require 'json'
-require 'yaml'
-require 'rsolr'
-require 'argot/cl_utilities'
 require 'logger'
+require 'rsolr'
+require 'thor'
+require 'yaml'
+
 
 module Argot
   # The class that executes for the Argot command line utility.
   class CommandLine < Thor
     default_task :full_validate
 
+    autoload :Utilities, 'argot/command_line/utilities'
+    autoload :Pipelines, 'argot/command_line/pipelines'
+
     def self.exit_on_failure?
       true
     end
 
     no_commands do
-      include Argot::Pipelines
+      include Argot::CommandLine::Pipelines
 
       SCHEMA_FILENAME = '.argot-solr-schema.json'
 
@@ -36,7 +37,7 @@ module Argot
       def find_schema(location)
         if location
           if location.start_with?('http')
-            location + '/schema?wt=schema.xml' unless location.include?('schema.xml')
+            "#{location}/schema?wt=schema.xml" unless location.include?('schema.xml')
           else
             schema_file = File.exist?(location) ? location : File.join(__dir__, '..', 'data', location)
             File.open(schema_file)
@@ -159,6 +160,10 @@ module Argot
                     aliases: '-r',
                     default: 'redis://localhost:6379/0',
                     desc: 'URL to redis instance for authority processing'
+    method_option   :verbose,
+                    type: :boolean,
+                    default: false,
+                    desc: 'log lots of stuff'
     def flatten(input=$stdin, output=$stdout)
       p = flatten_pipeline(options)
       formatter = json_formatter(options)
@@ -197,6 +202,10 @@ module Argot
                     default: false,
                     aliases: '-a',
                     desc: 'Do name authority processing (assumes Redis is available)'
+    method_option   :verbose,
+                    type: :boolean,
+                    default: false,
+                    desc: 'log lots of stuff'
     method_option   :redis_url,
                     type: :string,
                     aliases: '-r',
@@ -388,7 +397,6 @@ module Argot
                   type: :boolean,
                   default: false,
                   desc: "Log more things"
-    
     def lcnaf(filename)
       redis = redis_connect(options)
       File.open(filename) do |f|
@@ -401,6 +409,5 @@ module Argot
         warn "Ingested #{count} records"
       end
     end
-
   end
 end
