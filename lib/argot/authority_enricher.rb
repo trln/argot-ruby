@@ -6,16 +6,16 @@ end
 
 module Argot
   # Argot::Transformer implementation that queries a Redis instance
-  # for matching entries in an Argot record and adds the results 
+  # for matching entries in an Argot record and adds the results
   # to a 'variant_names' field.  This step should be run on 'raw'
-  # Argot, before flattening and suffixing. 
-  class AuthorityEnricher < Transformer
+  # Argot, before flattening and suffixing.
+  class AuthorityEnricher
+    include Methods
     attr_reader :redis
 
     # create a new instance
     # @param redis_url: the URL to a redis instance in the form `redis://[hostname]:[port]. If unspecified and the environment variable REDIS_URL is set, that is used, otherwise the default it used
     def initialize(redis_url: 'redis://localhost:6379/0', redis: nil)
-      super
       url = ENV.fetch('REDIS_URL', redis_url)
       @redis = redis || Redis.new(url: url)
     end

@@ -74,6 +74,18 @@ module Util
     end
   end
 
+  def create_mock_redis
+    fake_name_db = yaml_fixture('fake_name_database.yml')['names']
+    Hash.alias_method(:get, :[])
+    fake_name_db
+  end
+
+  def collect_pipeline_results(pipeline, source)
+    results = []
+    pipeline.run(source) { |x| results << x }
+    results
+  end
+
   # Utility sub-module containing methods for use outside specific
   # examples (e.g. in the context of a 'describe' or 'context' but not
   # within an 'it')
