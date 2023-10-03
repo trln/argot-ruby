@@ -36,7 +36,7 @@ describe Argot::AuthorityEnricher do
       keys = enriched_records.each_with_object({}) do |rec, h|
         ids = rec['names'].select { |z| z['id'] }
                           .map { |y| y['id'] }.flatten
-                          .map { |u| u.sub('http://id.loc.gov/authorities/names/', '') }
+                          .map { |u| u.sub(%r{https?://id.loc.gov/authorities/names/}, '') }
         h[rec['id']] = ids
       end
       # now do the same, but with the variant names (which all contain the id, see the fake name db)
