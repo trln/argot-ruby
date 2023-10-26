@@ -49,7 +49,7 @@ module Argot
     end
 
     def variant_names_lookup(uri)
-      vn = redis.get(uri.sub('http://id.loc.gov/authorities/names/', 'lcnaf:'))
+      vn = redis.get(uri.sub(%r{https?://id.loc.gov/authorities/names/}, 'lcnaf:'))
       JSON.parse(vn) if vn
     end
   end

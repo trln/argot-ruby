@@ -15,12 +15,12 @@
     ],
     "names": [
       {
-        "id": "http://id.loc.gov/authorities/names/n79022941",
+        "id": "https://id.loc.gov/authorities/names/n79022941",
         "name": "Andersen, H. C. (Hans Christian), 1805-1875",
         "type": "creator"
       },
       {
-        "id": "http://id.loc.gov/authorities/names/no97015725",
+        "id": "https://id.loc.gov/authorities/names/no97015725",
         "rel": [
           "narrator"
         ],
@@ -533,12 +533,12 @@
     ],
     "names": [
       {
-        "id": "http://id.loc.gov/authorities/names/no99061918",
+        "id": "https://id.loc.gov/authorities/names/no99061918",
         "name": "Rollins, James, 1961-",
         "type": "creator"
       },
       {
-        "id": "http://id.loc.gov/authorities/names/no2007062490",
+        "id": "https://id.loc.gov/authorities/names/no2007062490",
         "rel": [
           "narrator"
         ],
@@ -1008,12 +1008,12 @@
     ],
     "names": [
       {
-        "id": "http://id.loc.gov/authorities/names/n78088964",
+        "id": "https://id.loc.gov/authorities/names/n78088964",
         "name": "Stevenson, Robert Louis, 1850-1894",
         "type": "creator"
       },
       {
-        "id": "http://id.loc.gov/authorities/names/no2006124822",
+        "id": "https://id.loc.gov/authorities/names/no2006124822",
         "rel": [
           "narrator"
         ],
@@ -1748,12 +1748,12 @@
     ],
     "names": [
       {
-        "id": "http://id.loc.gov/authorities/names/n95052956",
+        "id": "https://id.loc.gov/authorities/names/n95052956",
         "name": "Baldacci, David",
         "type": "creator"
       },
       {
-        "id": "http://id.loc.gov/authorities/names/no96025672",
+        "id": "https://id.loc.gov/authorities/names/no96025672",
         "rel": [
           "narrator"
         ],
@@ -1761,7 +1761,7 @@
         "type": "contributor"
       },
       {
-        "id": "http://id.loc.gov/authorities/names/n2006089741",
+        "id": "https://id.loc.gov/authorities/names/n2006089741",
         "rel": [
           "narrator"
         ],
